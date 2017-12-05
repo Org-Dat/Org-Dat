@@ -11,7 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.Date;
 import java.sql.Time;
 
-public class ManageRecord extends HttpServlet {
+public class ManageRecord1 extends HttpServlet {
 
 	ArrayList<String> statementTypes;
 	ArrayList<String> statementValues;

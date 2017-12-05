@@ -14,12 +14,49 @@ import java.sql.*;
 import java.util.*;
 import Filters.*;
 import com.google.gson.*;
+interface QueryBuilder {
+    public String  bulidQuery();
+}
+class AddColumn implements  QueryBuilder {
+    public String bulidQuery(){
+        
+         return "";
+    }
+}
+class DropColumn implements  QueryBuilder {
+    public String bulidQuery(){
+        
+         return "";
+    }
+}
+class TypeChange implements  QueryBuilder {
+    public String bulidQuery(){
+        
+         return "";
+    }
+}
+class ColumnDefault implements  QueryBuilder {
+    public String bulidQuery(){
+        
+         return "";
+    }
+}
 
-public class ManageTable extends HttpServlet {
+public class ManageTable1 extends HttpServlet {
 	DatabaseConnection dc = null;
 	PreparedStatement stmt = null;
+	Set<String> types;
+	HashMap<String, QueryBuilder> queryTypes ;
 	long user_id;
-    RoleChecker rc;
+    public void init(){
+        types = new HashSet<String>();
+        types.add("bigint");
+        types.add("numeric");
+        types.add("time");
+        types.add("date");
+        types.add("timestamp");
+        
+    }
 	/**
 	 * This Method used to split table manage work to other method.
 	 * 
@@ -32,12 +69,8 @@ public class ManageTable extends HttpServlet {
 		PrintWriter writer = response.getWriter();
 		try {
 			String requri = request.getRequestURI();
-			rc  = new RoleChecker();
 			if (requri.startsWith("/api")) {
-			    user_id = rc.getUserId(request.getHeader("Authration"));
 				requri = requri.substring(requri.indexOf("/", 1));
-			}else{
-			    	user_id = rc.getUserId(request.getCookies());
 			}
 			String[] path = requri.split("/");
 			String org_name = path[0];// request.getParameter("org_name");
@@ -49,8 +82,8 @@ public class ManageTable extends HttpServlet {
 
 				throw new Exception();
 			}
-			dc = new DatabaseConnection("postgres", "postgres", "");
-		
+			dc = new DatabaseConnection(db_name, org_name, "");
+			user_id = getUserId(request.getCookies());
 			String reqURI = path[3];
 			if (reqURI.equals("createTable") == true) {
 				String columns = request.getParameter("columnArray");
@@ -122,19 +155,84 @@ public class ManageTable extends HttpServlet {
 			}
 			/****************************** Add Column ********************************************/
 			else if (reqURI.equals("addColumn") == true) {
-				String column_name = request.getParameter("column");
+				String columnNameArray = request.getParameter("query");
 				String column = "";
-				JsonElement columnConstraint = new JsonParser().parse(request
-						.getParameter("constraint"));
-				JsonArray columnArray = columnConstraint.getAsJsonArray();
+				JsonArray columnArray =new JsonParser().parse(columnNameArray).getAsJsonArray();
+				JsonObject columnObj = null;
 				for (JsonElement eachElement : columnArray) {
-					String tmp = eachElement.getAsString();
-					column = column + " " + tmp;
+				    columnObj = eachElement.getAsJsonObject();
+					String colum = columnObj.get("column").getAsString();
+					String type = columnObj.get("type").getAsString();
+					String defaul = columnObj.get("default").getAsString();
+					if (types.contains(type) == false){
+					    throw new Exception();
+					}
+					if (isCorrect(column) == true) {
+    					column = column + ", ADD COLUMN  " + colum+ " " + type+ " default " ;
+    					if(type.equals("bigint") || type.equals("numeric") ){
+    					  column = column + " " +  defaul;
+    					} else {
+    					    column = column + " '" +escapeing(defaul)+"'";
+    					}
+					} else {
+					    throw new Exception();
+					}
 				}
-				column = column_name + " " + column;
-				if (isCorrect(column) == true
-						&& alterColumn(true, column, table_name, db_name,
-								org_name) == true) {
+				if (alterColumn( column.substring(1), table_name, db_name,org_name) == true) {
+					dc.conn.close();
+					writer.write("{'status':200,'org_name':'" + org_name
+							+ "','db_name':'" + db_name + "','table_name':'"
+							+ table_name + "'}");
+				} else {
+					throw new Exception();
+				}
+			}
+			/****************************** modiy Column dataType********************************************/
+			else if (reqURI.equals("typeChange") == true) {
+				String columnNameArray = request.getParameter("query");
+				String column = "";
+				JsonArray columnArray =new JsonParser().parse(columnNameArray).getAsJsonArray();
+				JsonObject columnObj = null;
+				for (JsonElement eachElement : columnArray) {
+				    columnObj = eachElement.getAsJsonObject();
+					String columnName = columnObj.get("column").getAsString();
+					String type = columnObj.get("type").getAsString();
+					if (types.contains(type) == false){
+					    throw new Exception();
+					}
+					if (isCorrect(column) == true) {
+    					column = column + ", ALTER COLUMN  " + columnName + " TYPE " + type+ " " ;
+					} else {
+					    throw new Exception();
+					}
+					 
+				}
+				if (alterColumn( column.substring(1), table_name, db_name,org_name) == true) {
+					dc.conn.close();
+					writer.write("{'status':200,'org_name':'" + org_name
+							+ "','db_name':'" + db_name + "','table_name':'"
+							+ table_name + "'}");
+				} else {
+					throw new Exception();
+				} 
+			}
+			/****************************** set Column default ********************************************/
+			else if (reqURI.equals("manageDefault") == true  ) {
+				String columnNameArray = request.getParameter("query");
+				String column = "";
+				JsonArray columnArray =new JsonParser().parse(columnNameArray).getAsJsonArray();
+				JsonObject columnObj = null;
+				for (JsonElement eachElement : columnArray) {
+				    columnObj = eachElement.getAsJsonObject();
+					String columnName = columnObj.get("column").getAsString();
+					String defaul = columnObj.get("default").getAsString();
+					if (isCorrect(column) == true) {
+    					column = column + ", ALTER COLUMN  " + columnName + " SET DEFAULT " + defaul+ " " ;
+					} else {
+					    throw new Exception();
+					}
+				}
+				if (alterColumn( column.substring(1), table_name, db_name,org_name) == true) {
 					dc.conn.close();
 					writer.write("{'status':200,'org_name':'" + org_name
 							+ "','db_name':'" + db_name + "','table_name':'"
@@ -145,11 +243,19 @@ public class ManageTable extends HttpServlet {
 			}
 			/***************************** Delete Column ********************************************/
 			else if (reqURI.equals("deleteColumn") == true) {
-				String column = request.getParameter("column");
-				if (column != null
-						&& isCorrect(column) == true
-						&& alterColumn(false, column, table_name, db_name,
-								org_name) == true) {
+				String columnNameArray = request.getParameter("query");
+				String column = "";
+				JsonArray columnArray =new JsonParser().parse(columnNameArray).getAsJsonArray();
+				for (JsonElement eachElement : columnArray) {
+					String colum = eachElement.getAsString();
+					if (isCorrect(column) == true) {
+    					column = column + ", DROP COLUMN  " + colum+ " " ;
+					} else {
+					    throw new Exception();
+					}
+					
+				}
+				if (alterColumn( column.substring(1), table_name, db_name,org_name) == true) {
 					dc.conn.close();
 					writer.write("{'status':200,'org_name':'" + org_name
 							+ "','db_name':'" + db_name + "','table_name':'"
@@ -158,12 +264,46 @@ public class ManageTable extends HttpServlet {
 					throw new Exception();
 				}
 			}
-
+			else if (true) {
+				String columnNameArray = request.getParameter("query");
+				String column = "";
+				JsonArray columnArray =new JsonParser().parse(columnNameArray).getAsJsonArray();
+				JsonObject columnObj = null;
+				for (JsonElement eachElement : columnArray) {
+				    columnObj = eachElement.getAsJsonObject();
+					String colum = columnObj.get("column").getAsString();
+					String type = columnObj.get("type").getAsString();
+					String defaul = columnObj.get("default").getAsString();
+					if (types.contains(type) == false){
+					    throw new Exception();
+					}
+					if (isCorrect(column) == true) {
+    					column = column + ", ADD COLUMN  " + colum+ " " + type+ " default " ;
+    					if(type.equals("bigint") || type.equals("numeric") ){
+    					  column = column + " " +  defaul;
+    					} else {
+    					    column = column + " '" +escapeing(defaul)+"'";
+    					}
+					    
+					} else {
+					    throw new Exception();
+					}
+					 
+				}
+				if (alterColumn( column.substring(1), table_name, db_name,org_name) == true) {
+					dc.conn.close();
+					writer.write("{'status':200,'org_name':'" + org_name
+							+ "','db_name':'" + db_name + "','table_name':'"
+							+ table_name + "'}");
+				} else {
+					throw new Exception();
+				}
+			 }
 			else {
 				throw new Exception();
 			}
 		} catch (Exception e) {
-			writer.write("{'status':400,'message':'Bad Reuest'}");
+			writer.write("{'status':400,'message':'Bad Reuest'}"); 
 		} finally {
 			try {
 				dc.conn.close();
@@ -216,6 +356,25 @@ public class ManageTable extends HttpServlet {
 			return false;
 		}
 	}
+
+	/**
+	 * This private method user to find user id
+	 * 
+	 * @Params : Cookie[] cookie
+	 * 
+	 * @Return : if vaild user return his/her user id ,else return -1
+	 */
+
+	private long getUserId(Cookie[] cookies) {
+		ServletContext context = getServletContext();
+		for (Cookie cookie : cookies) {
+			if ((cookie.getName()).equals("iambdt")) {
+				return (long) context.getAttribute(cookie.getValue());
+			}
+		}
+		return -1;
+	}
+
 	/**
 	 * This private method used to find table name is correct or wrong
 	 * 
@@ -246,11 +405,14 @@ public class ManageTable extends HttpServlet {
 			stmt.setString(2, db_name);
 			stmt.setString(3, table_name);
 			stmt.executeUpdate();
+			
 			dc.dbConnection(db_name, org_name + "" + db_name, "");
 			sqlQuery = "drop table " + table_name;
 			stmt = dc.conn.prepareStatement(sqlQuery);
 			stmt.setString(1, table_name);
 			stmt.executeUpdate();
+			stmt.close();
+			dc.conn.close();
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -276,10 +438,8 @@ public class ManageTable extends HttpServlet {
 			stmt.setString(4, table_oldname);
 			stmt.executeUpdate();
 			dc.dbConnection(db_name, org_name + "" + db_name, "");
-			sqlQuery = "alter table ? rename to ?";
+			sqlQuery = "alter table "+table_oldname+" rename to "+table_newname+"";
 			stmt = dc.conn.prepareStatement(sqlQuery);
-			stmt.setString(1, table_oldname);
-			stmt.setString(2, table_newname);
 			stmt.executeUpdate();
 			return true;
 		} catch (Exception e) {
@@ -287,15 +447,10 @@ public class ManageTable extends HttpServlet {
 		}
 	}
 
-	private boolean alterColumn(boolean addOrDel, String column,
-			String table_name, String db_name, String org_name) {
+	private boolean alterColumn( String column,String table_name, String db_name, String org_name) {
 		try {
 			String sql = "";
-			if (addOrDel == true) {
-				sql = "alter table " + table_name + " add column " + column;
-			} else {
-				sql = "alter table " + table_name + " drop column " + column;
-			}
+			sql = "alter table " + table_name + "  " + column;
 			dc.stmt = dc.conn.prepareStatement(sql);
 			dc.stmt.executeUpdate();
 			return true;
@@ -315,5 +470,16 @@ public class ManageTable extends HttpServlet {
 		} catch (Exception e) {
 			return false;
 		}
+	}
+	
+	private String escapeing(String value) {
+	    StringBuilder answer = new StringBuilder("");
+	    for (int i = 0 ;i < value.length();i++ ) {
+	        if ((value.charAt(i) == '\"') ||  (value.charAt(i) == '\\') || (value.charAt(i) == '\'')){
+	            answer.append('\\');
+	        }
+	        answer.append(value.charAt(i));
+	    }
+	    return answer.toString();
 	}
 }

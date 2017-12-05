@@ -1,3 +1,10 @@
+/**
+ *  This filter used to check database filter permission.
+ * 
+ * @author : Obeth Samuel & Ponkumar
+ * 
+ * @version : 1.0
+ */
 package Filters;
 
 import java.io.*;
@@ -13,7 +20,15 @@ public class DatabaseFilter extends HttpServlet implements Filter {
 	public void init(FilterConfig filterConfig) throws ServletException {
 
 	}
-
+    /**
+     * This  Method  check database permission .
+     * 
+     * @params : ServletRequest req, ServletResponse res, FilterChain chain
+     * 
+     * @return type : void
+     * 
+     * @return : if user didn't give correct detail it return error object .else redirect to servlet
+     */
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse res,
 			FilterChain chain) throws IOException, ServletException {
@@ -30,9 +45,6 @@ public class DatabaseFilter extends HttpServlet implements Filter {
 				count += 1;
 				isApi = true;
 			}
-			HttpSession session = request.getSession();
-			session.setAttribute("requestURI",
-					requri.substring(requri.indexOf("/") + 1));
 			long user_id;
 			Cookie[] cookies = request.getCookies();
 			if (isApi == true) {

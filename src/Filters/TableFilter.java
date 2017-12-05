@@ -1,3 +1,10 @@
+/**
+ * This filter check table permission.
+ * 
+ * @author : Obeth & Ponkumar 
+ * 
+ * @version : 1.0
+ */
 package Filters;
 
 import java.io.*;
@@ -13,7 +20,15 @@ public class TableFilter extends HttpServlet implements Filter {
 	public void init(FilterConfig filterConfig) throws ServletException {
 
 	}
-
+    /**
+     *  This method used to check table permission
+     * 
+     * @params : ServletRequest req, ServletResponse res,FilterChain chain
+     * 
+     * @return type : void 
+     * 
+     * @return : This method doesn't return any thing
+     */
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse res,
 			FilterChain chain) throws IOException, ServletException {
@@ -30,9 +45,6 @@ public class TableFilter extends HttpServlet implements Filter {
 				count += 1;
 				isApi = true;
 			}
-			HttpSession session = request.getSession();
-			session.setAttribute("requestURI",
-					requri.substring(requri.indexOf("/") + 1));
 			Cookie[] cookies = request.getCookies();
 			long user_id;
 			if (isApi == true) {

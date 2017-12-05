@@ -35,8 +35,10 @@ public class ManageOrganization extends HttpServlet {
 		PrintWriter out = response.getWriter();
 
 		try {
-			HttpSession session=request.getSession();  
-			String requri = (String) session.getAttribute("reqURI");
+			String requri = request.getRequestURI();
+			if(requri.startsWith("/api")){
+			    requri = requri.substring(requri.indexOf("/", 1));
+			}
 			String[] path = requri.split("/");
 			String orgName = path[0];// request.getParameter("org_name");
 			String reqURI = path[1];// request.getRequestURI();

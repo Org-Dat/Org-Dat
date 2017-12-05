@@ -1,3 +1,12 @@
+/**
+  * This filter used to check cookies.
+  * 
+  * @author : Obeth Samuel & Ponkumar
+  * 
+  * @version : 1.0
+  */
+  
+
 package Filters;
 
 import java.io.*;
@@ -15,7 +24,15 @@ public class CookieFilter extends HttpServlet implements Filter {
 	public void init(FilterConfig filterConfig) throws ServletException {
 
 	}
-
+    /**
+      * This method used to check cookies and set user id in context
+      * 
+      * @params : ServletRequest req, ServletResponse res,FilterChain chain
+      * 
+      * @return type : void
+      * 
+      * @return : if user didn't give correct detail it return error object .else redirect to servlet
+      */
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse res,
 			FilterChain chain) throws IOException, ServletException {
@@ -64,22 +81,41 @@ public class CookieFilter extends HttpServlet implements Filter {
 			ServletContext context = getServletContext();
 			context.setAttribute(iambdt, user_id);
 			chain.doFilter(req, res);
+			for(Cookie c : request.getCookies()){
+			    
+			}
+			Cookie cookie = new Cookie("iambdt",changeCookie(iambdt));
+			cookie.setPath("/");
+		//	cookie.setSecure(true);
+		    cookie.setHttpOnly(true);
+		    response.addCookie(cookie);
 			context.removeAttribute(iambdt);
 			dc.conn.close();
 		} catch (Exception e) {
 			response.sendRedirect("/JSP/landingPage.jsp");
 		}
 	}
+	/**
+	  * This private method used to change response  cookie
+	  * 
+	  * @params : String iambdt
+	  * 
+	  * @return type : void
+	  * 
+	  * @return : this method doesn't return any thing
+	  */
 
-	private void changeCookie(String iambdt) {
+	private String changeCookie(String iambdt) {
 		String query = "update cookie_management set cookie=? where cookie=?";
 		try {
 			stmt = (dc.conn).prepareStatement(query);
-			stmt.setString(1, dc.createJunk(20));
+			String cookie =  dc.createJunk(20);
+			stmt.setString(1,cookie);
 			stmt.setString(2, iambdt);
 			stmt.executeUpdate();
+			return cookie;
 		} catch (SQLException e) {
-			e.printStackTrace();
+		    return "";
 		}
 
 	}

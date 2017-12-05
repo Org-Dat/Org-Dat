@@ -1,8 +1,13 @@
+/**
+ * This Filter is used to Check organization permission
+ * 
+ * @author : Obeth Samuel & Ponkumar
+ * 
+ * @version : 1.0
+ */
 package Filters;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-
+import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
@@ -12,8 +17,17 @@ public class OrganizationFilter extends HttpServlet implements Filter {
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
+	    
 	}
-
+    /**
+     * This method used to check organization permission.
+     * 
+     * @params : ServletRequest req, ServletResponse res, FilterChain chain
+     * 
+     * @return type : void 
+     * 
+     * @return : this method doesn't return any thing
+     */
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse res,
 			FilterChain chain) throws IOException, ServletException {
@@ -30,9 +44,6 @@ public class OrganizationFilter extends HttpServlet implements Filter {
 				count += 1;
 				isApi = true;
 			}
-			HttpSession session = request.getSession();
-			session.setAttribute("requestURI",
-					requri.substring(requri.indexOf("/") + 1));
 			long user_id;
 			Cookie[] cookies = request.getCookies();
 			if (isApi == true) {

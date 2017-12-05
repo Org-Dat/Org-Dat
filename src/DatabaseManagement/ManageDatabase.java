@@ -33,15 +33,17 @@ public class ManageDatabase extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
 		PrintWriter out = response.getWriter();
-		HttpSession session=request.getSession();  
-			String requri = (String) session.getAttribute("reqURI");
+		String requri = request.getRequestURI();
+		if (requri.startsWith("/api")) {
+			requri = requri.substring(requri.indexOf("/", 1));
+		}
 		String[] path = requri.split("/");
-		String db_name =  path[0];//request.getParameter("db_name");
+		String db_name = path[0];// request.getParameter("db_name");
 		dc = new DatabaseConnection("postgres", "postgres", "");
 		if (isCorrect(db_name) == true) {
 			try {
-				String reqURI =  path[2];//request.getRequestURI();
-				String org_name =  path[1];//request.getParameter("org_name");
+				String reqURI = path[2];// request.getRequestURI();
+				String org_name = path[1];// request.getParameter("org_name");
 				boolean isCorrect = false;
 				if (reqURI.equals("createDB")) {
 					isCorrect = createDB(db_name, org_name);
@@ -178,5 +180,4 @@ public class ManageDatabase extends HttpServlet {
 			return false;
 		}
 	}
-
 }

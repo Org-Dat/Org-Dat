@@ -13,6 +13,9 @@ import javax.servlet.http.HttpServlet;
 public class RoleChecker extends HttpServlet {
 	DatabaseConnection dc;
 
+	/**
+      *
+      */
 	public String orgRole(String org_name, long user_id) {
 		dc = new DatabaseConnection("postgres", "postgres", "");
 		String role = null;
@@ -30,7 +33,10 @@ public class RoleChecker extends HttpServlet {
 			return role;
 		}
 	}
-
+	
+    /**
+      *
+      */
 	public String dbRole(String org_name, String db_name, long user_id) {
 		dc = new DatabaseConnection("postgres", "postgres", "");
 		String role = null;
@@ -49,7 +55,11 @@ public class RoleChecker extends HttpServlet {
 			return role;
 		}
 	}
-
+	
+    /**
+      *
+      */
+      
 	public String tableRole(String org_name, String db_name, String table_name,
 			long user_id) {
 		dc = new DatabaseConnection("postgres", "postgres", "");
@@ -70,7 +80,11 @@ public class RoleChecker extends HttpServlet {
 			return role;
 		}
 	}
-
+	
+    /**
+      *
+      */
+      
 	public long getUserId(Cookie[] cookies) {
 		ServletContext context = getServletContext();
 		for (Cookie cookie : cookies) {
@@ -80,17 +94,16 @@ public class RoleChecker extends HttpServlet {
 		}
 		return -1;
 	}
-
+	
+    /**
+      *
+      */
+      
 	public long getUserId(String authtoken) {
 		try {
-			String sql = "select user_id from auth_management where auth_token = ?";
-			dc.stmt = dc.conn.prepareStatement(sql);
-			dc.stmt.setString(1, authtoken);
-			ResultSet rs = dc.stmt.executeQuery();
 			long user_id = -1;
-			while (rs.next()) {
-				user_id = rs.getLong(1);
-			}
+			ServletContext context = getServletContext();
+			user_id = (long) context.getAttribute(authtoken);
 			return user_id;
 		} catch (Exception e) {
 			return -1;
