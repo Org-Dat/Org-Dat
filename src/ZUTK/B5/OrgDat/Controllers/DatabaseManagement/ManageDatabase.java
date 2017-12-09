@@ -1,12 +1,12 @@
 package ZUTK.B5.OrgDat.Controllers.DatabaseManagement;
 
 import java.io.PrintWriter;
-import javax.servlet.Servlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import ZUTK.B5.OrgDat.Model.DatabaseManagement.*;
 import java.sql.SQLException;
+import java.sql.ResultSet;
 
 public class ManageDatabase extends HttpServlet {
 	PrintWriter out;
@@ -30,16 +30,16 @@ public class ManageDatabase extends HttpServlet {
 					String reqURI = path[2];// request.getRequestURI();
 					String org_name = path[1];// request.getParameter("org_name");
 					boolean isCorrect = false;
-					if (reqURI.equals("createDB")) {
+					if (reqURI.equals("$createDB")) {
 						isCorrect = dbManage.createDB(db_name, org_name);
-					} else if (reqURI.equals("renameDB")) {
+					} else if (reqURI.equals("$renameDB")) {
 						String rename = request.getParameter("db_rename");
 						if (dbManage.isCorrect(rename) == true) {
 							isCorrect = dbManage.renameDB(db_name, org_name,
 									rename);
 						}
 
-					} else if (reqURI.equals("deleteDB")) {
+					} else if (reqURI.equals("$deleteDB")) {
 						isCorrect = dbManage.deleteDB(db_name, org_name);
 					}
 					if (isCorrect == true) {
@@ -62,6 +62,21 @@ public class ManageDatabase extends HttpServlet {
 			}
 		} catch (Exception e) {
 
+		}
+	}
+
+	public boolean checkCount(String org_name) {
+		try {
+			String sql = "select count(db_name) from db_management where org_name=?";
+			dc.stmt = dc.conn.prepareStatement(sql);
+			dc.stmt.setString(1, org_name);
+			ResultSet rs = dc.stmt.executeQuery();
+			while(rs.next()){
+			    return rs.getLong(1) < 5;
+			}
+			return true;
+		} catch (Exception e) {
+			return false;
 		}
 	}
 }

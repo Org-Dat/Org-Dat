@@ -1,7 +1,5 @@
 package ZUTK.B5.OrgDat.Controllers.OrgManagement;
 
-import java.util.*;
-import java.sql.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.*;
@@ -27,7 +25,14 @@ public class ChartProvider extends HttpServlet {
 			}
 			dc = new DatabaseConnection(db_name, org_name, "");
 			String[] column = request.getParameterValues("column_names");
+			if(column.length < 2){
+			    throw new Exception();
+			}
 			String detailArray = cp.getDetail(table_name, column);
+			String[] chartList = request.getParameterValues("chartNames");
+			for(String chart_name : chartList){
+			    
+			}
 			switch (chart) {
 			case "pieChart":
 				String is3D = request.getParameter("is3D");

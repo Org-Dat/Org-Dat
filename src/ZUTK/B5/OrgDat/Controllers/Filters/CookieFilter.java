@@ -11,9 +11,9 @@ package ZUTK.B5.OrgDat.Controllers.Filters;
 
 import java.io.*;
 import java.sql.*;
-import javax.servlet.*;
+import javax.servlet.*; 
 import javax.servlet.http.*;
- 
+import ZUTK.B5.OrgDat.Model.AccountManagement.CookieManage; 
 public class CookieFilter extends HttpServlet implements Filter {
 	public long user_id;
 	protected DatabaseConnection dc;
@@ -39,23 +39,25 @@ public class CookieFilter extends HttpServlet implements Filter {
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) res;
 		rc = new RoleChecker();
-
 		Cookie[] cookies = request.getCookies();
-		if (cookies == null || cookies.length == 1) {
+		if (cookies == null || cookies.length <= 1) {
 			response.sendRedirect("/JSP/landingPage.jsp");
 		}
 		String iambdt = "";
 		try {
 			dc = new DatabaseConnection("postgres", "postgres", "");
 			String requri = request.getRequestURI();
-			if (requri.startsWith("/api")) {
+			if (requri.startsWith("/api/")) {
 				String authtoken = request.getHeader("Authorization");
-				String mail = request.getParameter("mail");
-				String password = request.getParameter("password");
-				long user_id = dc.getUserId(mail, password);
+				if(authtoken == null){
+				    throw new Exception();
+				}
+				long user_id = getUserId(authtoken);
+				if(user_id == -1){
+				    throw new Exception();
+				}
 				iambdt = authtoken;
 			} else {
-
 				for (Cookie cookie : cookies) {
 					if (cookie.getName().equals("iambdt")) {
 						iambdt = cookie.getValue();
@@ -70,53 +72,49 @@ public class CookieFilter extends HttpServlet implements Filter {
 				stmt.setString(2, ipAddress);
 				stmt.setString(3, iambdt);
 				ResultSet rs = stmt.executeQuery();
-				Integer user_id = 0;
+				long user_id = 0;
 				if (rs == null) {
 					throw new Exception();
 				}
 				while (rs.next()) {
-					user_id = rs.getInt(1);
+					user_id = rs.getLong(1);
 				}
 			}
 			ServletContext context = getServletContext();
 			context.setAttribute(iambdt, user_id);
 			chain.doFilter(req, res);
-			for(Cookie c : request.getCookies()){
-			    
+			if (requri.startsWith("/api/") == false) {
+			    CookieManage cm = new CookieManage();
+    			Cookie cookie = new Cookie("iambdt",cm.changeCookie(iambdt));
+    			cookie.setPath("/");
+    		//	cookie.setSecure(true);
+    		    cookie.setHttpOnly(true);
+    		    response.addCookie(cookie);
+    			context.removeAttribute(iambdt);
 			}
-			Cookie cookie = new Cookie("iambdt",changeCookie(iambdt));
-			cookie.setPath("/");
-		//	cookie.setSecure(true);
-		    cookie.setHttpOnly(true);
-		    response.addCookie(cookie);
-			context.removeAttribute(iambdt);
 			dc.conn.close();
 		} catch (Exception e) {
 			response.sendRedirect("/JSP/landingPage.jsp");
 		}
 	}
-	/**
-	  * This private method used to change response  cookie
-	  * 
-	  * @params : String iambdt
-	  * 
-	  * @return type : void
-	  * 
-	  * @return : this method doesn't return any thing
-	  */
 
-	private String changeCookie(String iambdt) {
-		String query = "update cookie_management set cookie=? where cookie=?";
+	
+	private long getUserId(String authtoken){
+	    	String query = "select user_id from auth_management where auth_token=?";
 		try {
 			stmt = (dc.conn).prepareStatement(query);
-			String cookie =  dc.createJunk(20);
-			stmt.setString(1,cookie);
-			stmt.setString(2, iambdt);
-			stmt.executeUpdate();
-			return cookie;
+			stmt.setString(1,authtoken);
+			ResultSet rs = stmt.executeQuery();
+			long user_id = -1l;
+			if(rs.wasNull()){
+			    return -1l;
+			}
+			while(rs.next()){
+			    user_id = rs.getLong(1);
+			}
+			return user_id;
 		} catch (SQLException e) {
-		    return "";
+		    return -1l;
 		}
-
 	}
 }

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ShowDeets {
+public class ShowDetails {
 	DatabaseConnection dc =  new DatabaseConnection("postgres","postgres","");
 
 	public ArrayList<String> getOrganization(long user_id) {
@@ -33,16 +33,15 @@ public class ShowDeets {
 	 * 
 	 * @return : it return database names arraylist
 	 */
-	public ArrayList<String> getDatabase(String org_name, long user_id) {
+	public ArrayList<String> getDatabase(String org_name) {
 		ArrayList<String> databases = new ArrayList<String>();
-		String sqlQuery = "select db_name from db_manament org_name=? and user_id=?";
+		String sqlQuery = "select db_name from db_manament org_name=?";
 		try {
 			dc.stmt = dc.conn.prepareStatement(sqlQuery);
 			dc.stmt.setString(1, org_name);
-			dc.stmt.setLong(2, user_id);
 			ResultSet rs = dc.stmt.executeQuery();
 			while (rs.next()) {
-				databases.add(rs.getString(1));
+				databases.add(((rs.getString(1)).split("_"))[1]);
 			}
 			return databases;
 		} catch (SQLException e) {
@@ -59,15 +58,13 @@ public class ShowDeets {
 	 * 
 	 * @return : it return table names arraylist
 	 */
-	public ArrayList<String> getTables(String org_name, String db_name,
-			long user_id) {
+	public ArrayList<String> getTables(String org_name, String db_name) {
 		ArrayList<String> tables = new ArrayList<String>();
-		String sqlQuery = "select table_name from table_management where org_name=? and db_name=? and user_id=?";
+		String sqlQuery = "select table_name from table_management where org_name=? and db_name=?";
 		try {
 			dc.stmt = dc.conn.prepareStatement(sqlQuery);
 			dc.stmt.setString(1, org_name);
-			dc.stmt.setString(2, db_name);
-			dc.stmt.setLong(3, user_id);
+			dc.stmt.setString(2, org_name+"_"+db_name);
 			ResultSet rs = dc.stmt.executeQuery();
 			while (rs.next()) {
 				tables.add(rs.getString(1));

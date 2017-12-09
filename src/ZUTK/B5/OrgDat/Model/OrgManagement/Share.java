@@ -4,9 +4,9 @@ import java.sql.*;
 import ZUTK.B5.OrgDat.Model.DatabaseManagement.DatabaseConnection;
 import java.util.*;
 
-public class Share {
-	DatabaseConnection dc;
-
+public class Share { 
+	DatabaseConnection dc = new DatabaseConnection("postgres","postgres","");
+    
 	public boolean shareTable(String org_name, String db_name,
 			String table_name, String role, long user_id, String query) {
 		try {
@@ -24,7 +24,7 @@ public class Share {
 			dc.stmt.setString(1, role);
 			dc.stmt.setLong(2, user_id);
 			dc.stmt.setString(3, org_name);
-			dc.stmt.setString(4, db_name);
+			dc.stmt.setString(4, db_name); 
 			dc.stmt.setString(5, table_name);
 			dc.stmt.executeUpdate();
 			return true;

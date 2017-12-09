@@ -5,3 +5,14 @@ create table db_management(user_id bigint references signup_detail(user_id) ON U
 create table table_management(user_id bigint references signup_detail(user_id) on update cascade on delete cascade,role text not null, org_name text references org_management(org_name) on update cascade on delete cascade,db_name text references db_management(db_name) on update cascade on delete cascade , table_name text not null);
 create table auth_management(user_id bigint references signup_detail(user_id) on update cascade on delete cascade,role text not null,auth_token text not null primary key);
 create table security_management(user_id bigint references signup_detail(user_id) on update cascade on delete cascade,question text not null,answer text not null);
+
+
+
+
+create table lock_management(
+    user_id bigint references signup_detail(user_id) on update cascade on delete cascade,
+    visible boolean ,
+    org_name text references org_management(org_name) on update cascade on delete cascade,
+    db_name text references db_management(db_name) on update cascade on delete cascade ,
+    table_name text not null
+);

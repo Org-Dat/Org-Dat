@@ -30,16 +30,31 @@ public class SignUp {
 	}
 	
 	public boolean addMemeber(String[] details){
-	    String sql = "insert into sigup_detail (user_name,user_email,user_phone,user_passsword) values(?,?,?,?)";
+	    dc = new DatabaseConnection("postgres", "postgres", "");
+	    String sql = "insert into sigup_detail (user_name,user_email,user_phone,user_passsword,role) values(?,?,?,?,?)";
 	    try{
 	        dc.stmt = dc.conn.prepareStatement(sql);
-	        dc.stmt.setString(1,details[0]);
-	        dc.stmt.setString(2,details[1]);
-	        dc.stmt.setString(3,details[2]);
-	        dc.stmt.setString(4,details[3]);
+	        for(int i = 0;i<5;i++){
+	            dc.stmt.setString(i+1,details[i]);
+	        } 
 	        dc.stmt.executeUpdate();
 	        return true;
 	    }catch(Exception e){
+	        return false;
+	    }
+	}
+	
+	public boolean setSecurityQuestion(long user_id,String answer){
+	    try{
+	       String question = "What is Your Orgdat email-id name ?";
+	       String sql = "insert into security_management (user_id,question,answer) values(?,?,?)";
+	       dc.stmt = dc.conn.prepareStatement(sql);
+	       dc.stmt.setLong(1, user_id);
+	       dc.stmt.setString(2, question);
+           dc.stmt.setString(3, answer);
+           dc.stmt.executeUpdate();
+	       return true;
+	    } catch(Exception e){
 	        return false;
 	    }
 	}

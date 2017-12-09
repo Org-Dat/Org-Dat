@@ -8,7 +8,6 @@
 package ZUTK.B5.OrgDat.Controllers.Filters;
 
 import java.io.*;
-import java.sql.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
@@ -39,19 +38,16 @@ public class DatabaseFilter extends HttpServlet implements Filter {
 		try {
 			int count = 0;
 			boolean isApi = false;
-			String requri = request.getRequestURI();
+			String requri = request.getRequestURI().substring(1);
 			String[] path = requri.split("/");
+			long user_id;
 			if (path[0].equals("api") == true) {
 				count += 1;
-				isApi = true;
-			}
-			long user_id;
-			Cookie[] cookies = request.getCookies();
-			if (isApi == true) {
 				String authtoken = request.getHeader("authtoken");
 				user_id = roleFinder.getUserId(authtoken);
-			} else {
-				user_id = roleFinder.getUserId(cookies);
+			}else{
+			    Cookie[] cookies = request.getCookies();
+			    user_id = roleFinder.getUserId(cookies);
 			}
 			if (user_id == -1) {
 				throw new Exception();
@@ -59,7 +55,7 @@ public class DatabaseFilter extends HttpServlet implements Filter {
 			dc = new DatabaseConnection("postgres", "postgres", "");
 			String org_name = path[count];// request.getParameter("org_name");
 			String db_name = path[count + 1];// request.getParameter("db_name");
-			if (org_name == null) {
+			if (org_name == null || org_name.matches("^[a-z][a-z0-9]{3,25}$")== false || db_name == null || db_name.matches("^[a-z][a-z0-9]{3,25}$") == false) {
 				throw new Exception();
 			}
 			String role = roleFinder.dbRole(org_name, db_name, user_id);
@@ -79,7 +75,7 @@ public class DatabaseFilter extends HttpServlet implements Filter {
 			}
 
 		} catch (Exception e) {
-			out.write("403.forbidden");
+			out.write("{'status':403 ,'message':'Forbidden'}");
 		} finally {
 			try {
 				dc.conn.close();

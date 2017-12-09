@@ -8,134 +8,89 @@
     <description>
         Store One Organization Databases
     </description>
-
+    <filter>  
+        <filter-name>CookieFilter</filter-name>  
+        <filter-class>ZUTK.B5.OrgDat.Controllers.Filters.CookieFilter</filter-class>  
+    </filter>  
+    <filter-mapping>  
+        <filter-name>CookieFilter</filter-name>  
+        <url-regexp>^(\/[a-z][a-z0-9]{3,20}){1,3}\/\$[a-z][a-z0-9]{3,20}</url-regexp>  
+    </filter-mapping>  
+    
+    <filter>  
+        <filter-name>LogFilter</filter-name>  
+        <filter-class>ZUTK.B5.OrgDat.Controllers.Filters.LogFilter</filter-class>  
+    </filter> 
+    <filter-mapping>  
+        <filter-name>LogFilter</filter-name>  
+        <url-regexp>^(\/[a-z][a-z0-9]{3,20}){1,3}\/\$[a-z][a-zA-Z0-9]{3,20}</url-regexp>  
+    </filter-mapping>  
+   
+    <filter>  
+        <filter-name>DownloadFilter</filter-name>  
+        <filter-class>ZUTK.B5.OrgDat.Controllers.Filters.DownloadFilter</filter-class>  
+    </filter> 
+    <filter-mapping>  
+        <filter-name>DownloadFilter</filter-name>  
+        <url-regexp>^(\/[a-z][a-z0-9]{3,20}){2}\/\$downloadDB</url-regexp> 
+        <url-regexp>^(\/[a-z][a-z0-9]{3,20}){3}\/\$downloadTable</url-regexp> 
+    </filter-mapping>
+    <filter>  
+        <filter-name>DatabaseFilter</filter-name>  
+        <filter-class>ZUTK.B5.OrgDat.Controllers.Filters.DatabaseFilter</filter-class>  
+    </filter> 
+    <filter-mapping>  
+        <filter-name>DatabaseFilter</filter-name>  
+        <url-regexp>^(\/[a-z][a-z0-9]{3,20}){2}\/\$(renameDB|deleteDB|createDB)</url-regexp> 
+    </filter-mapping>
+   
+    <filter>  
+        <filter-name>OrganizationFilter</filter-name>  
+        <filter-class>ZUTK.B5.OrgDat.Controllers.Filters.OrganizationFilter</filter-class>  
+    </filter> 
+    <filter-mapping>  
+        <filter-name>OrganizationFilter</filter-name>  
+        <url-regexp>^(\/[a-z][a-z0-9]{3,20}){2}\/\$(createOrg|deleteOrg)</url-regexp> 
+    </filter-mapping>
+    
+    
+    <filter>  
+        <filter-name>TableFilter</filter-name>  
+        <filter-class>ZUTK.B5.OrgDat.Controllers.Filters.TableFilter</filter-class>  
+    </filter> 
+    <filter-mapping>  
+        <filter-name>TableFilter</filter-name>  
+        <url-regexp>^(\/[a-z][a-z0-9]{3,20}){3}\/\$[a-z][a-zA-Z0-9]{3,20}</url-regexp> 
+    </filter-mapping>
+   
     <servlet>
         <servlet-name>ManageTable</servlet-name>
-        <servlet-class>DatabaseManageMent.ManageTable</servlet-class>
+        <servlet-class>ZUTK.B5.OrgDat.Controllers.DatabaseManageMent.ManageTable</servlet-class>
     </servlet>
 
     <servlet>
         <servlet-name>ManageDatabase</servlet-name>
-        <servlet-class>DatabaseManageMent.ManageDatabase</servlet-class>
+        <servlet-class>ZUTK.B5.OrgDat.Controllers.DatabaseManageMent.ManageDatabase</servlet-class>
     </servlet>
 
     <servlet>
         <servlet-name>ManageOrganization</servlet-name>
-        <servlet-class>DatabaseManageMent.ManageOrganization</servlet-class>
+        <servlet-class>ZUTK.B5.OrgDat.Controllers.DatabaseManageMent.ManageOrganization</servlet-class>
     </servlet> 
     
     <servlet>
         <servlet-name>ManageRecord</servlet-name>
-        <servlet-class>DatabaseManageMent.ManageRecord</servlet-class>
+        <servlet-class>ZUTK.B5.OrgDat.Controllers.DatabaseManageMent.ManageRecord</servlet-class>
     </servlet>  
     
     <servlet>
         <servlet-name>ShowDetail</servlet-name>
-        <servlet-class>DatabaseManageMent.ShowDetail</servlet-class>
+        <servlet-class>ZUTK.B5.OrgDat.Controllers.DatabaseManageMent.ShowDetail</servlet-class>
     </servlet>
     
      <servlet>
         <servlet-name>AuthToken</servlet-name>
-        <servlet-class>AccountManagement.AuthManagement</servlet-class>
+        <servlet-class>ZUTK.B5.OrgDat.Controllers.AccountManagement.AuthManagement</servlet-class>
     </servlet>
     
-    <servlet-mapping>
-        <servlet-name>ManageOrganization</servlet-name>
-        <url-pattern>/createOrg</url-pattern>
-    </servlet-mapping>
-    
-    <servlet-mapping>
-        <servlet-name>ManageOrganization</servlet-name>
-        <url-pattern>/deleteOrg</url-pattern>
-    </servlet-mapping>
-    
-    <servlet-mapping>
-        <servlet-name>ManageTable</servlet-name>
-        <url-pattern>/createTable</url-pattern>
-    </servlet-mapping>
-    
-    <servlet-mapping>
-        <servlet-name>ManageTable</servlet-name>
-        <url-pattern>/deleteTable</url-pattern>
-    </servlet-mapping>    
-    
-    <servlet-mapping>
-        <servlet-name>ManageTable</servlet-name>
-        <url-pattern>/renameTable</url-pattern>
-    </servlet-mapping>
-    
-    <servlet-mapping>
-        <servlet-name>ManageTable</servlet-name>
-        <url-pattern>/addColumn</url-pattern>
-    </servlet-mapping>  
-    
-    <servlet-mapping>
-        <servlet-name>ManageTable</servlet-name>
-        <url-pattern>/deleteColumn</url-pattern>
-    </servlet-mapping>  
-    
-    <servlet-mapping>
-        <servlet-name>ManageTable</servlet-name>
-        <url-pattern>/alterTable</url-pattern>
-    </servlet-mapping>    
-    
-    <servlet-mapping>
-        <servlet-name>ManageDatabase</servlet-name>
-        <url-pattern>/createDB</url-pattern>
-    </servlet-mapping>
-    
-    <servlet-mapping>
-        <servlet-name>ManageDatabase</servlet-name>
-        <url-pattern>/deleteDB</url-pattern>
-    </servlet-mapping>    
-    
-    <servlet-mapping>
-        <servlet-name>ManageDatabase</servlet-name>
-        <url-pattern>/renameDB</url-pattern>
-    </servlet-mapping>   
-    
-    <servlet-mapping>
-        <servlet-name>ManageRecord</servlet-name>
-        <url-pattern>/addRecord</url-pattern>
-    </servlet-mapping>
-    
-    <servlet-mapping>
-        <servlet-name>ManageRecord</servlet-name>
-        <url-pattern>/deleteRecord</url-pattern>
-    </servlet-mapping>    
-    
-    <servlet-mapping>
-        <servlet-name>ManageRecord</servlet-name>
-        <url-pattern>/editRecord</url-pattern>
-    </servlet-mapping>      
-    
-    <servlet-mapping>
-        <servlet-name>ManageRecord</servlet-name>
-        <url-pattern>/getRecord</url-pattern>
-    </servlet-mapping>      
-
-    <servlet-mapping>
-        <servlet-name>ShowDetail</servlet-name>
-        <url-pattern>/getOrgName</url-pattern>
-    </servlet-mapping>
-    
-    <servlet-mapping>
-        <servlet-name>ShowDetail</servlet-name>
-        <url-pattern>/getDBName</url-pattern>
-    </servlet-mapping>    
-    
-    <servlet-mapping>
-        <servlet-name>ShowDetail</servlet-name>
-        <url-pattern>/getTableName</url-pattern>
-    </servlet-mapping>    
-    
-    <servlet-mapping>
-        <servlet-name>AuthToken</servlet-name>
-        <url-pattern>/createAuthtoken</url-pattern>
-    </servlet-mapping>    
-    
-    <servlet-mapping>
-        <servlet-name>AuthToken</servlet-name>
-        <url-pattern>/deleteAuthToken</url-pattern>
-    </servlet-mapping>  
 </web-app>

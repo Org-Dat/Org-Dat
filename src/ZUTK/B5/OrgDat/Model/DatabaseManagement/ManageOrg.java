@@ -2,15 +2,14 @@ package ZUTK.B5.OrgDat.Model.DatabaseManagement;
 
 import java.util.ArrayList;
 import java.sql.*;
-
-
+import java.io.File;
 public class ManageOrg {
 	DatabaseConnection dc;
 
 	public String ManageOrg(String requri) {
 		try {
-			if (requri.startsWith("/api")) {
-				requri = requri.substring(requri.indexOf("/", 1));
+			if (requri.startsWith("/api/")) {
+				requri = requri.substring(5);
 			}
 			String[] path = requri.split("/");
 			String orgName = path[0];
@@ -18,11 +17,11 @@ public class ManageOrg {
 			dc = new DatabaseConnection("postgres", "postgres", "");
 			if (isCorrect(orgName) == true) {
 				boolean isCorrect = false;
-				if (reqURI.equals("createOrg")) {
+				if (reqURI.equals("$createOrg")) {
 					isCorrect = createOrg(orgName);
 				} else if (reqURI.equals("renameOrg")) {
 
-				} else if (reqURI.equals("deleteOrg")) {
+				} else if (reqURI.equals("$deleteOrg")) {
 					ArrayList<String> databases = getDatabases(orgName);
 					isCorrect = deleteOrg(databases, orgName);
 				}
@@ -56,7 +55,7 @@ public class ManageOrg {
 	 * @return : if name match to regex it return true.else it return false
 	 */
 	private boolean isCorrect(String orgName) {
-		boolean correct = orgName.matches("^[a-z0-9][a-z0-9]{2,25}$");
+		boolean correct = orgName.matches("^[a-z0-9][a-z0-9]{3,25}$");
 		return correct;
 	}
 
@@ -70,7 +69,7 @@ public class ManageOrg {
 	 * @return : it return org databases name arraylist.
 	 */
 
-	private ArrayList<String> getDatabases(String org_name) {
+	public ArrayList<String> getDatabases(String org_name) {
 		ArrayList<String> databaseNameList = new ArrayList<String>();
 		String sqlQuery = "selete db_name from db_manament where org_name=?";
 		try {
@@ -104,10 +103,8 @@ public class ManageOrg {
 			dc.stmt.setString(1, name);
 			dc.stmt.setString(2, "owner");
 			dc.stmt.executeUpdate();
-			if (manageRole("create role " + name + " with login") == true) {
-
-			} else {
-
+			File f = new File("/home/workspace/OrgDat/webapps/Log/"+name);
+			if (f.mkdirs() == false || manageRole("create role " + name + " with login") == false) {
 				return false;
 			}
 			return true;
@@ -126,9 +123,9 @@ public class ManageOrg {
 	 * @return : if organization successfully delete it return true.else false.
 	 */
 
-	private boolean deleteOrg(ArrayList<String> databaseNames, String org_name) {
+	public boolean deleteOrg(ArrayList<String> databaseNames, String org_name) {
 		try {
-			String sqlQuery = "delete from db_mangament where db_name=?";
+			String sqlQuery = "delete from db_mangament where org_name=?";
 			dc.stmt = dc.conn.prepareStatement(sqlQuery);
 			dc.stmt.setString(1, org_name);
 			dc.stmt.executeUpdate();
@@ -136,12 +133,9 @@ public class ManageOrg {
 			for (String database : databaseNames) {
 				stmt.executeUpdate("drop database " + database);
 			}
-			if (manageRole("drop role " + org_name) == true) {
-
-			} else {
-				return false;
-			}
-			return true;
+			File f = new File("/home/workspace/OrgDat/webapps/Log/"+org_name);
+			return manageRole("drop role " + org_name) && f.delete();
+			
 		} catch (Exception e) {
 			return false;
 		}

@@ -3,7 +3,7 @@ package ZUTK.B5.OrgDat.Controllers.OrgManagement;
 import javax.servlet.*;
 import java.io.*;
 import javax.servlet.http.*;
-
+import ZUTK.B5.OrgDat.Model.OrgManagement.BackUpRestore;
 /**
  * this servlet only for download file 
  * this servlet only  download request.getAttribute("filepath") that path file ;
@@ -13,8 +13,27 @@ import javax.servlet.http.*;
 public class DownloadDeets extends HttpServlet{
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String filePath = "";
+        String tem = "";
+        String[] path = request.getRequestURI().split("/");
+        if ((path[path.length-1].equals("$downloadDB")) && (path.length == 3)) {
+            filePath = " /home/workspace/JavaWepApps/webapps/JavaWepApps/images/"+path[1]+".sql";
+            tem = BackUpRestore.SQLFile(path[0],path[1],filePath," -b -v "); 
+        } else  if ((path[path.length-1].equals("$downloadTable")) && (path.length == 4)) {
+            filePath = " /tmp/"+path[2]+".sql";
+            tem = BackUpRestore.CSVFile(path[0],path[1],path[2],filePath," to ","yes"); 
+        } else {
+            PrintWriter out = response.getWriter();
+		    out.write("{'status':400,'message':'Bad Reuest'}"); 
+		    return ;
+        }
+        if (filePath.equals(tem) == false){
+            PrintWriter out = response.getWriter();
+		    out.write("{'status':400,'message':'Bad Reuest'}"); 
+		    return ;
+        }
         // reads input file from an absolute path
-        String filePath = (String) request.getAttribute("filepath");
+        
         System.out.println(filePath);
         File downloadFile = new File(filePath);
         FileInputStream inStream = new FileInputStream(downloadFile);

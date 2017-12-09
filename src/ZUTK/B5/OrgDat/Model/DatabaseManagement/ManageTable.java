@@ -1,62 +1,122 @@
 package ZUTK.B5.OrgDat.Model.DatabaseManagement;
+
 import java.sql.*;
 import com.google.gson.*;
-public class ManageTable{
-    	DatabaseConnection dc = null;
-        PreparedStatement stmt = null;
-    /**
-	 * This private method used to create new table in database.
+import java.util.*;
+
+public class ManageTable {
+	Set<String> types;
+	PreparedStatement stmt = null;
+	DatabaseConnection dc = null;
+
+	public void init() {
+		types = new HashSet<String>();
+		types.add("bigint");
+		types.add("numeric");
+		types.add("time");
+		types.add("date");
+		types.add("timestamp");
+	}
+
+	public ManageTable(String user, String db_name, String password) {
+		dc = new DatabaseConnection(user + "_" + db_name, user, "");
+		init();
+	}
+
+	/**
+	 * This private methos used to bulidAlterQuery for alter table query
 	 * 
-	 * @Params : String org_name , String db_name , String table_name
+	 * @Params : JsonArray columnArray , String wanted
 	 * 
-	 * @Return : if table successfully create return true, else false;
+	 * @Return : This private methos returned bulid alter query String
 	 */
 
-	public boolean createTable(String org_name, String db_name,
-			String table_name, String columnNames,long user_id) {
+	public String bulidAlterQuery(JsonArray columnArray, String wanted) {
+		String query = "";
 		try {
-			String sqlQuery = "insert into table_management (roles,table_name,db_name,org_name,user_id) values(?,?,?,?,?)";
-			stmt = dc.conn.prepareStatement(sqlQuery);
-			stmt.setString(1, "co-owner");
-			stmt.setString(2, table_name);
-			stmt.setString(3, db_name);
-			stmt.setString(4, org_name);
-			stmt.setLong(5, user_id);
-			stmt.executeUpdate();
-
-			JsonParser parser = new JsonParser();
-			JsonElement tradeElement = parser.parse(columnNames);
-			JsonArray trade = tradeElement.getAsJsonArray();
-			dc.dbConnection(db_name, org_name + "" + db_name, "");
-
-			StringBuilder s = new StringBuilder("");
-			for (JsonElement eachColumn : trade) {
-				JsonArray column = eachColumn.getAsJsonArray();
-				String columnType = "";
-				for (JsonElement typeAndName : column) {
-					columnType = columnType + typeAndName + " ";
+			JsonObject columnObj = null;
+			for (JsonElement eachElement : columnArray) {
+				columnObj = eachElement.getAsJsonObject();
+				String columnName = columnObj.get("column").getAsString();
+				if (columnName.matches("^[a-z][a-z0-9_]{4,30}$") == true) {
+					throw new Exception();
 				}
-				s.append(columnType + ",");
+				if (wanted.equals("addColumn") == true) {
+					/****************************** Add Column ********************************************/
+					String type = columnObj.get("type").getAsString();
+					String defaul = columnObj.get("default").getAsString();
+					if (types.contains(type) == false) {
+						throw new Exception();
+					}
+					query = query + ", ADD COLUMN  " + columnName + " " + type
+							+ " default ";
+					if (type.equals("bigint") || type.equals("numeric")) {
+						query = query + " " + defaul;
+					} else {
+						query = query + " '" + escapeing(defaul) + "'";
+					}
+				}
+				/****************************** deleteColumn ********************************************/
+				else if (wanted.equals("deleteColumn") == true) {
+					query = query + ", DROP COLUMN  " + columnName + " ";
+				}
+				/****************************** typeChange ********************************************/
+				else if (wanted.equals("typeChange") == true) {
+					String type = columnObj.get("type").getAsString();
+					if (types.contains(type) == false) {
+						throw new Exception();
+					}
+					query = query + ", ALTER COLUMN  " + columnName + " TYPE "
+							+ type + " ";
+				}
+				/****************************** manageDefault ********************************************/
+				else if (wanted.equals("manageDefault") == true) {
+					String defaul = columnObj.get("default").getAsString();
+					query = query + ", ALTER COLUMN  " + columnName
+							+ " SET DEFAULT " + defaul + " ";
+				}
+				/****************************** deleteDefault ********************************************/
+				else if (wanted.equals("deleteDefault") == true) {
+					query = query + ", ALTER COLUMN  " + columnName
+							+ " DROP DEFAULT ";
+				}
+				/****************************** setDefault ********************************************/
+				else if (wanted.equals("setNotNull") == true) {
+					query = query + ", ALTER COLUMN  " + columnName
+							+ " SET NOT NULL ";
+				}
+				/****************************** deleteDefault ********************************************/
+				else if (wanted.equals("deleteNotNull") == true) {
+					query = query + ", ALTER COLUMN  " + columnName
+							+ " DROP DEFAULT ";
+				}
+				/******** for loop end *****/
 			}
-			sqlQuery = "create table " + table_name + "(" + s.toString() + ")";
-			stmt = dc.conn.prepareStatement(sqlQuery);
-			stmt.executeUpdate();
-
-			return true;
+			return query.substring(1);
 		} catch (Exception e) {
-			return false;
+
+			return "";
 		}
 	}
+
 	/**
-	 * This private method used to find table name is correct or wrong
+	 * This private methos used to escapeing String
 	 * 
-	 * @Params : String table_name
+	 * @Params : String text
 	 * 
-	 * @Return : if name match to regex return true,else return false
+	 * @Return : This private methos returned fully escaped String
 	 */
 
-	public  boolean isCorrect(String table_name) {
-		return table_name.matches("^[a-z][a-z0-9]{3,30}$");
+	private String escapeing(String text) {
+		StringBuilder answer = new StringBuilder("");
+		for (int i = 0; i < text.length(); i++) {
+			if ((text.charAt(i) == '\"') || (text.charAt(i) == '\\')
+					|| (text.charAt(i) == '\'')) {
+				answer.append('\\');
+			}
+			answer.append(text.charAt(i));
+		}
+		return answer.toString();
 	}
 
 	/**
@@ -77,14 +137,23 @@ public class ManageTable{
 			stmt.setString(2, db_name);
 			stmt.setString(3, table_name);
 			stmt.executeUpdate();
+
 			dc.dbConnection(db_name, org_name + "" + db_name, "");
 			sqlQuery = "drop table " + table_name;
 			stmt = dc.conn.prepareStatement(sqlQuery);
 			stmt.setString(1, table_name);
 			stmt.executeUpdate();
+			stmt.close();
+			dc.conn.close();
 			return true;
 		} catch (Exception e) {
 			return false;
+		} finally {
+			try {
+				dc.conn.close();
+			} catch (Exception e) {
+
+			}
 		}
 	}
 
@@ -107,44 +176,98 @@ public class ManageTable{
 			stmt.setString(4, table_oldname);
 			stmt.executeUpdate();
 			dc.dbConnection(db_name, org_name + "" + db_name, "");
-			sqlQuery = "alter table ? rename to ?";
+			sqlQuery = "alter table " + table_oldname + " rename to "
+					+ table_newname + "";
 			stmt = dc.conn.prepareStatement(sqlQuery);
-			stmt.setString(1, table_oldname);
-			stmt.setString(2, table_newname);
 			stmt.executeUpdate();
 			return true;
 		} catch (Exception e) {
 			return false;
+		} finally {
+			try {
+				dc.conn.close();
+			} catch (Exception e) {
+
+			}
 		}
 	}
 
-	public boolean alterColumn(boolean addOrDel, String column,
-			String table_name, String db_name, String org_name) {
+	/**
+	 * This private method used to create new table in database.
+	 * 
+	 * @Params : String org_name , String db_name , String table_name
+	 * 
+	 * @Return : if table successfully create return true, else false;
+	 */
+
+	public boolean createTable(String org_name, String db_name,
+			String table_name, String columnNames, long user_id) {
+		try {
+			String sqlQuery = "insert into table_management (roles,table_name,db_name,org_name,user_id) values(?,?,?,?,?)";
+			stmt = dc.conn.prepareStatement(sqlQuery);
+			stmt.setString(1, "co-owner");
+			stmt.setString(2, table_name);
+			stmt.setString(3, db_name);
+			stmt.setString(4, org_name);
+			stmt.setLong(5, user_id);
+			stmt.executeUpdate();
+
+			JsonParser parser = new JsonParser();
+			JsonElement tradeElement = parser.parse(columnNames);
+			JsonArray trade = tradeElement.getAsJsonArray();
+			dc.dbConnection(db_name, org_name + "_" + db_name, "");
+
+			StringBuilder s = new StringBuilder("");
+			for (JsonElement eachColumn : trade) {
+				JsonArray column = eachColumn.getAsJsonArray();
+				String columnType = "";
+				for (JsonElement typeAndName : column) {
+					columnType = columnType + typeAndName + " ";
+				}
+				s.append(columnType + ",");
+			}
+			sqlQuery = "create table " + table_name + "(" + s.toString() + ")";
+			stmt = dc.conn.prepareStatement(sqlQuery);
+			stmt.executeUpdate();
+
+			return true;
+		} catch (Exception e) {
+			return false;
+		} finally {
+			try {
+				dc.conn.close();
+			} catch (Exception e) {
+
+			}
+		}
+	}
+
+	/**
+	 * This public method used to alter table in database.
+	 * 
+	 * @Params : String table_name , JsonArray columnArray , String wanted
+	 * 
+	 * @Return : if table successfully alter return true, else false;
+	 */
+
+	public boolean alterColumn(String table_name, JsonArray columnArray,
+			String wanted) {
 		try {
 			String sql = "";
-			if (addOrDel == true) {
-				sql = "alter table " + table_name + " add column " + column;
-			} else {
-				sql = "alter table " + table_name + " drop column " + column;
-			}
+			sql = "alter table " + table_name + "  "
+					+ bulidAlterQuery(columnArray, wanted);
 			dc.stmt = dc.conn.prepareStatement(sql);
 			dc.stmt.executeUpdate();
 			return true;
 		} catch (Exception e) {
 			return false;
+		} finally {
+			try {
+				dc.conn.close();
+			} catch (Exception e) {
+
+			}
 		}
 	}
 
-	public boolean alterColumnType(String column_name, String org_name,
-			String db_name, String table_name) {
-		try {
-			String sql = "alter table " + table_name + " add column "
-					+ column_name;
-			dc.stmt = dc.conn.prepareStatement(sql);
-			dc.stmt.executeUpdate();
-			return true;
-		} catch (Exception e) {
-			return false;
-		}
-	}
 }

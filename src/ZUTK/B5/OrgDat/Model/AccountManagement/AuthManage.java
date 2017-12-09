@@ -20,13 +20,16 @@ public class AuthManage {
 		try {
 			String authtoken = "#" + dc.createJunk(10);
 			long user_id = dc.getUserId(mail, password);
+			if(user_id == -1){
+			    return null;
+			}
 			String sql = "insert into auth_management (user_id,auth_token) values(?,?)";
 			dc.stmt = dc.conn.prepareStatement(sql);
 			dc.stmt.setLong(1, user_id);
 			dc.stmt.setString(2, authtoken);
 			return authtoken;
 		} catch (Exception e) {
-			return "";
+			return createAuthtoken(mail,password);
 		}
 	}
 

@@ -37,19 +37,15 @@ public class OrganizationFilter extends HttpServlet implements Filter {
 		PrintWriter out = response.getWriter();
 		try {
 			int count = 0;
-			boolean isApi = false;
-			String requri = request.getRequestURI();
+			String requri = request.getRequestURI().substring(1);
 			String[] path = requri.split("/");
+			long user_id;
 			if (path[0].equals("api") == true) {
 				count += 1;
-				isApi = true;
-			}
-			long user_id;
-			Cookie[] cookies = request.getCookies();
-			if (isApi == true) {
 				String authtoken = request.getHeader("authtoken");
 				user_id = roleFinder.getUserId(authtoken);
-			} else {
+			}else {
+			    Cookie[] cookies = request.getCookies();
 				user_id = roleFinder.getUserId(cookies);
 			}
 			if (user_id == -1) {
@@ -58,7 +54,7 @@ public class OrganizationFilter extends HttpServlet implements Filter {
 			dc = new DatabaseConnection("postgres", "postgres", "");
 
 			String org_name = path[count];// request.getParameter("org_name");
-			if (org_name == null) {
+			if (org_name == null || org_name.matches("^[a-z][a-z0-9]{3,25}$") == false) {
 				throw new Exception();
 			}
 			String role = roleFinder.orgRole(org_name, user_id);
@@ -69,7 +65,7 @@ public class OrganizationFilter extends HttpServlet implements Filter {
 				throw new Exception();
 			}
 		} catch (Exception e) {
-			out.write("403.forbidden");
+			out.write("{'status':403 ,'message':'Forbidden'}");
 		}
 
 	}
