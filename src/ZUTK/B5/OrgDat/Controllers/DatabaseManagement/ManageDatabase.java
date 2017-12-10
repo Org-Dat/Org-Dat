@@ -4,8 +4,10 @@ import java.io.PrintWriter;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import ZUTK.B5.OrgDat.Model.OrgManagement.Share;
 import ZUTK.B5.OrgDat.Model.DatabaseManagement.*;
 import java.sql.SQLException;
+import ZUTK.B5.OrgDat.Controllers.Filters.RoleChecker;
 import java.sql.ResultSet;
 
 public class ManageDatabase extends HttpServlet {
@@ -17,18 +19,20 @@ public class ManageDatabase extends HttpServlet {
 			HttpServletResponse response) {
 		try {
 			out = response.getWriter();
-			String requri = request.getRequestURI();
+			RoleChecker rc = new RoleChecker();
+            long user_id = rc.getUserId(request.getCookies());
+            String requri = request.getRequestURI();
 			ManageDB dbManage = new ManageDB();
-			if (requri.startsWith("/api")) {
-				requri = requri.substring(requri.indexOf("/", 1));
+			if (requri.startsWith("/api/")) {
+				requri = requri.substring(5);
 			}
 			String[] path = requri.split("/");
-			String db_name = path[0];// request.getParameter("db_name");
+			String db_name = path[1];// request.getParameter("db_name");
 			dc = new DatabaseConnection("postgres", "postgres", "");
 			if (dbManage.isCorrect(db_name) == true) {
 				try {
 					String reqURI = path[2];// request.getRequestURI();
-					String org_name = path[1];// request.getParameter("org_name");
+					String org_name = path[0];// request.getParameter("org_name");
 					boolean isCorrect = false;
 					if (reqURI.equals("$createDB")) {
 						isCorrect = dbManage.createDB(db_name, org_name);
@@ -38,9 +42,17 @@ public class ManageDatabase extends HttpServlet {
 							isCorrect = dbManage.renameDB(db_name, org_name,
 									rename);
 						}
-
 					} else if (reqURI.equals("$deleteDB")) {
 						isCorrect = dbManage.deleteDB(db_name, org_name);
+					} else if (reqURI.equals("$shareDB")) {
+						 Share share = new Share();
+                        String role = request.getParameter("role");
+                        String query = request.getParameter("isRole");
+				        if (share.shareDB(org_name, db_name, role, user_id, query) == true){
+						    out.write("{status:200,response:'share successfully'}");
+						} else {
+						    throw new Exception();
+						}
 					}
 					if (isCorrect == true) {
 						out.write("{'status':200,'org_name':'" + org_name

@@ -37,7 +37,6 @@ public class DownloadFilter implements Filter {
 			String[] path = (request.getRequestURI().substring(1)).split("/");
 			String db_name = path[1];
 			String org_name = path[0];
-
 			String role = roleFinder.orgRole(org_name, user_id);
 			if (role.equals("owner") == false) {
 				throw new Exception();
@@ -71,7 +70,7 @@ public class DownloadFilter implements Filter {
 						break;
 					}
 				}
-				if (valid == false) {
+				if (valid == false) {       
 					throw new Exception();
 				}
 				chain.doFilter(req, res);
@@ -79,7 +78,6 @@ public class DownloadFilter implements Filter {
 				throw new Exception();
 			}
 			chain.doFilter(req, res);
-
 		} catch (Exception e) {
 
 			out.write("{'status':403,'message':'forbetten'}");

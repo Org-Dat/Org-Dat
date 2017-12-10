@@ -1,3 +1,4 @@
+/**/
 package ZUTK.B5.OrgDat.Controllers.Filters;
 
 import java.io.*;
@@ -14,11 +15,20 @@ public class AccountFilter extends HttpServlet implements Filter {
 	public void doFilter(ServletRequest req, ServletResponse res,
 			FilterChain chain) throws IOException, ServletException {
         try{
+            
             rc = new RoleChecker();
             dc = new DatabaseConnection("postgres","postgres","");
             HttpServletRequest request  = (HttpServletRequest) req;
             HttpServletResponse response = (HttpServletResponse) res;
             out = response.getWriter();
+            String requri = request.getRequestURI();
+            if(requri.endsWith("$addMember")){
+                chain.doFilter(req, res);
+            }else if(requri.contains("$get")){
+                chain.doFilter(req, res);
+            }else{
+                throw new Exception();
+            }
             Cookie[] cookies = request.getCookies();
             long user_id = rc.getUserId(cookies);
             String org_name = request.getRequestURI().split("/")[0];

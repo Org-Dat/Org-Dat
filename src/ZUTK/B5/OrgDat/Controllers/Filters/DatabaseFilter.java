@@ -11,7 +11,7 @@ import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
-public class DatabaseFilter extends HttpServlet implements Filter {
+public class DatabaseFilter extends DownloadFilter implements Filter {
 	protected DatabaseConnection dc;
 	RoleChecker roleFinder;
 
@@ -19,6 +19,7 @@ public class DatabaseFilter extends HttpServlet implements Filter {
 	public void init(FilterConfig filterConfig) throws ServletException {
 
 	}
+	PrintWriter out ;
     /**
      * This  Method  check database permission .
      * 
@@ -31,15 +32,17 @@ public class DatabaseFilter extends HttpServlet implements Filter {
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse res,
 			FilterChain chain) throws IOException, ServletException {
-		HttpServletRequest request = (HttpServletRequest) req;
-		HttpServletResponse response = (HttpServletResponse) res;
-		roleFinder = new RoleChecker();
-		PrintWriter out = response.getWriter();
 		try {
+		    
+		    HttpServletRequest request = (HttpServletRequest) req;
+    		HttpServletResponse response = (HttpServletResponse) res;
+    		roleFinder = new RoleChecker();
+    		out = response.getWriter();
 			int count = 0;
 			boolean isApi = false;
 			String requri = request.getRequestURI().substring(1);
 			String[] path = requri.split("/");
+			
 			long user_id;
 			if (path[0].equals("api") == true) {
 				count += 1;
@@ -52,26 +55,36 @@ public class DatabaseFilter extends HttpServlet implements Filter {
 			if (user_id == -1) {
 				throw new Exception();
 			}
-			dc = new DatabaseConnection("postgres", "postgres", "");
-			String org_name = path[count];// request.getParameter("org_name");
-			String db_name = path[count + 1];// request.getParameter("db_name");
-			if (org_name == null || org_name.matches("^[a-z][a-z0-9]{3,25}$")== false || db_name == null || db_name.matches("^[a-z][a-z0-9]{3,25}$") == false) {
-				throw new Exception();
-			}
-			String role = roleFinder.dbRole(org_name, db_name, user_id);
-			if (role == null) {
-				role = roleFinder.orgRole(org_name, user_id);
-				if (role.contains("owner")) {
-					chain.doFilter(req, res);
-					dc.conn.close();
-				} else {
-					throw new Exception();
-				}
-			} else if (role.contains("owner")) {
-				chain.doFilter(req, res);
-				dc.conn.close();
+			if (path[path.length - 1].equals("downloadDB")) {
+			    super.doFilter(req, res, chain);
 			} else {
-				throw new Exception();
+    			dc = new DatabaseConnection("postgres", "postgres", "");
+    			String org_name = path[count];// request.getParameter("org_name");
+    			String db_name = path[count + 1];// request.getParameter("db_name");
+    			if (org_name == null || org_name.matches("^[a-z][a-z0-9]{3,25}$")== false || db_name == null || db_name.matches("^[a-z][a-z0-9]{3,25}$") == false) {
+    				throw new Exception();
+    			}
+    			String role = roleFinder.dbRole(org_name, db_name, user_id);
+    			if (role == null) {
+    				role = roleFinder.orgRole(org_name, user_id);
+    				if (role.contains("owner")) {
+    					chain.doFilter(req, res);
+    					dc.conn.close();
+    				} else {
+    					throw new Exception();
+    				}
+    			} else if (role.contains("owner")) {
+    				chain.doFilter(req, res);
+    				dc.conn.close();
+    			} else if(role.equals("can/write")){
+    			    if(request.getRequestURI().endsWith("$renameDB")){
+    			        chain.doFilter(req,res);
+    			    }else{
+    			        throw new Exception();
+    			    }
+    			}else {
+    				throw new Exception();
+    			}
 			}
 
 		} catch (Exception e) {
@@ -84,4 +97,15 @@ public class DatabaseFilter extends HttpServlet implements Filter {
 			}
 		}
 	}
+	
+	@Override
+	public void destroy() {
+
+	}
 }
+
+/**
+ * 
+ * extends HttpServlet
+ * 
+ */

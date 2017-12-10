@@ -5,7 +5,7 @@ import javax.servlet.http.*;
 import javax.servlet.*;
 import java.util.*;
 import java.io.*;
-import  ZUTK.B5.OrgDat.Controllers.Filters.DatabaseConnection;
+import ZUTK.B5.OrgDat.Controllers.Filters.DatabaseConnection;
 import java.sql.*;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
@@ -26,6 +26,7 @@ public class UploadDeets extends HttpServlet {
       // Get the file location where it would be stored.
     //   filePath = "/home/workspace/JavaWepApps/webapps/JavaWepApps/images/" ;
    }
+
    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, java.io.IOException {
    
       // Check that we have a file upload request
@@ -69,9 +70,9 @@ public class UploadDeets extends HttpServlet {
                 String filePath = forTmp.substring(forTmp.indexOf("StoreLocation=")+"StoreLocation=".length(), forTmp.indexOf(", size="));
                 String tem = "";
                 String[] path = request.getRequestURI().split("/");
-                if (path[2].equals("downloadDB")) {
+                if (path[2].equals("$uploadDB")) {
                     tem = BackUpRestore.SQLFile(path[0],path[1],filePath," -a -w  ");  
-                } else  if (path[3].equals("downloadTable")) {
+                } else  if (path[3].equals("$uploadTable")) {
                     tem = BackUpRestore.CSVFile(path[0],path[1],path[2],filePath," from ","yes"); 
                 } else {
                     throw  new Exception();

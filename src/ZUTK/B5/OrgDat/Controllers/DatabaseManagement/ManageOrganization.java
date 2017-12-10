@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import ZUTK.B5.OrgDat.Model.DatabaseManagement.*;
 import java.sql.ResultSet;
+import ZUTK.B5.OrgDat.Model.OrgManagement.Share;
 import ZUTK.B5.OrgDat.Controllers.Filters.RoleChecker;
 
 public class ManageOrganization extends HttpServlet {
@@ -22,12 +23,12 @@ public class ManageOrganization extends HttpServlet {
 			out = response.getWriter();
 			ManageOrg orgManage = new ManageOrg();
 			String[] path = request.getRequestURI().split("/");
-			if (path[1].equals("$createOrg") || path[1].equals("$deleteOrg")) {
+			RoleChecker rc = new RoleChecker();
+			long user_id = rc.getUserId(request.getCookies());
+			if (path[1].equals("$createOrg") || path[1].equals("$deleteOrg") || path[1].equals( "$shareOrg")) {
 			    if(path[0].equals("postgres") || path[0].equals("orgdat")){
 			        throw new Exception();
 			    }
-				RoleChecker rc = new RoleChecker();
-				long user_id = rc.getUserId(request.getCookies());
 				String email = getMailId(user_id);
 				if (email.endsWith("@orgdat.com") == false) {
 					throw new Exception();
@@ -36,8 +37,20 @@ public class ManageOrganization extends HttpServlet {
 				    throw new  Exception();
 				}
 			}
-			String ClientResponse = orgManage.ManageOrg(request.getRequestURI());
-			out.write(ClientResponse);
+			String ClientResponse ;
+			if (path[1].equals( "$shareOrg")){
+			    Share share = new Share();
+                String role = request.getParameter("role");
+                String query = request.getParameter("isRole");
+				if (share.shareOrg(path[0], role, user_id, query) == true){
+				    ClientResponse = "{status:200,response:'share successfully'}";
+				} else {
+				    ClientResponse = "{'status':403 ,'message':'Forbidden'}";
+				}
+			} else {
+    			 ClientResponse = orgManage.ManageOrg(request.getRequestURI());
+    			out.write(ClientResponse);
+			}
 		} catch (Exception e) {
 			out.write("{'status':404,'message':'Not Found'}");
 		}

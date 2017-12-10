@@ -18,7 +18,7 @@ public class AuthManage {
 	 */
 	public String createAuthtoken(String mail, String password) {
 		try {
-			String authtoken = "#" + dc.createJunk(10);
+			String authtoken = dc.createJunk(10);
 			long user_id = dc.getUserId(mail, password);
 			if(user_id == -1){
 			    return null;

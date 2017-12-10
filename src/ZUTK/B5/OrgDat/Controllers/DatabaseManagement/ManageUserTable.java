@@ -5,6 +5,7 @@ import javax.servlet.http.*;
 import java.io.*;
 import java.sql.*;
 import java.util.*;
+import ZUTK.B5.OrgDat.Model.OrgManagement.Share;
 import com.google.gson.*;
 import ZUTK.B5.OrgDat.Model.DatabaseManagement.*;
 
@@ -63,6 +64,17 @@ public class ManageUserTable extends HttpServlet {
 			else if (reqURI.equals("$deleteTable") == true) {
 				if (templateTable.deleteTable(org_name, db_name, table_name) == true) {
 					writer.write("{'status':200,'org_name':'" + org_name+ "','db_name':'" + db_name + "','table_name':'"+ table_name + "'}");
+				} else {
+					throw new Exception();
+				}
+			}
+			/***************************** share Table ********************************************/
+			else if (reqURI.equals("$shareTable") == true) {
+			     Share share = new Share();
+                String role = request.getParameter("role");
+                String query = request.getParameter("isRole");
+				if (share.shareTable(org_name, db_name, table_name, role, user_id, query) == true) {
+					writer.write("{status:200,response:'share successfully'}");
 				} else {
 					throw new Exception();
 				}

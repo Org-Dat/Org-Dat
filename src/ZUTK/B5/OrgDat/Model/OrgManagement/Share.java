@@ -18,7 +18,6 @@ public class Share {
 			} else {
 				sql = "delete from table_management where role=? and user_id=? and org_name=? and db_name=? and table_name=?";
 			}
-
 			dc = new DatabaseConnection(org_name + "_" + db_name, org_name, "");
 			dc.stmt = dc.conn.prepareStatement(sql);
 			dc.stmt.setString(1, role);
@@ -32,7 +31,6 @@ public class Share {
 			return false;
 		}
 	}
-
 	public boolean shareDB(String org_name, String db_name, String role,
 			long user_id, String query) {
 		try {
@@ -56,7 +54,6 @@ public class Share {
 			return false;
 		}
 	}
-	
 	public boolean shareOrg(String org_name,String role,long user_id,String query){
 	    try{
 	        String sql = "";

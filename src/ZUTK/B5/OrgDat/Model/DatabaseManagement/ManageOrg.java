@@ -19,8 +19,6 @@ public class ManageOrg {
 				boolean isCorrect = false;
 				if (reqURI.equals("$createOrg")) {
 					isCorrect = createOrg(orgName);
-				} else if (reqURI.equals("renameOrg")) {
-
 				} else if (reqURI.equals("$deleteOrg")) {
 					ArrayList<String> databases = getDatabases(orgName);
 					isCorrect = deleteOrg(databases, orgName);

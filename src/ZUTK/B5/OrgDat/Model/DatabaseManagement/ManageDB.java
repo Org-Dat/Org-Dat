@@ -32,11 +32,11 @@ public class ManageDB {
 		try {
 			String sqlQuery  = "insert into db_mangament(db_name,db_roles,org_name) values(?,?,?)";
 			dc.stmt = dc.conn.prepareStatement(sqlQuery);
-			dc.stmt.setString(1, dbName);
+			dc.stmt.setString(1, org_name + "_" + dbName);
 			dc.stmt.setString(2, "owner");
 			dc.stmt.setString(3, org_name);
 			dc.stmt.executeUpdate();
-			sqlQuery = "create database " + dbName + "_" + org_name;
+			sqlQuery = "create database " + org_name + "_" + dbName;
 			dc.stmt = dc.conn.prepareStatement(sqlQuery);
 			dc.stmt.executeUpdate();
 			dc.conn.close();
@@ -61,11 +61,11 @@ public class ManageDB {
 		try {
 			String sqlQuery = "update db_manament set db_name=? where db_name=? and org_name=?";
 			dc.stmt = dc.conn.prepareStatement(sqlQuery);
-			dc.stmt.setString(1, newDb_name);
-			dc.stmt.setString(2, dbName);
+			dc.stmt.setString(1, org_name+"_"+newDb_name);
+			dc.stmt.setString(2, org_name + "_" + dbName);
 			dc.stmt.setString(3, org_name);
 			dc.stmt.executeUpdate();
-			sqlQuery = "alter database " + dbName + " rename to " + newDb_name;
+			sqlQuery = "alter database " + org_name + "_" + dbName + " rename to " + org_name+"_"+newDb_name;
 			dc.stmt = dc.conn.prepareStatement(sqlQuery);
 			dc.stmt.executeUpdate();
 			dc.conn.close();
