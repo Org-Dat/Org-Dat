@@ -9,244 +9,332 @@
         Store One Organization Databases
     </description>
     
-    
+    <welcome-file-list>
+        <welcome-file>/JSP/landingPage.jsp</welcome-file>
+    </welcome-file-list>
     
     <filter>  
         <filter-name>CookieFilter</filter-name>  
-        <filter-class>ZUTK.B5.OrgDat.Controllers.Filters.CookieFilter</filter-class>  
+        <filter-class>zutk.b5.orgdat.controllers.filters.CookieFilter</filter-class>  
     </filter>  
     
     <filter>  
         <filter-name>LogFilter</filter-name>  
-        <filter-class>ZUTK.B5.OrgDat.Controllers.Filters.LogFilter</filter-class>  
+        <filter-class>zutk.b5.orgdat.controllers.filters.LogFilter</filter-class>  
     </filter> 
     
      <filter>  
         <filter-name>OrganizationFilter</filter-name>  
-        <filter-class>ZUTK.B5.OrgDat.Controllers.Filters.OrganizationFilter</filter-class>  
+        <filter-class>zutk.b5.orgdat.controllers.filters.OrganizationFilter</filter-class>  
     </filter> 
     
      <filter>  
         <filter-name>DatabaseFilter</filter-name>  
-        <filter-class>ZUTK.B5.OrgDat.Controllers.Filters.DatabaseFilter</filter-class>  
+        <filter-class>zutk.b5.orgdat.controllers.filters.DatabaseFilter</filter-class>  
     </filter> 
     
      <filter>  
         <filter-name>TableFilter</filter-name>  
-        <filter-class>ZUTK.B5.OrgDat.Controllers.Filters.TableFilter</filter-class>  
+        <filter-class>zutk.b5.orgdat.controllers.filters.TableFilter</filter-class>  
     </filter>
     
      <filter>  
         <filter-name>AccountFilter</filter-name>  
-        <filter-class>ZUTK.B5.OrgDat.Controllers.Filters.AccountFilter</filter-class>  
+        <filter-class>zutk.b5.orgdat.controllers.filters.AccountFilter</filter-class>  
     </filter>    
     
     
     
     <filter-mapping>  
+        <filter-name>CookieFilter</filter-name>  
+        <servlet-name>ChartProvider</servlet-name>
+        <servlet-name>ManageRecord</servlet-name>
+        <servlet-name>DeleteAccount</servlet-name>
+        <servlet-name>ShowDetail</servlet-name>
+        <servlet-name>ManageTable</servlet-name>
+        <servlet-name>ManageMember</servlet-name>
+        <servlet-name>ManageDatabase</servlet-name>
+        <servlet-name>ManageOrganization</servlet-name>
+        <servlet-name>UploadDeets</servlet-name>
+        <servlet-name>DownloadDeets</servlet-name>
+        <servlet-name>LogFileReader</servlet-name>
+    </filter-mapping> 
+    
+    <filter-mapping>  
         <filter-name>LogFilter</filter-name>  
-        <url-regexp>^(\/api)?(\/[a-z][a-z0-9]{3,20}){1,3}\/\$[a-z][a-zA-Z]{3,20}$</url-regexp>  
+        <servlet-name>ChartProvider</servlet-name>
+        <servlet-name>ManageRecord</servlet-name>
+        <servlet-name>DeleteAccount</servlet-name>
+        <servlet-name>ShowDetail</servlet-name>
+        <servlet-name>ManageTable</servlet-name>
+        <servlet-name>ManageMember</servlet-name>
+        <servlet-name>ManageDatabase</servlet-name>
+        <servlet-name>ManageOrganization</servlet-name>
+        <servlet-name>UploadDeets</servlet-name>
+        <servlet-name>DownloadDeets</servlet-name>
+        <servlet-name>LogFileReader</servlet-name>
     </filter-mapping>  
     
     <filter-mapping>  
         <filter-name>OrganizationFilter</filter-name>  
-        <url-regexp>^(\/api)?(\/[a-z][a-z0-9]{3,20}){1}\/\$[a-z][a-zA-Z]{3,20}$</url-regexp>  
+        <servlet-name>ManageOrganization</servlet-name>
     </filter-mapping> 
  
     <filter-mapping>  
         <filter-name>DatabaseFilter</filter-name>  
-        <url-regexp>^(\/api)?(\/[a-z][a-z0-9]{3,20}){2}\/\$[a-z][a-zA-Z]{3,20}$</url-regexp>  
+        <servlet-name>UploadDeets</servlet-name>
+        <servlet-name>DownloadDeets</servlet-name>
+        <servlet-name>ManageDatabase</servlet-name>
     </filter-mapping> 
     
    <filter-mapping>  
         <filter-name>TableFilter</filter-name>  
-        <url-regexp>^(\/api)?(\/[a-z][a-z0-9]{3,20}){3}\/\$[a-z][a-zA-Z]{3,20}$</url-regexp>  
+        <servlet-name>UploadDeets</servlet-name>
+        <servlet-name>DownloadDeets</servlet-name>
+        <servlet-name>ManageTable</servlet-name>
+        <servlet-name>ManageRecord</servlet-name>
     </filter-mapping>  
     
    <filter-mapping>  
         <filter-name>AccountFilter</filter-name>  
-        <url-regexp>^(\/api)?\/\$(get(Org|DB|Table)|(crea|dele)teMember)$</url-regexp>  
+        <servlet-name>ManageMember</servlet-name> 
     </filter-mapping> 
-    
-    
-    
     
     <servlet>
         <servlet-name>ManageOrganization</servlet-name>
-        <servlet-class>ZUTK.B5.OrgDat.Controllers.DatabaseManageMent.ManageOrganization</servlet-class>
+        <servlet-class>zutk.b5.orgdat.controllers.databasemanagement.ManageOrganization</servlet-class>
     </servlet> 
     
     <servlet>
         <servlet-name>ManageDatabase</servlet-name>
-        <servlet-class>ZUTK.B5.OrgDat.Controllers.DatabaseManageMent.ManageDatabase</servlet-class>
+        <servlet-class>zutk.b5.orgdat.controllers.databasemanagement.ManageDatabase</servlet-class>
     </servlet>
 
     <servlet>
         <servlet-name>ManageTable</servlet-name>
-        <servlet-class>ZUTK.B5.OrgDat.Controllers.DatabaseManageMent.ManageTable</servlet-class>
-    </servlet>
+        <servlet-class>zutk.b5.orgdat.controllers.databasemanagement.ManageUserTable</servlet-class>
+    </servlet> 
     
     <servlet>
         <servlet-name>ManageRecord</servlet-name>
-        <servlet-class>ZUTK.B5.OrgDat.Controllers.DatabaseManageMent.ManageRecord</servlet-class>
+        <servlet-class>zutk.b5.orgdat.controllers.databasemanagement.ManageRecords</servlet-class>
     </servlet>  
     
     <servlet>
         <servlet-name>ShowDetail</servlet-name>
-        <servlet-class>ZUTK.B5.OrgDat.Controllers.DatabaseManageMent.ShowDetail</servlet-class>
+        <servlet-class>zutk.b5.orgdat.controllers.databasemanagement.ShowDeets</servlet-class>
     </servlet>
     
      <servlet>
         <servlet-name>AuthToken</servlet-name>
-        <servlet-class>ZUTK.B5.OrgDat.Controllers.AccountManagement.AuthManagement</servlet-class>
+        <servlet-class>zutk.b5.orgdat.controllers.accountmanagement.AuthManagement</servlet-class>
     </servlet>
     
     <servlet>
         <servlet-name>ManageMember</servlet-name>
-        <servlet-class>ZUTK.B5.OrgDat.Controllers.OrgManagement.ManageMember</servlet-class>
+        <servlet-class>zutk.b5.orgdat.controllers.orgmanagement.ManageMember</servlet-class>
     </servlet>
     
     <servlet>
         <servlet-name>DownloadDeets</servlet-name>
-        <servlet-class>ZUTK.B5.OrgDat.Controllers.OrgManagement.DownloadDeets</servlet-class>
+        <servlet-class>zutk.b5.orgdat.controllers.orgmanagement.DownloadDeets</servlet-class>
     </servlet>
     
     <servlet>
         <servlet-name>UploadDeets</servlet-name>
-        <servlet-class>ZUTK.B5.OrgDat.Controllers.OrgManagement.UploadDeets</servlet-class>
+        <servlet-class>zutk.b5.orgdat.controllers.orgmanagement.UploadDeets</servlet-class>
     </servlet>
     
     <servlet>
         <servlet-name>LogFileReader</servlet-name>
-        <servlet-class>ZUTK.B5.OrgDat.Controllers.OrgManagement.LogFileReader</servlet-class>
+        <servlet-class>zutk.b5.orgdat.controllers.orgmanagement.LogFileReader</servlet-class>
     </servlet>
     
     <servlet>
         <servlet-name>ChartProvider</servlet-name>
-        <servlet-class>ZUTK.B5.OrgDat.Controllers.OrgManagement.ChartProvider</servlet-class>
+        <servlet-class>zutk.b5.orgdat.controllers.orgmanagement.ChartProvider</servlet-class>
     </servlet> 
     
     
     <servlet-mapping>
         <servlet-name>LogFileReader</servlet-name>
-        <url-regexp>^\/\$getLogFile(Names|)$</url-regexp>
+        <url-pattern>/getLogFileNames</url-pattern>
+        <url-pattern>/getLogFile</url-pattern>
     </servlet-mapping>
     
     <servlet-mapping>
         <servlet-name>UploadDeets</servlet-name>
-        <url-regexp>^(\/[a-z][a-z0-9]{3,20}){2}\/\$uploadDB$</url-regexp>
-        <url-regexp>^(\/[a-z][a-z0-9]{3,20}){3}\/\$uploadTable$</url-regexp>
+        <url-pattern>/uploadDB</url-pattern>
+        <url-pattern>/uploadTable</url-pattern>
     </servlet-mapping>
     
     
     <servlet-mapping>
         <servlet-name>DownloadDeets</servlet-name>
-        <url-regexp>^(\/[a-z][a-z0-9]{3,20}){2}\/\$downloadDB$</url-regexp>
-        <url-regexp>^(\/[a-z][a-z0-9]{3,20}){3}\/\$downloadTable$</url-regexp>
+        <url-pattern>/downloadDB</url-pattern>
+        <url-pattern>/downloadTable</url-pattern>
     </servlet-mapping>
     
     
     <servlet-mapping>
         <servlet-name>ManageOrganization</servlet-name>
-        <url-regexp>^(\/api)?(\/[a-z][a-z0-9]{3,20}){1}\/\$[a-z][a-zA-Z]{3,20}$</url-regexp>
+        <url-pattern>/createOrg</url-pattern>
+        <url-pattern>/shareOrg</url-pattern>
+        <url-pattern>/deleteOrg</url-pattern>
+        <url-pattern>/api/createOrg</url-pattern>
+        <url-pattern>/api/deleteOrg</url-pattern>
     </servlet-mapping>
     
     <servlet-mapping>
         <servlet-name>ManageDatabase</servlet-name>
-        <url-regexp>^(\/api)?(\/[a-z][a-z0-9]{3,20}){2}\/\$[a-z][a-zA-Z]{3,20}$</url-regexp>
+        <url-pattern>/createDB</url-pattern>
+        <url-pattern>/shareDB</url-pattern>
+        <url-pattern>/renameDB</url-pattern>
+        <url-pattern>/deleteDB</url-pattern>
+        <url-pattern>/api/createDB</url-pattern>
+        <url-pattern>/api/renameDB</url-pattern>
+        <url-pattern>/api/deleteDB</url-pattern>
     </servlet-mapping>  
     
     <servlet-mapping>
         <servlet-name>ManageTable</servlet-name>
-        <url-regexp>^(\/api)?(\/[a-z][a-z0-9]{3,20}){3}\/\$[a-z][a-zA-Z]{3,20}$</url-regexp>
+        <url-pattern>/createTable</url-pattern>
+        <url-pattern>/renameTable</url-pattern>
+        <url-pattern>/shareTable</url-pattern>
+        <url-pattern>/deleteTable</url-pattern>
+        <url-pattern>/alterTable</url-pattern>
+        <url-pattern>/api/createTable</url-pattern>
+        <url-pattern>/api/renameTable</url-pattern>
+        <url-pattern>/api/deleteTable</url-pattern>
+        <url-pattern>/api/alterTable</url-pattern>
     </servlet-mapping>  
-    
+     
+    <servlet-mapping>
+        <servlet-name>ManageRecord</servlet-name>
+        <url-pattern>/addRecord</url-pattern>
+        <url-pattern>/deleteRecord</url-pattern>
+        <url-pattern>/updateRecord</url-pattern>
+        <url-pattern>/readRecord</url-pattern>
+        <url-pattern>/api/readRecord</url-pattern>
+        <url-pattern>/api/addRecord</url-pattern>
+        <url-pattern>/api/deleteRecord</url-pattern>
+        <url-pattern>/api/updateRecord</url-pattern>
+    </servlet-mapping>  
     <servlet-mapping>
         <servlet-name>ManageMember</servlet-name>
-        <url-regexp>^(\/api)?\/\$(crea|dele)teMember)$</url-regexp>
+        <url-pattern>/createMember</url-pattern>
+        <url-pattern>/deleteMember</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
         <servlet-name>ShowDetail</servlet-name>
-        <url-regexp>^(\/api)?\/\$get(Org|DB|Table)$</url-regexp>
+        <url-pattern>/getOrgName</url-pattern>
+        <url-pattern>/api/getOrgName</url-pattern>
+        <url-pattern>/getDBName</url-pattern>
+        <url-pattern>/api/getDBName</url-pattern>
+        <url-pattern>/getTableName</url-pattern>
+        <url-pattern>/api/getTableName</url-pattern>
     </servlet-mapping>    
     
     <servlet-mapping>
         <servlet-name>AuthToken</servlet-name>
-        <url-regexp>^(\/api)?\/\$(crea|dele)teAuth)$</url-regexp>
+        <url-pattern>/api/createAuth</url-pattern>
+        <url-pattern>/createAuth</url-pattern>
+        <url-pattern>/deleteAuth</url-pattern>
+        <url-pattern>/getAuth</url-pattern>
     </servlet-mapping> 
     
     <servlet-mapping>
         <servlet-name>ChartProvider</servlet-name>
-        <url-regexp>/$chartMake</url-regexp>
+        <url-pattern>/chartMake</url-pattern>
     </servlet-mapping> 
+    
+    
+    <filter>  
+        <filter-name>LogInFilter</filter-name>  
+        <filter-class>zutk.b5.orgdat.controllers.filters.LogInFilter</filter-class>  
+    </filter> 
+    
+    <filter-mapping>  
+        <filter-name>LogInFilter</filter-name>  
+        <servlet-name>SignUp</servlet-name>
+        <servlet-name>SignIn</servlet-name>
+        <servlet-name>ForgetPassword</servlet-name>
+    </filter-mapping> 
     
     
     <servlet>
         <servlet-name>SignUp</servlet-name>
-        <servlet-class>ZUTK.B5.OrgDat.Controllers.AccountManagement.UserSignUp</servlet-class>
+        <servlet-class>zutk.b5.orgdat.controllers.accountmanagement.UserSignUp</servlet-class>
     </servlet>
     
      <servlet>
         <servlet-name>SignIn</servlet-name>
-        <servlet-class>ZUTK.B5.OrgDat.Controllers.AccountManagement.UserSignIn</servlet-class>
+        <servlet-class>zutk.b5.orgdat.controllers.accountmanagement.UserSignIn</servlet-class>
     </servlet>
     
      <servlet>
         <servlet-name>Logout</servlet-name>
-        <servlet-class>ZUTK.B5.OrgDat.Controllers.AccountManagement.UserLogout</servlet-class>
+        <servlet-class>zutk.b5.orgdat.controllers.accountmanagement.UserLogout</servlet-class>
     </servlet>
     
     <servlet>
         <servlet-name>EditProfile</servlet-name>
-        <servlet-class>ZUTK.B5.OrgDat.Controllers.AccountManagement.EditProfile</servlet-class>
+        <servlet-class>zutk.b5.orgdat.controllers.accountmanagement.EditProfile</servlet-class>
     </servlet>   
     
     <servlet>
         <servlet-name>ForgetPassword</servlet-name>
-        <servlet-class>ZUTK.B5.OrgDat.Controllers.AccountManagement.ForgetPassword</servlet-class>
+        <servlet-class>zutk.b5.orgdat.controllers.accountmanagement.ForgetPassword</servlet-class>
+    </servlet> 
+    
+    
+    <servlet>
+        <servlet-name>DeleteAccount</servlet-name>
+        <servlet-class>zutk.b5.orgdat.controllers.accountmanagement.UserDeleteAccount</servlet-class>
     </servlet> 
     
     
     <servlet>
         <servlet-name>SecuritySettings</servlet-name>
-        <servlet-class>ZUTK.B5.OrgDat.Controllers.AccountManagement.SetAndChangeSecurity</servlet-class>
+        <servlet-class>zutk.b5.orgdat.controllers.accountmanagement.SetAndChangeSecurity</servlet-class>
     </servlet> 
     
     
     <servlet-mapping>
         <servlet-name>SecuritySettings</servlet-name>
-        <url-regexp>^/\change(Password|Question)$</url-regexp>
+        <url-pattern>/changePassword</url-pattern>
+        <url-pattern>/changeQuestion</url-pattern>
     </servlet-mapping>
     
     
     <servlet-mapping>
         <servlet-name>SignUp</servlet-name>
-        <url-pattern>/$signup</url-pattern>
+        <url-pattern>/signup</url-pattern>
     </servlet-mapping>
     
     <servlet-mapping>
         <servlet-name>SignIn</servlet-name>
-        <url-pattern>/$signin</url-pattern>
+        <url-pattern>/signin</url-pattern>
     </servlet-mapping>
     
     <servlet-mapping>
         <servlet-name>Logout</servlet-name>
-        <url-pattern>/$logout</url-pattern>
+        <url-pattern>/logout</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
         <servlet-name>DeleteAccount</servlet-name>
-        <url-pattern>/$deleteAccount</url-pattern>
-    </servlet-mapping>    
+        <url-pattern>/deleteAccount</url-pattern>
+    </servlet-mapping>     
     
     <servlet-mapping>
         <servlet-name>EditProfile</servlet-name>
-        <url-pattern>/$editProFile</url-pattern>
+        <url-pattern>/editProFile</url-pattern>
     </servlet-mapping>
     
-    <servlet-mapping>
+    <servlet-mapping> 
         <servlet-name>ForgetPassword</servlet-name>
-        <url-pattern>/$forgetPassword</url-pattern>
+        <url-pattern>/forgetPassword</url-pattern>
     </servlet-mapping>
 </web-app>

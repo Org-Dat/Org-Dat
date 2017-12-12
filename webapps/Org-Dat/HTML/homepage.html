@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="../CSS/homepage.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="../JS/homepage.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.js"></script>
+        <link rel="icon" href="http://www.freepngimg.com/download/database/2-2-database-png-picture.png">
+        <link href="https://fonts.googleapis.com/css?family=Lato:300,400" rel="stylesheet">
+    </head>
+    <body>
+        <div class="whole">
+            <input id="file" type="file" >
+            <!--................................Header.............................................-->
+            
+            <header>
+                <span class="prj_name"><b>O</b>RG <b>D</b>AT</span>
+                <i class="fa fa-caret-left" id="demo" aria-hidden="true"></i>
+            </header>
+        
+        <!--......................................WHole 2....................................................-->
+        
+            <section class="whole_2">
+        
+        <!--...........................................Side bar menu.............................................-->
+                
+            <div class="sidebar">
+                
+                <ul>
+                    <li>
+                        <span>User Name</span>
+                        <img src="https://www.atomix.com.au/media/2015/06/atomix_user31.png">
+                        <label for="file">
+                            <i class="fa fa-camera-retro" aria-hidden="true"></i>
+                        </label>
+                    </li>
+                    <li>
+                        <i class="fa fa-user-md" aria-hidden="true" title="Profile info"></i>
+                        Profile Info</li>
+                    <li>
+                        <i class="fa fa-history" aria-hidden="true" title="History"></i>
+                        History</li>
+                    <li>
+                        <i class="fa fa-eercast" aria-hidden="true" title="Auth Tokens"></i>
+                        Auth Tokens</li>
+                    <!--<li>-->
+                    <!--    <i class="fa fa-file-text-o" aria-hidden="true" title="Log Files"></i>-->
+                    <!--    Log Files</li>-->
+                    <li>
+                        <i class="fa fa-tachometer" aria-hidden="true" title="Dashboard View"></i>
+                        Dashboard View</li>
+                    <!--<li><i class="fa fa-question-circle" aria-hidden="true"></i> Help</li>-->
+                    <!--<li>-->
+                    <!--    <i class="fa fa-sign-out" aria-hidden="true"></i>-->
+                    <!--    Logout</li>-->
+                    <!--<li>-->
+                    <!--    <i class="fa fa-address-card-o" aria-hidden="true"></i>-->
+                    <!--</li>-->
+                    
+                    <li>
+                        <i class="fa fa-address-book-o" aria-hidden="true"></i>
+                        Contact
+                    </li>
+                </ul>
+                <div class="logout">
+                    <p><i class="fa fa-question-circle" aria-hidden="true" title="Help"></i> Help</p>
+                    <p><i class="fa fa-sign-out" aria-hidden="true" title="Logout"></i>Logout</p>
+                </div>
+            </div>
+         
+        <!--...............................................Org box...............................................-->
+        <!--<h1 class="org_name">-->
+        <!--    <i class="fa fa-hand-o-left" aria-hidden="true"></i>-->
+        <!--    <span>Organizations</span>-->
+        <!--    <p class="clr"></p>-->
+        <!--</h1>-->
+        
+        <!--<div class="whole_org">-->
+            
+        <!--    <main class="org">-->
+        <!--        <div><span>Create Organization</span>-->
+        <!--     <i class="fa fa-plus-circle" aria-hidden="true" id="add_org"></i>-->
+             
+        <!--    <div class="input">-->
+        <!--         <span class="cls_but">X</span>-->
+        <!--         <input type="text" placeholder="Organization Name" id="Name">-->
+        <!--         <button type="submit">Submit</button>-->
+        <!--    </div>-->
+            
+                   
+        <!-- </div>-->
+            
+        <!--    </main>-->
+            
+            
+        <!--</div>-->
+        
+        <div class="whole_org">
+        
+            <div class="org"> 
+                <div class="path">
+                    <span title="back to org">Organization</span>
+            </div>
+            <div class="whole_org_box">
+                    
+               
+                <!--.................................create org box..........................................-->
+                    <div class="org_box">
+                        <span class="crt_org">Create Organization</span>
+                        <i class="fa fa-plus-circle crt_pls" aria-hidden="true" ></i>
+                         <div class="input">
+                             <span class="cls_but">X</span>
+                             <input type="text" placeholder="Organization Name" id="Name">
+                             <button type="submit">Submit</button>
+                         </div>
+                    </div>
+                    
+                    <!--..............................org box...............................................-->
+                    
+                    
+                </div>
+                
+            
+            
+            <!--................................database.............................................-->
+            
+            
+                <div class="whole_database">
+                    <div class="database">
+                        <div class="databs">
+                            <span>Database One</span>
+                            <div class="options">
+                                <i class="fa fa-share-alt" aria-hidden="true"></i>
+                                <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                <i class="fa fa-download" aria-hidden="true"></i>
+                                <label for="file"><i class="fa fa-upload" aria-hidden="true"></i></label>
+                            </div>
+                            <div class="usrs">
+                                <i class="fa fa-table" aria-hidden="true"></i>
+                                <span>24</span>
+                            </div>
+                        </div>
+                        <div class="databs">
+                            <span>Database Two</span>
+                            <div class="usrs">
+                                <i class="fa fa-table" aria-hidden="true"></i>
+                                <span>17</span>
+                            </div>
+                        </div>
+                        <div class="databs">
+                            <span>Database Three</span>
+                            <div class="usrs">
+                                <i class="fa fa-table" aria-hidden="true"></i>
+                                <span>05</span>
+                            </div>
+                        </div>
+                        <div class="databs">
+                            <span>Database Four</span>
+                            <div class="usrs">
+                                <i class="fa fa-table" aria-hidden="true"></i>
+                                <span>11</span>
+                            </div>
+                        </div>
+                        <div class="databs">
+                            <span>Database Five</span>
+                            <div class="usrs">
+                                <i class="fa fa-table" aria-hidden="true"></i>
+                                <span>02</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            <div class="whole_table">
+                <div class="table">
+                    <div class="databs tble">
+                        <span>Table Two</span>
+                        <div class="usrs">
+                            <i class="fa fa-table" aria-hidden="true"></i>
+                            <span>17</span>
+                        </div>
+                    </div>
+                    <div class="databs tble">
+                        <span>Table Three</span>
+                        <div class="usrs">
+                            <i class="fa fa-table" aria-hidden="true"></i>
+                            <span>05</span>
+                        </div>
+                    </div>
+                    <div class="databs tble">
+                        <span>Table Four</span>
+                        <div class="usrs">
+                            <i class="fa fa-table" aria-hidden="true"></i>
+                            <span>11</span>
+                        </div>
+                    </div>
+                    <div class="databs tble">
+                        <span>Table Five</span>
+                        <div class="usrs">
+                            <i class="fa fa-table" aria-hidden="true"></i>
+                            <span>02</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            </div>
+            
+            <!--.......................................Share Page...........................................-->
+            
+            <div class="share">
+            <div class="shr_fld">
+                <h3>Share Organization</h3>
+                <div class="field">
+                    <input placeholder="Enter your e-mail address" class="mail_inp">
+                    <div class="dropdown">
+                        <i class="fa fa-caret-down" aria-hidden="true"></i>
+                        <p class="con_p">Co-Owner</p>
+                        <p>Can-Write</p>
+                    </div>   
+                    <div>
+                        <button class="shr">Share</button>
+                        <button class="shr">Cancel</button>
+                    </div>
+                </div>
+                
+                <div class="alr_shr">
+                    <div>
+                        <span>Aldready Shared with</span>
+                        <span class="mng">Manage...</span>
+                    </div>
+                    <div class="shr_det">
+                        <div class="shr_prf">
+                            <img class="shr_img" src="https://lh5.googleusercontent.com/-ocaY4A00zc4/AAAAAAAAAAI/AAAAAAAAIoM/zz9sECwBOFk/photo.jpg" >
+                            <span>Praveen</span>
+                        </div>
+                        <div class="shr_prf">
+                            <img class="shr_img" src="https://lh5.googleusercontent.com/-ocaY4A00zc4/AAAAAAAAAAI/AAAAAAAAIoM/zz9sECwBOFk/photo.jpg" >
+                            <span>Obeth</span>
+                        </div>
+                        <div class="shr_prf">
+                            <img class="shr_img" src="https://lh5.googleusercontent.com/-ocaY4A00zc4/AAAAAAAAAAI/AAAAAAAAIoM/zz9sECwBOFk/photo.jpg" >
+                            <span>ponkumar</span>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="shr_fld co_dev">
+                <h3>Co - Developers</h3>
+                <div class="field co_field">
+                    
+                    <img class="shr_img" src="https://lh5.googleusercontent.com/-ocaY4A00zc4/AAAAAAAAAAI/AAAAAAAAIoM/zz9sECwBOFk/photo.jpg" >
+                    <div class="co_det">
+                        <p>Praveen</p>
+                        <p>praveen.madhavan@zohocorp.com</p>
+                    </div>
+                    <div class="dropdown">
+                        <i class="fa fa-caret-down" aria-hidden="true"></i>
+                        <p class="con_p">Co-Owner</p>
+                        <p>Can-Write</p>
+                    </div> 
+                    <i class="fa fa-times shr_close" aria-hidden="true"></i>
+                </div>
+                
+                <div class="alr_shr">
+                    <div>
+            
+                        <span class="mng">back to share</span>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+            
+        </div>
+        
+        <!--.........................................Org alert Popups..........................................-->
+        
+        <div class="org_popup">
+                <h1>Are You Sure to delete?</h1>
+                <h3>Organization</h3>
+                <button class="del_but">Delete</button>
+                <button class="decline">Cancel</button>
+                
+            </div>
+        <!--.........................Profile & Security....................................-->
+        
+        <div class="security_whole">
+            <div class="prf">
+                <nav class="clk_act">
+                    <p>PROFILE</p>
+                </nav>
+                
+                <section class="prf_part">
+                    <img src="https://www.atomix.com.au/media/2015/06/atomix_user31.png">
+                    <label>
+                        <i class="fa fa-camera-retro" aria-hidden="true"></i>
+                        <input type="file">
+                    </label>
+                    <ul class="prf_info">
+                        <li title="Obeth Samuel.M"><span>Obeth Samuel.M</span></li>
+                        <li title="obeth@zohouniv.com"><span>obeth@zohouniv.com</span></li>
+                        <li><span>0987654321</span></li>
+                        <li><span>India</span></li>
+                    </ul>
+                </section>
+            </div>
+            
+            <div class="sec">
+                <nav class="clk_act">
+                    <p>SECURITY</p>
+                </nav>
+                
+                <section class="sec_info">
+                    <div class="tab_hdr">
+                        <span>Change Password</span>
+                        <!--<span>Two Factor Authentication</span>-->
+                        <span>Security Question</span>
+                    </div>
+                    <aside id="aside1">
+                        <h3>Change your password</h3>
+                        <input placeholder="Current Password">
+                        <input placeholder="  Password">
+                        <input placeholder="Re-enter Password">
+                        <button>SUBMIT</button><button>CANCEL</button>
+                    </aside>
+                    
+                    <!--<aside id="aside2">-->
+                    <!--    <h3>Two Factor Authentication</h3>-->
+                    <!--    <span>Enable</span><nav class="slide_button">-->
+                    <!--        <div></div>-->
+                    <!--    </nav><span>Disable</span>-->
+                    <!--</aside>-->
+                    
+                    <aside id="aside2">
+                        <h3>Set your Security Question</h3>
+                        <input placeholder="Current Password">
+                        <input placeholder="Security Question">
+                        <input placeholder="Security Answer">
+                        <button>SUBMIT</button><button>CANCEL</button>
+                    </aside>
+                </section>
+            </div>
+        </div>
+            
+            
+        <!--...............................Common Table...............................-->
+        
+        <div class="cmn_tab">
+            <h2>History</h2>
+            <div class="cm_tb">
+                <table>
+                <thead>
+                    <tr><th>IP ADDRESS</th>
+                    <th>SIGNIN TIME</th>
+                    <th>DURATION</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr>
+                     <tr><td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr>
+                     <tr><td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr>
+                     <tr><td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr>
+                </tbody>
+            </table>
+            </div>
+        </div>
+        
+        <!--.............................Main Table......................................-->
+        
+        <div class="main_tab">
+            <div class="tbl_srch">
+                <div class="tbl_srh_box">
+                    <!--<select>-->
+                    <!--    <option>Column</option>-->
+                    <!--    <option>jnlklklk</option>-->
+                    <!--</select>-->
+                    <div class="dropdown src_drop">
+                        <i class="fa fa-caret-down" aria-hidden="true"></i>
+                        <ul class="row_data">
+                            <li>kjevnvjk kjrnjker</li>
+                            <li>kjevnvjk </li>
+                            <li>kjevnvjk kjrnjker</li>
+                            <li>kjevnvjk kjrnjker</li>
+                            <li>kjevnvjk kjrnjker</li>
+                            <li>kjevnvjk kjrnjker</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="dropdown src_drop opr">
+                        <i class="fa fa-caret-down" aria-hidden="true"></i>
+                        <p class="con_p">Co-Owner</p>
+                        <p>Can-Write</p>
+                    </div>
+                    
+                    <!--<select>-->
+                    <!--    <option>Operators</option>-->
+                    <!--    <option>AND</option>-->
+                    <!--</select>-->
+                    
+                    <input placeholder="enter the value...">
+                </div>
+                <div class="tbl_srh_box">
+                    <!--<select>-->
+                    <!--    <option>Column</option>-->
+                    <!--    <option>jnlklklk</option>-->
+                    <!--</select>-->
+                    <div class="dropdown src_drop">
+                        <i class="fa fa-caret-down" aria-hidden="true"></i>
+                        <p class="con_p">Co-Owner</p>
+                        <p>Can-Write</p>
+                    </div>
+                    
+                    <div class="dropdown src_drop opr">
+                        <i class="fa fa-caret-down" aria-hidden="true"></i>
+                        <p class="con_p">Co-Owner</p>
+                        <p>Can-Write</p>
+                    </div>
+                    
+                    <!--<select>-->
+                    <!--    <option>Operators</option>-->
+                    <!--    <option>AND</option>-->
+                    <!--</select>-->
+                    
+                    <input placeholder="enter the value...">
+                </div>
+                <div class="tbl_con">
+                    <span class="cond">AND</span>
+                    <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                </div>
+                <ul class="row_edit">
+                    <li>
+                        <label >
+                            Column one:
+                            <input class="row_inp">
+                        </label>
+                    </li>
+                    <li>
+                        <label >
+                            Column two:
+                            <input class="row_inp">
+                        </label>
+                    </li>
+                    
+                    <li>
+                        <label >
+                            Column three:
+                            <input class="row_inp">
+                        </label>
+                    </li>
+                    
+                    <li>
+                        <label>
+                            Column four:
+                            <input class="row_inp">
+                        </label>
+                    </li>
+                    
+                    <li>
+                        <label >
+                            Column five:
+                            <input class="row_inp">
+                        </label>
+                    </li>
+                </ul>
+                
+                <div class="sub_can">
+                    <span class="sub b">Submit</span>
+                    <span class="can b">Cancel</span>
+                </div>
+            </div>
+            <div class="hdr">
+                <button class="col_but"><i class="fa fa-plus" aria-hidden="true"></i> Column</button>
+                <button class="del_col"><i class="fa fa-trash-o" aria-hidden="true"></i> Column</button>
+                <p class="clr"></p>
+                <span contenteditable="true" class="tbl_name">Untitled</span>
+                <button class="row_but"><i class="fa fa-plus" aria-hidden="true"></i> Row</button>
+                <button class="del_row"><i class="fa fa-trash-o" aria-hidden="true"></i> Row</button>
+            </div>
+            
+        <div class="mn_tb">    
+            <table>
+                <thead>
+                    <tr>
+                        <th>IP ADDRESS
+                        <i class="fa fa-sort" aria-hidden="true"></i>
+                        <div class="sort_box">
+                            <i class="fa fa-sort-alpha-asc" aria-hidden="true"></i>
+                            <i class="fa fa-sort-alpha-desc" aria-hidden="true"></i>
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                        </div>
+                        </th>
+                        <th>SIGNIN TIME
+                        <i class="fa fa-sort" aria-hidden="true"></i>
+                        <div class="sort_box">
+                            <i class="fa fa-sort-alpha-asc" aria-hidden="true"></i>
+                            <i class="fa fa-sort-alpha-desc" aria-hidden="true"></i>
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                        </div>
+                        </th>
+                        <th>DURATION<i class="fa fa-sort" aria-hidden="true"></i></th>
+                        <th>DURATION irugieruhiuhuh8uu34 rui34iug34 rugb4uir3 hubf<i class="fa fa-sort" aria-hidden="true"></i></th>
+                        <th>IP ADDRESS<i class="fa fa-sort" aria-hidden="true"></i></th>
+                        <th>SIGNIN TIME<i class="fa fa-sort" aria-hidden="true"></i></th>
+                        <th>DURATION<i class="fa fa-sort" aria-hidden="true"></i></th>
+                        <th>DURATION irugieruhiuhuh8uu34 rui34iug34 rugb4uir3 hubf<i class="fa fa-sort" aria-hidden="true"></i></th>
+                        <th>IP ADDRESS<i class="fa fa-sort" aria-hidden="true"></i></th>
+                        <th>SIGNIN TIME<i class="fa fa-sort" aria-hidden="true"></i></th>
+                        <th>DURATION<i class="fa fa-sort" aria-hidden="true"></i></th>
+                        <th>DURATION irugieruhiuhuh8uu34 rui34iug34 rugb4uir3 hubf<i class="fa fa-sort" aria-hidden="true"></i></th>
+                    </tr>
+            
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                    </tr>
+                    <tr>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                    </tr>
+                    <tr>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                    </tr>
+                    <tr>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                    </tr><tr>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                    </tr>
+                    <tr>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                    </tr><tr>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                    </tr>
+                    <tr>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                    </tr>
+                    <tr>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                    </tr>
+                    <tr>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                    </tr>
+                    <tr>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                    </tr>
+                    <tr>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                    </tr>
+                    <tr>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                    </tr>
+                    <tr>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                    </tr>
+                    <tr>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                        <td>123:000:123:000</td>
+                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
+                        <td>1ijenkjwfenfewijnew</td>
+                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
+                    </tr>
+                
+                </tbody>
+            </table>
+         </div>
+         
+        </div>
+        
+        <!--..............................Main Table Popup...............................................-->
+        
+        <div class="whole_popup">
+                <div class="add_col"></div>
+                <button class="l add">Add Column</button>
+                <button class="l del">Delete All</button>
+                <button class="l cancel">Cancel</button>
+                <button class="l submit">Submit</button>
+            </div>
+        
+        <!--..........................................Admin Dashboard.....................................-->
+            
+        <div class="admin">
+            
+            <div class="adm_hdr">
+                <span>Welcome Ponkumar.S</span>
+                <span>Organization</span>
+                <span><i class="fa fa-users" aria-hidden="true"></i> 22</span>
+            </div>
+            
+            <!--<div class="add_usr">-->
+                <div class="add_fld">
+                    <input placeholder="username" >
+                    <input placeholder="E-mail id" class="add_em">
+                    <label class="add_mail">@orgdat.com</label>
+                    <input placeholder="Password" type="password">
+                    <button>Create</button>
+                    <!--<i class="fa fa-trash-o" aria-hidden="true"></i>-->
+                    <!--<i class="fa fa-plus" aria-hidden="true"></i>-->
+                </div>
+            <!--</div>-->
+            <div class="usr_list">
+                <div class="add_fld list">
+                    <span class="s_no">1</span>
+                    <input placeholder="username" disabled="true">
+                    <input placeholder="E-mail id" class="add_em" disabled="true">
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                </div>
+                <div class="add_fld list">
+                    <span class="s_no">1</span>
+                    <input placeholder="username" disabled="true">
+                    <input placeholder="E-mail id" class="add_em" disabled="true">
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                </div>
+                <div class="add_fld list">
+                    <span class="s_no">2</span>
+                    <input placeholder="username" >
+                    <input placeholder="E-mail id" class="add_em">
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                </div>
+                <div class="add_fld list">
+                    <span class="s_no">3</span>
+                    <input placeholder="username" >
+                    <input placeholder="E-mail id" class="add_em">
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                </div>
+                <div class="add_fld list">
+                    <span class="s_no">4</span>
+                    <input placeholder="username" >
+                    <input placeholder="E-mail id" class="add_em">
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                </div>
+                <div class="add_fld list">
+                    <span class="s_no">5</span>
+                    <input placeholder="username" >
+                    <input placeholder="E-mail id" class="add_em">
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                </div>
+                
+            </div>
+        </div>    
+            
+        <!--..........................................LOg file.....................................-->    
+            
+        <div class="log">
+            <h2>Log Files</h2>
+            <ul class="log_list">
+                <li>
+                    <input type="checkbox">
+                    <span>log file 1</span>
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    <date>Created on:12/10/17</date>
+                </li>
+                <li>
+                    <input type="checkbox">
+                    <span>log file 1</span>
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    <date>Created on:12/10/17</date>
+                </li>
+                <li>
+                    <input type="checkbox">
+                    <span>log file 1</span>
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    <date>Created on:12/10/17</date>
+                </li>
+                <li>
+                    <input type="checkbox">
+                    <span>log file 1</span>
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    <date>Created on:12/10/17</date>
+                </li>
+                <li>
+                    <input type="checkbox">
+                    <span>log file 1</span>
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    <date>Created on:12/10/17</date>
+                </li>
+                <li>
+                    <input type="checkbox">
+                    <span>log file 1</span>
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    <date>Created on:12/10/17</date>
+                </li>
+                <li>
+                    <input type="checkbox">
+                    <span>log file 1</span>
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    <date>Created on:12/10/17</date>
+                </li>
+                <li>
+                    <input type="checkbox">
+                    <span>log file 1</span>
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    <date>Created on:12/10/17</date>
+                </li>
+                <li>
+                    <input type="checkbox">
+                    <span>log file 1</span>
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    <date>Created on:12/10/17</date>
+                </li>
+                <li>
+                    <input type="checkbox">
+                    <span>log file 1</span>
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    <date>Created on:12/10/17</date>
+                </li>
+                <li>
+                    <input type="checkbox">
+                    <span>log file 1</span>
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    <date>Created on:12/10/17</date>
+                </li>
+                <li>
+                    <input type="checkbox">
+                    <span>log file 1</span>
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    <date>Created on:12/10/17</date>
+                </li>
+                <li>
+                    <input type="checkbox">
+                    <span>log file 1</span>
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    <date>Created on:12/10/17</date>
+                </li>
+                <li>
+                    <input type="checkbox">
+                    <span>log file 1</span>
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    <date>Created on:12/10/17</date>
+                </li>
+                <li>
+                    <input type="checkbox">
+                    <span>log file 1</span>
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    <date>Created on:12/10/17</date>
+                </li>
+                <li>
+                    <input type="checkbox">
+                    <span>log file 1</span>
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    <date>Created on:12/10/17</date>
+                </li>
+                <li>
+                    <input type="checkbox">
+                    <span>log file 1</span>
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    <date>Created on:12/10/17</date>
+                </li>
+                <li>
+                    <input type="checkbox">
+                    <span>log file 1</span>
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    <date>Created on:12/10/17</date>
+                </li>
+                <li>
+                    <input type="checkbox">
+                    <span>log file 1</span>
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    <date>Created on:12/10/17</date>
+                </li>
+                <li>
+                    <input type="checkbox">
+                    <span>log file 1</span>
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    <date>Created on:12/10/17</date>
+                </li>
+                <li>
+                    <input type="checkbox">
+                    <span>log file 1</span>
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    <date>Created on:12/10/17</date>
+                </li>
+                <li>
+                    <input type="checkbox">
+                    <span>log file 1</span>
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    <date>Created on:12/10/17</date>
+                </li>
+                <li>
+                    <input type="checkbox">
+                    <span>log file 1</span>
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    <date>Created on:12/10/17</date>
+                </li>
+            </ul>
+        </div>
+            
+            
+        <!--...................................Dashboard view.........................................-->
+        
+        <div class="dsh_brd">
+            <div class="box">
+                <div class="dsh_org">
+                    
+                    <p>4 Databases</p>
+                    <p>12 Tables</p>
+                    <h4>Organization One</h4>
+                    <div class="usrs">
+                        <i class="fa fa-users" aria-hidden="true"></i>
+                        <span>21</span>
+                    </div>
+                    
+                    <footer>
+                        <span>Over View</span>
+                    </footer>
+                </div>
+                <div class="dsh_org">
+                    <p>1 Databases</p>
+                    <p>5 Tables</p>
+                    <h4>Organization Two</h4>
+                    <div class="usrs">
+                        <i class="fa fa-users" aria-hidden="true"></i>
+                        <span>08</span>
+                    </div>
+                     <footer>
+                        <span>Over View</span>
+                         
+                    </footer>
+                </div>
+                <div class="dsh_org">
+                    <p>2 Databases</p>
+                    <p>22 Tables</p>
+                    <h4>Organization Three</h4>
+                    <div class="usrs">
+                        <i class="fa fa-users" aria-hidden="true"></i>
+                        <span>15</span>
+                    </div>
+                     <footer>
+                        <span>Over View</span>
+                         
+                    </footer>
+                </div>
+            </div>
+            
+        <!--...................................Dashboard overview..................................................-->
+        
+        <div class="dsh_ovr">
+            <h1>
+                <span>Organization One</span>
+                <i class="fa fa-users" aria-hidden="true">12</i>
+            </h1>
+            <ul class="dtb">
+                <li>
+                    <i class="fa fa-caret-right" aria-hidden="true"></i>
+                    <span>Database One</span>
+                    <span class="tbl_count">0 tables</span>
+                    <ul class="tbl">
+                        <li>
+                            <span>Table One</span>
+                            <span class="tbl_size"><i class="fa fa-line-chart" aria-hidden="true"></i>12 mb</span>
+                        </li>
+                        <li>
+                            <span>Table One</span>
+                            <span class="tbl_size"><i class="fa fa-line-chart" aria-hidden="true"></i>8 mb</span>
+                        </li>
+                        <li>
+                            <span>Table One</span>
+                            <span class="tbl_size"><i class="fa fa-line-chart" aria-hidden="true"></i>2 mb</span>
+                        </li>
+                        <li>
+                            <span>Table One</span>
+                            <span class="tbl_size"><i class="fa fa-line-chart" aria-hidden="true"></i>4 mb</span>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <i class="fa fa-caret-right" aria-hidden="true"></i>
+                    <span>Database Two</span>
+                    <span class="tbl_count">26 tables</span>
+                    <ul class="tbl">
+                        <li>
+                            <span>Table One</span>
+                            <span class="tbl_size"><i class="fa fa-line-chart" aria-hidden="true"></i>6 mb</span>
+                        </li>
+                        <li>
+                            <span>Table One</span>
+                            <span class="tbl_size"><i class="fa fa-line-chart" aria-hidden="true"></i>16 mb</span>
+                        </li>
+                        <li>
+                            <span>Table One</span>
+                            <span class="tbl_size"><i class="fa fa-line-chart" aria-hidden="true"></i>12 mb</span>
+                        </li>
+                        <li>
+                            <span>Table One</span>
+                            <span class="tbl_size"><i class="fa fa-line-chart" aria-hidden="true"></i>4 mb</span>
+                        </li>
+                        <li>
+                            <span>Table One</span>
+                            <span class="tbl_size"><i class="fa fa-line-chart" aria-hidden="true"></i>12 mb</span>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <i class="fa fa-caret-right" aria-hidden="true"></i>
+                    <span>Database Three</span>
+                    <span class="tbl_count">2 tables</span>
+                </li>
+                 <li>
+                    <i class="fa fa-caret-right" aria-hidden="true"></i>
+                    <span>Database Two</span>
+                    <span class="tbl_count">5 tables</span>
+                    <ul class="tbl">
+                        <li>
+                            <span>Table One</span>
+                            <span class="tbl_size">12 mb</span>
+                        </li>
+                        <li>
+                            <span>Table One</span>
+                            <span class="tbl_size">12 mb</span>
+                        </li>
+                        <li>
+                            <span>Table One</span>
+                            <span class="tbl_size">12 mb</span>
+                        </li>
+                        <li>
+                            <span>Table One</span>
+                            <span class="tbl_size">12 mb</span>
+                        </li>
+                        <li>
+                            <span>Table One</span>
+                            <span class="tbl_size">12 mb</span>
+                        </li><li>
+                            <span>Table One</span>
+                            <span class="tbl_size">12 mb</span>
+                        </li><li>
+                            <span>Table One</span>
+                            <span class="tbl_size">12 mb</span>
+                        </li><li>
+                            <span>Table One</span>
+                            <span class="tbl_size">12 mb</span>
+                        </li>
+                        <li>
+                            <span>Table One</span>
+                            <span class="tbl_size">12 mb</span>
+                        </li>
+                        <li>
+                            <span>Table One</span>
+                            <span class="tbl_size">12 mb</span>
+                        </li>
+                        <li>
+                            <span>Table One</span>
+                            <span class="tbl_size">12 mb</span>
+                        </li>
+                        <li>
+                            <span>Table One</span>
+                            <span class="tbl_size">12 mb</span>
+                        </li>
+                        <li>
+                            <span>Table One</span>
+                            <span class="tbl_size">12 mb</span>
+                        </li>
+                        <li>
+                            <span>Table One</span>
+                            <span class="tbl_size">12 mb</span>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <i class="fa fa-caret-right" aria-hidden="true"></i>
+                    <span>Database Four</span>
+                    <span class="tbl_count">20 tables</span>
+                </li>
+                <li>
+                    <i class="fa fa-caret-right" aria-hidden="true"></i>
+                    <span>Database Five</span>
+                    <span class="tbl_count">9 tables</span>
+                </li>
+            </ul>
+        </div>
+            
+         <!--...................................Tabel Chart view..................................................-->
+            
+        <div class="chart">
+            <div class="cht_view"></div>
+        </div>
+            
+        </div>
+        
+        </section>
+            
+            
+        </div>
+        
+        
+        
+        <!--............................ Templates ....................................-->
+        
+       
+        <!--............................ Templates ....................................-->
+        
+        
+        <script id='org_template' type="text/x-handlebars-template" >
+        </div>
+            <div class="org_box">
+                <span>{{org_name}}</span>
+                <div class="options">
+                    <i class="fa fa-share-alt" aria-hidden="true"></i>
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    <i class="fa fa-download" aria-hidden="true"></i>
+                    <label for="file"><i class="fa fa-upload" aria-hidden="true"></i></label>
+                    <i class="fa fa-users" aria-hidden="true"></i>
+                    <i class="fa fa-file-text-o" aria-hidden="true" title="Log Files"></i>
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                </div>
+                <div class="usrs">
+                    <i class="fa fa-database" aria-hidden="true"></i>
+                    <span>{{dat_count}}</span>
+                  </div>
+            </div>
+        </script>
+        <script id='dat_template' type="text/x-handlebars-template" >
+            <div class="databs">
+                <span>{{db_name}}</span>
+                <div class="options">
+                    <i class="fa fa-share-alt" aria-hidden="true"></i>
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    <i class="fa fa-download" aria-hidden="true"></i>
+                    <label for="file"><i class="fa fa-upload" aria-hidden="true"></i></label>
+                </div>
+                <div class="usrs">
+                    <i class="fa fa-table" aria-hidden="true"></i>
+                    <span>{{tab_count}}</span>
+                </div>
+            </div>
+        </script>
+        <script id='tab_template' type="text/x-handlebars-template" >
+            <div class="databs tble">
+                <span>{{tab_name}}</span>
+                <div class="options">
+                    <i class="fa fa-share-alt" aria-hidden="true"></i>
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    <i class="fa fa-download" aria-hidden="true"></i>
+                    <label for="file"><i class="fa fa-upload" aria-hidden="true"></i></label>
+                </div>
+                <div class="usrs">
+                    <i class="fa fa-table" aria-hidden="true"></i>
+                    <span>{{tab_count}}</span>
+                </div>
+            </div>
+        </script>
+    </body>
+</html>

@@ -6,7 +6,7 @@ create table table_management(user_id bigint references signup_detail(user_id) o
 create table auth_management(user_id bigint references signup_detail(user_id) on update cascade on delete cascade,role text not null,auth_token text not null primary key);
 create table security_management(user_id bigint references signup_detail(user_id) on update cascade on delete cascade,question text not null,answer text not null);
 
-
+create table history (user_id bigint references signup_detail(user_id) on update cascade on delete cascade,ip_address text not null,signin_time varchar(100) ,signout_time varchar(100))
 
 
 create table lock_management(
