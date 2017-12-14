@@ -17,10 +17,12 @@ public class ShowDeets extends HttpServlet {
 			if (request.getMethod().toLowerCase().equals("get")) {
 				doGet(request, response);
 			} else {
-				out.write("{'status':405,'message':'this get only url'}");
+				out.write("{\"status\":405,\"message\":\"this get only url\"}");
+				return;
 			}
 		} catch (Exception e) {
-			out.write("{'status':405,'message':'this get only url'}");
+			out.write("{\"status\":405,\"message\":\"this get only url\"}");
+			return;
 		}
 	}
 
@@ -55,7 +57,7 @@ public class ShowDeets extends HttpServlet {
 			case "/getDBName":
 
 				if (org_name == null
-						|| org_name.matches("^[a-z][a-z0-9]{4,25}") == false) {
+						|| org_name.matches("^[a-z][a-z0-9]{3,30}") == false) {
 					throw new Exception();
 				}
 				detailList = sd.getDatabase(org_name);
@@ -63,9 +65,9 @@ public class ShowDeets extends HttpServlet {
 			case "/getTableName":
 
 				if (org_name == null
-						|| org_name.matches("^[a-z][a-z0-9]{4,25}") == false
+						|| org_name.matches("^[a-z][a-z0-9]{3,30}") == false
 						|| db_name == null
-						|| db_name.matches("^[a-z][a-z0-9]{4,25}") == false) {
+						|| db_name.matches("^[a-z][a-z0-9]{3,30}") == false) {
 					throw new Exception();
 				}
 				detailList = sd.getTables(org_name, db_name);
@@ -84,10 +86,11 @@ public class ShowDeets extends HttpServlet {
 			}
 
 			System.out.println("Answer   : " + answer);
-			out.write("{ 'status' : 200, 'message' : 'Get Organization Name Successfully !...', 'Data' : "+answer+" } ");
+			out.write("{ \"status\" : 200, \"message\" : \"Get "+requri.substring(1)+"  Successfully !...\", \"Records\" : "+answer+" } ");
 		} catch (Exception e) {
-			System.out.println();
-			out.write("{'status':404}");
+			System.out.println(e);
+			out.write("{\"status\":404 , \"message\" : \"Not Found\"}");
+			return;
 		}
 	}
 }

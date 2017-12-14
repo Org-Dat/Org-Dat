@@ -58,4 +58,8 @@ public class DatabaseConnection {
 			return -1;
 		}
 	}
+
+	public void close() {
+		
+	}
 }

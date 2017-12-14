@@ -10,7 +10,7 @@
     </description>
     
     <welcome-file-list>
-        <welcome-file>/JSP/landingPage.jsp</welcome-file>
+        <welcome-file>/HTML/org_dat.html</welcome-file>
     </welcome-file-list>
     
     <filter>  
@@ -333,8 +333,16 @@
         <url-pattern>/editProFile</url-pattern>
     </servlet-mapping>
     
+    
+     <servlet> 
+        <servlet-name>OtherVice</servlet-name>
+        <jsp-file>/HTML/org_dat.html</jsp-file>
+    </servlet>
+     
     <servlet-mapping> 
-        <servlet-name>ForgetPassword</servlet-name>
-        <url-pattern>/forgetPassword</url-pattern>
+        <servlet-name>OtherVice</servlet-name>
+        <url-pattern>/v1/*</url-pattern>
     </servlet-mapping>
+    
+  
 </web-app>

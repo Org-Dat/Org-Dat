@@ -14,7 +14,7 @@ public class ManageDB {
 	 */
 
 	public boolean isCorrect(String db_name) {
-		return db_name.matches("^[a-z][a-z0-9]{2,29}$");
+		return db_name.matches("^[a-z][a-z0-9]{3,30}$");
 	}
 
 	/**

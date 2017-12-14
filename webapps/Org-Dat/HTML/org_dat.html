@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" href="../CSS/org_dat.css">
+        <link rel="stylesheet" href="http://orgdat.zcodeusers.com/CSS/org_dat.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script src="../JS/org_dat1.js"></script>
-        <script src="../JS/render.js"></script>
+        <script src="http://orgdat.zcodeusers.com/JS/helpFunctions.js"></script>
+        <script src="http://orgdat.zcodeusers.com/JS/render.js"></script>
+        <script src="http://orgdat.zcodeusers.com/JS/org_dat1.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.js"></script>
         <link rel="icon" href="http://www.freepngimg.com/download/database/2-2-database-png-picture.png">
         <link href="https://fonts.googleapis.com/css?family=Lato:300,400" rel="stylesheet">
@@ -101,7 +103,9 @@
         
             <div class="org"> 
                 <div class="path">
-                    <span title="back to org">Organization</span>
+                    <span title="back to org">Organizations</span>>
+                    <span title="back to dat">Databases</span>
+                
             </div>
             <div class="whole_org_box">
                     
@@ -123,11 +127,9 @@
                         <div class="options">
                             <i class="fa fa-share-alt" aria-hidden="true"></i>
                             <i class="fa fa-trash-o" aria-hidden="true"></i>
-                            <i class="fa fa-download" aria-hidden="true"></i>
                             <label for="file"><i class="fa fa-upload" aria-hidden="true"></i></label>
                             <i class="fa fa-users" aria-hidden="true"></i>
                             <i class="fa fa-file-text-o" aria-hidden="true" title="Log Files"></i>
-                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                         </div>
                         <div class="usrs">
                             <i class="fa fa-database" aria-hidden="true"></i>
@@ -151,6 +153,7 @@
                                 <i class="fa fa-share-alt" aria-hidden="true"></i>
                                 <i class="fa fa-trash-o" aria-hidden="true"></i>
                                 <i class="fa fa-download" aria-hidden="true"></i>
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                 <label for="file"><i class="fa fa-upload" aria-hidden="true"></i></label>
                             </div>
                             <div class="usrs">
@@ -193,6 +196,13 @@
                 <div class="table">
                     <div class="databs tble">
                         <span>Table Two</span>
+                        <div class="options">
+                                <i class="fa fa-share-alt" aria-hidden="true"></i>
+                                <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                <i class="fa fa-download" aria-hidden="true"></i>
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                <label for="file"><i class="fa fa-upload" aria-hidden="true"></i></label>
+                            </div>
                         <div class="usrs">
                             <i class="fa fa-table" aria-hidden="true"></i>
                             <span>17</span>
@@ -231,11 +241,15 @@
                 <h3>Share Organization</h3>
                 <div class="field">
                     <input placeholder="Enter your e-mail address" class="mail_inp">
-                    <div class="dropdown">
-                        <i class="fa fa-caret-down" aria-hidden="true"></i>
-                        <p class="con_p">Co-Owner</p>
-                        <p>Can-Write</p>
-                    </div>   
+                    <!--<div class="dropdown">-->
+                    <!--    <i class="fa fa-caret-down" aria-hidden="true"></i>-->
+                    <!--    <p class="con_p">Co-Owner</p>-->
+                    <!--    <p>Can-Write</p>-->
+                    <!--</div>   -->
+                    <select class="dropdown">
+                        <option>Co-Owner</option>
+                        <option>Can-Write</option>
+                    </select>
                     <div>
                         <button class="shr">Share</button>
                         <button class="shr">Cancel</button>
@@ -274,11 +288,15 @@
                         <p>Praveen</p>
                         <p>praveen.madhavan@zohocorp.com</p>
                     </div>
-                    <div class="dropdown">
-                        <i class="fa fa-caret-down" aria-hidden="true"></i>
-                        <p class="con_p">Co-Owner</p>
-                        <p>Can-Write</p>
-                    </div> 
+                    <!--<div class="dropdown">-->
+                    <!--    <i class="fa fa-caret-down" aria-hidden="true"></i>-->
+                    <!--    <p class="con_p">Co-Owner</p>-->
+                    <!--    <p>Can-Write</p>-->
+                    <!--</div> -->
+                    <select class="dropdown">
+                        <option>Co-Owner</option>
+                        <option>Can-Write</option>
+                    </select>
                     <i class="fa fa-times shr_close" aria-hidden="true"></i>
                 </div>
                 
@@ -486,23 +504,35 @@
                     <!--    <option>Column</option>-->
                     <!--    <option>jnlklklk</option>-->
                     <!--</select>-->
-                    <div class="dropdown src_drop">
-                        <i class="fa fa-caret-down" aria-hidden="true"></i>
-                        <ul class="row_data">
-                            <li>kjevnvjk kjrnjker</li>
-                            <li>kjevnvjk </li>
-                            <li>kjevnvjk kjrnjker</li>
-                            <li>kjevnvjk kjrnjker</li>
-                            <li>kjevnvjk kjrnjker</li>
-                            <li>kjevnvjk kjrnjker</li>
-                        </ul>
-                    </div>
+                    <!--<div class="dropdown src_drop">-->
+                    <!--    <i class="fa fa-caret-down" aria-hidden="true"></i>-->
+                    <!--    <ul class="row_data">-->
+                    <!--        <li>kjevnvjk kjrnjker</li>-->
+                    <!--        <li>kjevnvjk </li>-->
+                    <!--        <li>kjevnvjk kjrnjker</li>-->
+                    <!--        <li>kjevnvjk kjrnjker</li>-->
+                    <!--        <li>kjevnvjk kjrnjker</li>-->
+                    <!--        <li>kjevnvjk kjrnjker</li>-->
+                    <!--    </ul>-->
+                    <!--</div>-->
+                    <select class="dropdown src_drop">
+                        <option>Co-Owner</option>
+                        <option>Can-Write</option>
+                        <option>Can-jgb</option>
+                        <option>Can-Wrikjgjiuguite</option>
+                    </select>
                     
-                    <div class="dropdown src_drop opr">
-                        <i class="fa fa-caret-down" aria-hidden="true"></i>
-                        <p class="con_p">Co-Owner</p>
-                        <p>Can-Write</p>
-                    </div>
+                    <!--<div class="dropdown src_drop opr">-->
+                    <!--    <i class="fa fa-caret-down" aria-hidden="true"></i>-->
+                    <!--    <p class="con_p">Co-Owner</p>-->
+                    <!--    <p>Can-Write</p>-->
+                    <!--</div>-->
+                    <select class="dropdown src_drop opr">
+                        <option>Co-Owner</option>
+                        <option>Can-Write</option>
+                        <option>Can-jgb</option>
+                        <option>Can-Wrikjgjiuguite</option>
+                    </select>
                     
                     <!--<select>-->
                     <!--    <option>Operators</option>-->
@@ -516,17 +546,29 @@
                     <!--    <option>Column</option>-->
                     <!--    <option>jnlklklk</option>-->
                     <!--</select>-->
-                    <div class="dropdown src_drop">
-                        <i class="fa fa-caret-down" aria-hidden="true"></i>
-                        <p class="con_p">Co-Owner</p>
-                        <p>Can-Write</p>
-                    </div>
+                    <!--<div class="dropdown src_drop">-->
+                    <!--    <i class="fa fa-caret-down" aria-hidden="true"></i>-->
+                    <!--    <p class="con_p">Co-Owner</p>-->
+                    <!--    <p>Can-Write</p>-->
+                    <!--</div>-->
                     
-                    <div class="dropdown src_drop opr">
-                        <i class="fa fa-caret-down" aria-hidden="true"></i>
-                        <p class="con_p">Co-Owner</p>
-                        <p>Can-Write</p>
-                    </div>
+                    <select class="dropdown src_drop ">
+                        <option>Co-Owner</option>
+                        <option>Can-Write</option>
+                        <option>Can-jgb</option>
+                        <option>Can-Wrikjgjiuguite</option>
+                    </select>
+                    <!--<div class="dropdown src_drop opr">-->
+                    <!--    <i class="fa fa-caret-down" aria-hidden="true"></i>-->
+                    <!--    <p class="con_p">Co-Owner</p>-->
+                    <!--    <p>Can-Write</p>-->
+                    <!--</div>-->
+                    <select class="dropdown src_drop opr">
+                        <option>Co-Owner</option>
+                        <option>Can-Write</option>
+                        <option>Can-jgb</option>
+                        <option>Can-Wrikjgjiuguite</option>
+                    </select>
                     
                     <!--<select>-->
                     <!--    <option>Operators</option>-->
@@ -917,41 +959,64 @@
             <div class="usr_list">
                 <div class="add_fld list">
                     <span class="s_no">1</span>
-                    <input placeholder="username" disabled="true">
-                    <input placeholder="E-mail id" class="add_em" disabled="true">
-                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                </div>
-                <div class="add_fld list">
-                    <span class="s_no">1</span>
-                    <input placeholder="username" disabled="true">
-                    <input placeholder="E-mail id" class="add_em" disabled="true">
-                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    <span class="list_span">Username</span>
+                    <span class="list_span">ponkumar.s@zohouniv.com</span>
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
                 </div>
                 <div class="add_fld list">
                     <span class="s_no">2</span>
-                    <input placeholder="username" >
-                    <input placeholder="E-mail id" class="add_em">
-                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    <span class="list_span">Username</span>
+                    <span class="list_span">ponkumar.s@zohouniv.com</span>
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
                 </div>
                 <div class="add_fld list">
                     <span class="s_no">3</span>
-                    <input placeholder="username" >
-                    <input placeholder="E-mail id" class="add_em">
-                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    <span class="list_span">Username</span>
+                    <span class="list_span">ponkumar.s@zohouniv.com</span>
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
                 </div>
                 <div class="add_fld list">
                     <span class="s_no">4</span>
-                    <input placeholder="username" >
-                    <input placeholder="E-mail id" class="add_em">
-                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    <span class="list_span">Username</span>
+                    <span class="list_span">ponkumar.s@zohouniv.com</span>
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
                 </div>
                 <div class="add_fld list">
                     <span class="s_no">5</span>
-                    <input placeholder="username" >
-                    <input placeholder="E-mail id" class="add_em">
-                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    <span class="list_span">Username</span>
+                    <span class="list_span">ponkumar.s@zohouniv.com</span>
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
                 </div>
-                
+                <div class="add_fld list">
+                    <span class="s_no">6</span>
+                    <span class="list_span">Username</span>
+                    <span class="list_span">ponkumar.s@zohouniv.com</span>
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                </div>
+                <div class="add_fld list">
+                    <span class="s_no">7</span>
+                    <span class="list_span">Username</span>
+                    <span class="list_span">ponkumar.s@zohouniv.com</span>
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                </div>
+                <div class="add_fld list">
+                    <span class="s_no">8</span>
+                    <span class="list_span">Username</span>
+                    <span class="list_span">ponkumar.s@zohouniv.com</span>
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                </div>
+                <div class="add_fld list">
+                    <span class="s_no">9</span>
+                    <span class="list_span">Username</span>
+                    <span class="list_span">ponkumar.s@zohouniv.com</span>
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                </div>
+                <div class="add_fld list">
+                    <span class="s_no">10</span>
+                    <span class="list_span">Username</span>
+                    <span class="list_span">ponkumar.s@zohouniv.com</span>
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                </div>
             </div>
         </div>    
             
@@ -1283,7 +1348,7 @@
                 </li>
             </ul>
         </div>
-            
+         
          <!--...................................Tabel Chart view..................................................-->
             
         <div class="chart">
@@ -1338,9 +1403,9 @@
             <div class="databs tble">
                 <span>{{name}}</span>
                 <div class="options">
-                    <i class="fa fa-share-alt" aria-hidden="true"></i>
-                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-                    <i class="fa fa-download" aria-hidden="true"></i>
+                    <i class="fa fa-share-alt" aria-hidden="true" table-name="{{name}}"></i>
+                    <i class="fa fa-trash-o" aria-hidden="true"  table-name="{{name}}"></i>
+                    <i class="fa fa-download" aria-hidden="true"  table-name="{{name}}"></i>
                     <label for="file"><i class="fa fa-upload" aria-hidden="true"></i></label>
                 </div>
                 <div class="usrs">
@@ -1359,14 +1424,14 @@
                      <button type="submit" purpose="{{purpose}}" >Submit</button>
                  </div>
             </div>
-                    
+                
         </script>
         <script id="table-template" type="text/x-handlebars-template">
         <table>
             <thead>
                 <tr>
                     {{#each headers}}
-                        <th>
+                        <th class='th' type='{{type}}' >
                             {{key}}
                             <i class="fa fa-sort" aria-hidden="true"></i>
                             <div class="sort_box">
@@ -1379,7 +1444,7 @@
                 </tr>
             </thead>
             <tbody>
-                {{#each abcd}}
+                {{#each values}}
                     <tr>
                         {{#each value}}
                             <td>
@@ -1391,5 +1456,48 @@
             </tbody>
         </table>
         </script>
+        <script id="addcolumn" type="text/x-handlebars-template">
+            <div class='col'>
+                <ul>
+                    <li>
+                        <i class='fa fa-times-circle sel_col_del add-column-x' aria-hidden='true'></i>
+                        <label>Column:</label>
+                        <input class='columnName'>
+                    </li>
+                    <li>
+                        <label>Type</label>
+                        <select class='type'>
+                            <option>bigserial</option>
+                            <option>bigint</option>
+                            <option>text</option>
+                            <option>numeric</option>
+                            <option>time</option>
+                            <option>date</option>
+                            <option>timestamp</option>
+                        </select>
+                    </li>
+                    <li>
+                        <label>Default Value:</label>
+                        <input class='defaultValue'>
+                    </li>
+                    <li>
+                        <input type='checkbox' class='isNull' >
+                        <label>Mandatory</label>
+                    </li>
+                </ul>
+            </div>
+    
+        </script>
+        <script id="addrow-template" type="text/x-handlebars-template">
+            {{#each list }}
+            <li>
+                <label>
+                    {{columnName}}:<br>
+                    <input class="row_inp" >
+                </label>
+            </li>
+            {{/each }}
+         </script>
     </body>
 </html>
+

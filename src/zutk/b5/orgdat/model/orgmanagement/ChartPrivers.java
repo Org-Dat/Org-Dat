@@ -8,7 +8,7 @@ public class ChartPrivers {
 	DatabaseConnection dc;
 
 	public boolean isCorrect(String name) {
-		return name.matches("^[a-z][a-z0-9]{5,40}");
+		return name.matches("^[a-z][a-z0-9]{3,30}");
 	}
 
 	public void initialise(String user, String password, String db_name) {

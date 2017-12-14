@@ -26,6 +26,7 @@ public class Share {
 			dc.stmt.setString(4, db_name); 
 			dc.stmt.setString(5, table_name);
 			dc.stmt.executeUpdate();
+			
 			return true;
 		} catch (Exception e) {
 			return false;

@@ -150,10 +150,9 @@ header .fa-caret-left::after{
     background: white;
     align-items: center;
     border-radius: 0 0 49px 0px;
-    font-size: 18px;
-    box-shadow: 0px 0px 5px #000000ad
+    /* font-size: 18px; */
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.6784313725490196)
 }
-
 /*-------------------------------------------database----------------------------------*/
 .path{
     /* height: 49px; */
@@ -902,6 +901,7 @@ tbody{
   width:100%;
   display:none
 }
+
 .mn_tb th{
     position:relative
 }
@@ -1182,7 +1182,6 @@ tbody{
         /*-----------------------------------------Admin Dashboard---------------------------------------------*/
         
 .admin{
-    background: #eee;
     padding: 15px 45px
 }
 .adm_hdr{
@@ -1209,6 +1208,10 @@ tbody{
     align-items:center;
     transition:0s
 }
+.list_span{
+         width:350px;
+        font-size:14px
+    }
 .add_fld input{
     padding: 9px 3px;
     width: 313px;
@@ -1241,6 +1244,8 @@ tbody{
     border:none;
 }
 .s_no{
+    /*box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.5098039215686274)*/
+    /* box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.5098039215686274); */
     padding: 2px 7px;
     border-radius: 50%;
     border: 1px solid #ccc;
@@ -1248,7 +1253,7 @@ tbody{
     font-size: 15px;
     color: white;
     font-weight: bolder;
-    box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.5098039215686274)
+    box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.12), 1px 1px 9px rgba(0, 0, 0, 0.17), 1px -1px 9px rgba(0, 0, 0, 0.16), -1px 1px 9px rgba(0, 0, 0, 0.13)
 }
 .add_em{
     padding-right: 62px !important
@@ -2470,3 +2475,97 @@ date:after{
 /*    color: rgba(255, 0, 0, 0.76)*/
 /*}*/
 
+@media screen and (max-width:510px){
+    .whole_2{
+        width: calc(100% - 57px)
+    }
+    .org_box{
+        width: 250px;
+        height: 250px;
+        margin:40px auto;
+        font-size:15px;
+    }
+    .whole_org_box, .whole_database, .whole_table{
+        /*flex-direction:column;*/
+        display:none;
+        overflow: auto
+    }
+    .whole_org_box{
+        display:block
+    }
+    .table{
+        height: 100%;
+        display: block;
+    }
+    .tble{    
+        margin: 35px auto;
+        height: 230px;
+        width: 230px;
+    }
+    table{
+        font-size:11px;
+    }
+    td,th{
+        padding:15px 1px;
+    }
+    .admin{
+        padding: 10px 6px;
+    }
+    .adm_hdr{
+        font-size:11px
+    }
+    .adm_hdr span:first-child{
+        font-size:11px;
+    }
+    .add_fld{
+        height:auto;
+        padding-bottom: 10px;
+        display:block
+    }
+    .list{
+        margin-top:60px
+    }
+    .list .fa-trash-o{
+        float:right;
+        margin-top:-86px
+    }
+    .list .fa-trash-o::after{
+        content:"";
+        clear:both
+    }
+    .dsh_brd{
+        width:auto
+    }
+    .dsh_brd .box{
+        display:block
+    }
+    .sidebar{
+        transform: translateX(194px)
+    }
+    .sidebar>ul, .logout{
+        padding-left:22px;
+    }
+    .sidebar>ul>li>i, .logout p i{
+        font-size:20px
+    }
+    .sidebar>ul>li{
+        line-height:55px
+    }
+    .sidebar>ul>li:first-child img{
+         width: 38px;
+        margin: 0 181px 0px -14px;
+    }
+    .tbl_srch{
+        width:auto;
+    }
+    .b{
+        padding: 7px 25px;
+        margin-right: 16px
+    }
+}
+@media screen and (min-width:1300px) {
+    .database, .table{
+        width:100%;
+        align-items:center
+    }
+}

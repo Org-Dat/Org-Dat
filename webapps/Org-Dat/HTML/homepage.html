@@ -2,9 +2,10 @@
 <html>
     <head>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" href="../CSS/homepage.css">
+        <link rel="stylesheet" href="http://orgdat.zcodeusers.com/CSS/org_dat.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script src="../JS/homepage.js"></script>
+        <script src="http://orgdat.zcodeusers.com/JS/render.js"></script>
+        <script src="http://orgdat.zcodeusers.com/JS/org_dat1.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.js"></script>
         <link rel="icon" href="http://www.freepngimg.com/download/database/2-2-database-png-picture.png">
         <link href="https://fonts.googleapis.com/css?family=Lato:300,400" rel="stylesheet">
@@ -117,7 +118,23 @@
                     </div>
                     
                     <!--..............................org box...............................................-->
-                    
+                    <div class="org_box">
+                        <span>Organization Name</span>
+                        <div class="options">
+                            <i class="fa fa-share-alt" aria-hidden="true"></i>
+                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                            <i class="fa fa-download" aria-hidden="true"></i>
+                            <label for="file"><i class="fa fa-upload" aria-hidden="true"></i></label>
+                            <i class="fa fa-users" aria-hidden="true"></i>
+                            <i class="fa fa-file-text-o" aria-hidden="true" title="Log Files"></i>
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                        </div>
+                        <div class="usrs">
+                            <i class="fa fa-database" aria-hidden="true"></i>
+                            <span>21</span>
+                          </div>
+                    </div>
+                    <div class="org_box"></div>
                     
                 </div>
                 
@@ -1284,32 +1301,27 @@
         
         <!--............................ Templates ....................................-->
         
-       
-        <!--............................ Templates ....................................-->
-        
         
         <script id='org_template' type="text/x-handlebars-template" >
-        </div>
             <div class="org_box">
-                <span>{{org_name}}</span>
+                <span>{{name}}</span>
                 <div class="options">
                     <i class="fa fa-share-alt" aria-hidden="true"></i>
                     <i class="fa fa-trash-o" aria-hidden="true"></i>
                     <i class="fa fa-download" aria-hidden="true"></i>
+                    
                     <label for="file"><i class="fa fa-upload" aria-hidden="true"></i></label>
                     <i class="fa fa-users" aria-hidden="true"></i>
-                    <i class="fa fa-file-text-o" aria-hidden="true" title="Log Files"></i>
-                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                 </div>
                 <div class="usrs">
                     <i class="fa fa-database" aria-hidden="true"></i>
-                    <span>{{dat_count}}</span>
+                    <span>{{count}}</span>
                   </div>
             </div>
         </script>
         <script id='dat_template' type="text/x-handlebars-template" >
             <div class="databs">
-                <span>{{db_name}}</span>
+                <span>{{name}}</span>
                 <div class="options">
                     <i class="fa fa-share-alt" aria-hidden="true"></i>
                     <i class="fa fa-trash-o" aria-hidden="true"></i>
@@ -1318,13 +1330,13 @@
                 </div>
                 <div class="usrs">
                     <i class="fa fa-table" aria-hidden="true"></i>
-                    <span>{{tab_count}}</span>
+                    <span>{{count}}</span>
                 </div>
             </div>
         </script>
         <script id='tab_template' type="text/x-handlebars-template" >
             <div class="databs tble">
-                <span>{{tab_name}}</span>
+                <span>{{name}}</span>
                 <div class="options">
                     <i class="fa fa-share-alt" aria-hidden="true"></i>
                     <i class="fa fa-trash-o" aria-hidden="true"></i>
@@ -1333,9 +1345,83 @@
                 </div>
                 <div class="usrs">
                     <i class="fa fa-table" aria-hidden="true"></i>
-                    <span>{{tab_count}}</span>
+                    <span>{{count}}</span>
                 </div>
             </div>
+        </script> 
+        <script id='create_template' type="text/x-handlebars-template" >
+             <div class="{{cla1}} {{cla2}}">
+                <span class="crt_org">Create {{purpose}}</span>
+                <i class="fa fa-plus-circle crt_pls" aria-hidden="true" ></i>
+                 <div class="input">
+                     <span class="cls_but">X</span>
+                     <input type="text"  placeholder="{{purpose}} Name" id="Name">
+                     <button type="submit" purpose="{{purpose}}" >Submit</button>
+                 </div>
+            </div>
+                
+        </script>
+        <script id="table-template" type="text/x-handlebars-template">
+        <table>
+            <thead>
+                <tr>
+                    {{#each headers}}
+                        <th class='th' >
+                            {{key}}
+                            <i class="fa fa-sort" aria-hidden="true"></i>
+                            <div class="sort_box">
+                                <i class="fa fa-sort-alpha-asc" aria-hidden="true"></i>
+                                <i class="fa fa-sort-alpha-desc" aria-hidden="true"></i>
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                            </div>
+                        </th>
+                    {{/each}}
+                </tr>
+            </thead>
+            <tbody>
+                {{#each abcd}}
+                    <tr>
+                        {{#each value}}
+                            <td>
+                                {{values}}
+                            </td>
+                        {{/each}}
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+        </script>
+        <script id="addcolumn" type="text/x-handlebars-template">
+            <div class='col'>
+                <ul>
+                    <li>
+                        <i class='fa fa-times-circle sel_col_del' aria-hidden='true'></i>
+                        <label>Column:</label>
+                        <input class='columnName'>
+                    </li>
+                    <li>
+                        <label>Type</label>
+                        <select class='type'>
+                            <option>bigserial</option>
+                            <option>bigint</option>
+                            <option>text</option>
+                            <option>numeric</option>
+                            <option>time</option>
+                            <option>date</option>
+                            <option>timestamp</option>
+                        </select>
+                    </li>
+                    <li>
+                        <label>Default Value:</label>
+                        <input class='defaultValue'>
+                    </li>
+                    <li>
+                        <input type='checkbox' class='isNull' >
+                        <label>Mandatory</label>
+                    </li>
+                </ul>
+            </div>
+    
         </script>
     </body>
 </html>

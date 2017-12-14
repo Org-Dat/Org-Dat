@@ -60,10 +60,10 @@ public class ManageRecord{
 	        dc.stmt.executeUpdate();
 			dc.stmt = dc.conn.prepareStatement("select * from "+table_name);
 			ResultSet resultSet = dc.stmt .executeQuery();
-	        return "{  'status' : 200, 'message' : 'Record edit successfully !...', 'Organization Name' : '"+org_name+"', 'Database Name ' : '"+db_name+"', 'Table Table'  : '"+table_name+"','Records' : "+resultToString(resultSet)+"} ";
+	        return "{  \"status\" : 200, \"message\" : \"Record edit successfully !...\", \"Organization Name\" : \""+org_name+"\", \"Database Name \" : \""+db_name+"\", \"Table Table\"  : \""+table_name+"\",\"Records\" : "+resultToString(resultSet)+"} ";
 		}catch(Exception e){
 	        System.out.println("update error : "+ e);
-	        return "{'status' : 400,'message':'update error'}";
+	        return "{\"status\" : 400,\"message\":\"update error\"}";
 	    }
 	}
 	/**
@@ -73,7 +73,7 @@ public class ManageRecord{
 	public boolean defineColumnAndType(String table_name) {
 	    tableName = table_name;
 		try {
-    	    String sql = "select column_name,column_default,data_type from information_schema.columns where table_name=? and table_schema = 'public' ;";
+    	    String sql = "select column_name,column_default,data_type from information_schema.columns where table_name=? and table_schema = \"public\" ;";
 			dc.stmt = dc.conn.prepareStatement(sql);
 			dc.stmt.setString(1,table_name);
 			ResultSet rs = dc.stmt.executeQuery();
@@ -120,12 +120,15 @@ public class ManageRecord{
 	        String condition = contitionMaker(conditionArray, andOr);
 	        dc.stmt = statementBuilder(dc.conn.prepareStatement(sql + condition));
 	        ResultSet resultSet = dc.stmt.executeQuery();
-	       return "{  'status' : 200, 'message' : 'Get Record Successfully !...', 'Organization Name' : '"+org_name+"', 'Database Name ' : '"+db_name+"', 'Table Table'  : '"+table_name+"','Records' : "+resultToString(resultSet)+"} ";
+	        
+	        dc.stmt.close();
+	        dc.conn.close();
+	       return "{  \"status\" : 200, \"message\" : \"Get Record Successfully !...\", \"Organization Name\" : \""+org_name+"\", \"Database Name \" : \""+db_name+"\", \"Table Table\"  : \""+table_name+"\",\"Records\" : "+resultToString(resultSet)+"} ";
 		// return returnValue.toString();
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	        System.out.println("select error"+e);
-	        return "{'status' : 400,'message':'read record error'}";
+	        return "{\"status\" : 400,\"message\":\"read record error\"}";
 	    }
 	}
 	
@@ -139,6 +142,12 @@ public class ManageRecord{
                 tem.add(resultmeta.getColumnName(i)+"");
             }
             returnValue.add(tem);
+            tem = new JsonArray();
+            for (int i = 1 ; i <= resultmeta.getColumnCount() ; i++) {
+                tem.add(resultmeta.getColumnTypeName(i)+"");
+            }
+            returnValue.add(tem);
+            // returnValue.add(types);    
             tem = new JsonArray();
             while (resultSet.next()){
                 for (int i = 1 ; i <= resultmeta.getColumnCount() ; i++) {
@@ -302,16 +311,18 @@ public class ManageRecord{
 	        dc.stmt.executeUpdate();
 			dc.stmt = dc.conn.prepareStatement("select * from "+table_name);
 			ResultSet resultSet = dc.stmt .executeQuery();
-			return "{'status':200,'message':'get record success fully' ,'Records':"+resultToString(resultSet)+"}";
+			return "{\"status\":200,\"message\":\"get record success fully\" ,\"Records\":"+resultToString(resultSet)+"}";
 	    }catch(Exception e){ 
 	        System.out.println("delete record error : "+e);
-	        return "{'status' : 400,'message':'delete record error'}";
+	        return "{\"status\" : 400,\"message\":\"delete record error\"}";
 	    }
 	}
 	public String addRecord(String org_name,String db_name ,String table_name, JsonObject records) {
 		try {
-			String sql = "select column_name,column_default,data_type,is_nullable from information_schema.columns where table_name=? AND table_schema = 'public' ;";
+		    System.out.println(records.get("werwer"));
+			String sql = "select column_name,column_default,data_type,is_nullable from information_schema.columns where table_name=? ;";
 			dc.stmt = dc.conn.prepareStatement(sql);
+			
 			dc.stmt.setString(1, table_name);
 			ResultSet rs = dc.stmt.executeQuery();
 			System.out.println("addrecord");
@@ -331,7 +342,7 @@ public class ManageRecord{
                         columnNames.add(columnName);
                         types.add(typeTmp);
                     } else if ( nullIsAllow == false){
-                        return "{'status' : 400,'message':'" +columnName +" is Mandatory but you did not put value '}";
+                        return "{\"status\" : 400,\"message\":\"" +columnName +" is Mandatory but you did not put value \"}";
                     }
 				}  
 			}
@@ -371,11 +382,11 @@ public class ManageRecord{
 			
 			dc.stmt = dc.conn.prepareStatement("select * from "+table_name);
 			ResultSet resultSet = dc.stmt .executeQuery();
-			return "{  'status' : 200, 'message' : 'record successfully added', 'Organization Name' : '"+org_name+"', 'Database Name ' : '"+db_name+"', 'Table Table'  : '"+table_name+"','Records' : "+resultToString(resultSet)+"} ";
+			return "{  \"status\" : 200, \"message\" : \"record successfully added\", \"Organization Name\" : \""+org_name+"\", \"Database Name \" : \""+db_name+"\", \"Table Table\"  : \""+table_name+"\",\"Records\" : "+resultToString(resultSet)+"} ";
 		} catch (Exception e) { 
 		    e.printStackTrace();
 		    System.out.println("addrecord error = "+e);
-	        return "{'status' : 400,'message':'add record unsuccess fully'}";
+	        return "{\"status\" : 400,\"message\":\"add record unsuccess fully\"}";
 		} 
 	} 
 	

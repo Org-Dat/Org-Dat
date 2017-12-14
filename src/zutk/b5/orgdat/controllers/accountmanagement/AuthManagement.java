@@ -9,12 +9,10 @@ package zutk.b5.orgdat.controllers.accountmanagement;
 
 import javax.servlet.http.*;  
 import java.io.*;
-import zutk.b5.orgdat.controllers.filters.DatabaseConnection;
 import zutk.b5.orgdat.model.accountmanagement.*;
+
 public class AuthManagement extends HttpServlet {
 	PrintWriter writer;
-	DatabaseConnection dc;
-
 	@Override
 	protected void service(HttpServletRequest request,
 			HttpServletResponse response) {
@@ -52,7 +50,6 @@ public class AuthManagement extends HttpServlet {
 			String[] path = requri.split("/");
 			writer = response.getWriter();
 			AuthManage authManagement = new AuthManage();
-			dc = new DatabaseConnection("postgres", "postgres", "");
 			String reqURI = path[0];
 			if (reqURI.equals("createAuth") == true) {
 				String mail = request.getParameter("email");
@@ -88,12 +85,6 @@ public class AuthManagement extends HttpServlet {
 		} catch (Exception e) {
 		    System.out.println(e);
 			writer.write("{'status':400,'message':'Bad Request'}");
-		} finally {
-			try {
-				dc.conn.close();
-			} catch (Exception e) {
-
-			}
 		}
 	}
 

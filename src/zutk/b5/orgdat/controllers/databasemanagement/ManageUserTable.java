@@ -33,9 +33,11 @@ public class ManageUserTable extends HttpServlet {
 			} else {
 
 				writer.write("{'status':405,'message':'this post only url'}");
+				return;
 			}
 		} catch (Exception e) {
 			writer.write("{'status':405,'message':'this post only url'}");
+			return;
 		}
 	}
 
@@ -50,13 +52,14 @@ public class ManageUserTable extends HttpServlet {
 			HttpServletResponse response) throws IOException {
 		 writer = response.getWriter();
 		try { 
+		    System.out.println(" anage user table");
 			String reqURI = request.getRequestURI();
 			RoleChecker rc = new RoleChecker(request);
 			if (reqURI.startsWith("/api/")) {
 				reqURI = reqURI.substring(5);
 				user_id = rc.getUserId(request.getHeader("Authorization"));   
 			}else{
-			    user_id = getUserId(request.getCookies());
+			    user_id = rc.getUserId(request.getCookies());
 			}
 			String org_name = request.getParameter("org_name");
 			String db_name = request.getParameter("db_name");
@@ -72,13 +75,12 @@ public class ManageUserTable extends HttpServlet {
 				return;
 			}
 			dc = new DatabaseConnection(org_name + "_" + db_name, org_name, "");
-			System.out.println(dc);
 			templateTable = new ManageTable(dc);
 			/***************************** Create Table ********************************************/
 			if (reqURI.endsWith("createTable") == true) {
 			    if(checkCount(org_name,org_name+"_"+db_name) == false){
 			        writer.write("{'status':406,'message':'you have reach max count of table  '}");
-    				dc.conn.close();
+    				dc.close();
 				return;
 			    }
 			    System.out.println("Before Create");
@@ -91,20 +93,20 @@ public class ManageUserTable extends HttpServlet {
 				String newTable = request.getParameter("newtable_name");
 				if (isCorrect(newTable) == false) {
 				    writer.write("{'status':406,'message':'Invaild new table name'}");
-				   dc.conn.close();
+				   dc.close();
 				return;
 				}
 				
 			System.out.println(reqURI);
 				writer.write(templateTable.renameTable(org_name, db_name, table_name,
 						newTable));
-						dc.conn.close();
+						dc.close();
 				return;
 			}
 			/***************************** Delete Table ********************************************/
 			else if (reqURI.endsWith("deleteTable") == true) {
 				writer.write(templateTable.deleteTable(org_name, db_name, table_name) );
-				dc.conn.close();
+				dc.close();
 				return;
 			}
 			/***************************** share Table ********************************************/
@@ -122,21 +124,24 @@ public class ManageUserTable extends HttpServlet {
 			/***************************** Alter Table ********************************************/
 			else if (reqURI.endsWith("alterTable") == true) {
 				String columnNameArray = request.getParameter("query");
+				System.out.println("columnNameArray = "+columnNameArray);
 				JsonArray columnArray = new JsonParser().parse(columnNameArray)
 						.getAsJsonArray();
 				writer.write(templateTable.alterColumn(org_name,db_name,table_name, columnArray,request.getParameter("wanted")));
-				dc.conn.close();
+				dc.close();
 				return;
 			} else {
 				throw new Exception();
 			}
 		} catch (Exception e) {
 		    System.out.println("manage user table error : "+e);
+		    e.printStackTrace();
 			writer.write("{'status':400,'message':'Bad Reuest'}");
+			return;
 		} finally {
 			try {
-				dc.conn.close();
-			} catch (SQLException e) {
+				dc.close();
+			} catch (Exception e) {
 				System.out.println("Connection Not Close");
 			}
 		}
@@ -158,7 +163,7 @@ public class ManageUserTable extends HttpServlet {
 			}
 		}
 		return -1;
-	}
+	}  
 
 	/**
 	 * This private method used to find table name is correct or wrong
@@ -169,7 +174,7 @@ public class ManageUserTable extends HttpServlet {
 	 */
 
 	private boolean isCorrect(String table_name) {
-		return table_name.matches("^[a-z][a-z0-9_]{4,30}$");
+		return table_name.matches("^[a-z][a-z0-9]{3,30}$");
 	}
 
 	public boolean checkCount(String org_name, String db_name) {
@@ -181,10 +186,10 @@ public class ManageUserTable extends HttpServlet {
 			dc.stmt.setString(2, db_name);
 			ResultSet rs = dc.stmt.executeQuery();
 			while (rs.next()) {
-			    	dc.conn.close();
+			    dc.close();
 				return rs.getLong(1) < 25;
 			}
-			dc.conn.close();
+			dc.close();
 			return true;
 		} catch (Exception e) {
 			return false;

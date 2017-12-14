@@ -20,19 +20,19 @@ public class ShareOrgDeets extends HttpServlet {
             }
             RoleChecker rc = new RoleChecker(request);
             String[] path = requri.split("/");
-            String org_name = path[0];
+            String org_name = request.getParameter("org_name");
             String role = request.getParameter("role");
             long user_id = rc.getUserId(request.getCookies());
             String query = request.getParameter("isRole");
             boolean isAdd = false;
         switch (path[path.length-1]){
             case "shareTable":
-                String db_name = path[1];
-                String table_name = path[2];
+                String db_name = request.getParameter("db_name");
+                String table_name = request.getParameter("table_name");
                 isAdd = share.shareTable(org_name, db_name, table_name, role, user_id, query);
                 break;
             case "shareDB" :
-                String dbName = path[2];
+                String dbName = request.getParameter("db_name");
                 isAdd = share.shareDB(org_name, dbName, role, user_id, query);
                 break;
             case "shareOrg" :

@@ -11,6 +11,7 @@ public class ManageTable {
     ManageRecord mr ;
 	public void init() {
 		types = new HashSet<String>();
+		types.add("bigserial");
 		types.add("bigint");
 		types.add("text");
 		types.add("numeric");
@@ -39,11 +40,16 @@ public class ManageTable {
 	public String bulidAlterQuery(JsonArray columnArray, String wanted) {
 		String query = "";
 		try {
+		    System.out.println(" e "+columnArray);
+		    System.out.println(wanted);
 			JsonObject columnObj = null;
 			if (wanted.equals("renameColumn") && columnArray.size() > 1) {
 			    return "E{'status':406,'message':' column rename does not support multiple in one request '}";
 			}
+			System.out.println(" 0 0 ");
 			for (JsonElement eachElement : columnArray) {
+			    System.out.println("fefvv --> 1");
+			    
 				columnObj = eachElement.getAsJsonObject();
 				String columnName = columnObj.get("column").getAsString();
 				
@@ -53,24 +59,33 @@ public class ManageTable {
 				if (wanted.equals("addColumn") == true) {
 					/****************************** Add Column ********************************************/
 					String type = columnObj.get("type").getAsString();
-					if (types.contains(type) == false) {
+					System.out.println(" d  s s   d f D F  fd f  d s f  s d  f  s  d  s  d  f  f  "  );
+					if (types.contains(type.toLowerCase()) == false) {
 						return "E{ 'status' : 406, 'message' : 'Your Column Type is doesn't support in myapp ' }" ;
 					}
 					query = query + ", ADD COLUMN  " + columnName + " " + type+ "  ";
 					JsonElement defaul = columnObj.get("default");
 					String defaultVal  ="";
-					if (defaul == null){
-					    defaultVal ="";
-					} else {
-					    defaultVal =" default "+defaul.getAsString();
+					if (columnObj.get("isNull") != null){
+    					if (columnObj.get("isNull").getAsBoolean() == false){
+    					    query = query + " NOT ";
+    					}
+    					query = query + " NULL ";
 					}
-					if (type.matches("^(bigint|numeric)$")) {
-						query = query + " " + defaultVal;
-					} else {
-					    if (defaultVal.equals("") == false){
-					        query = query + " '" + escapeing(defaultVal) + "'";
-					    }
+					defaultVal = defaul.getAsString();
+					System.out.println(defaultVal.length()); 
+					System.out.println(defaultVal != null);
+					System.out.println("".equals(defaultVal) == false);
+					if (defaultVal != null && "".equals(defaultVal) == false && "\"\"".equals(defaultVal) == false){
+					   // defaultVal = defaul.getAsString();
+    					if (type.matches("^(bigint|numeric)$")) {
+    						query = query + " default " + defaultVal;
+    					} else {
+    					    query = query + " default '" + escapeing(defaultVal) + "'";
+    					}
+					    
 					}
+					
 					 System.out.println("process");
 				}
 				/****************************** deleteColumn ********************************************/
@@ -80,7 +95,7 @@ public class ManageTable {
 				/****************************** typeChange ********************************************/
 				else if (wanted.equals("typeChange") == true) {
 					String type = columnObj.get("type").getAsString();
-					if (types.contains(type) == false) {
+					if (types.contains(type.toLowerCase()) == false) {
 						return "E{ 'status' : 406, 'message' : 'Your Column Type is doesn't support in myapp ' }" ;
 					}
 					query = query + ", ALTER COLUMN  " + columnName + " TYPE "
@@ -89,7 +104,7 @@ public class ManageTable {
 				/****************************** renameColumn ********************************************/
 				else if (wanted.equals("renameColumn") == true) {
 					String new_name = columnObj.get("newcolumn_name").getAsString();
-					if (mr.columnNames.contains(new_name) || new_name.matches("^[a-z][a-z0-9_]{4,30}$")==false) {
+					if (mr.columnNames.contains(new_name) || new_name.matches("^[a-z][a-z0-9_]{3,30}$")==false) {
 				    System.out.println("new_name = "+new_name);
 						return "E{ 'status' : 406, 'message' : 'Your Column Name is incorrect' }" ;
 					}
@@ -240,6 +255,7 @@ public class ManageTable {
 
 	public String createTable(String org_name, String db_name,
 			String table_name, String columnNames, long user_id) {
+		System.out.println(" create table ");
 		try {
 		    
 		    System.out.println("Create Table");
@@ -251,12 +267,17 @@ public class ManageTable {
 			stmt.setString(3, org_name+"_"+db_name);
 			stmt.setString(4, org_name);
 			stmt.setLong(5, user_id);
+			stmt.execute();
 			 System.out.println("Query Exexcute");
-			stmt.executeUpdate();
             dc.conn.close();
+            JsonArray trade;
 			JsonParser parser = new JsonParser();
-			JsonElement tradeElement = parser.parse(columnNames);
-			JsonArray trade = tradeElement.getAsJsonArray();
+			if (columnNames != null) {
+    			JsonElement tradeElement = parser.parse(columnNames);
+    			 trade = tradeElement.getAsJsonArray();
+			} else {
+			    trade = new JsonArray();
+			}
 			dc.dbConnection(org_name+"_"+db_name, org_name , "");
              System.out.println("Connection Exexcute");
 			StringBuilder s = new StringBuilder("");
@@ -274,7 +295,11 @@ public class ManageTable {
 				s.append(columnType + ",");
 			}
 			System.out.println("Column  :");
-			sqlQuery = "CREATE table " + table_name + " (" + s.toString().substring(0, s.length()-1) + ");";
+			if(s.length() >= 1){
+			    sqlQuery = "CREATE table " + table_name + " ( roll_no bigserial primary key , " + s.toString().substring(0, s.length()-1) + ");";
+			}else{
+			sqlQuery = "CREATE table " + table_name + " ( roll_no bigserial primary key ) ";
+			}
 			stmt = dc.conn.prepareStatement(sqlQuery);
 			stmt.executeUpdate();
             

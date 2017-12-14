@@ -30,8 +30,12 @@ public class AuthManage {
 			dc.stmt.setLong(1, user_id);
 			dc.stmt.setString(2, authtoken);
 			dc.stmt.executeUpdate();
+		    dc.close();
 			return authtoken;
 		} catch (Exception e) {
+		    if (dc != null ){
+    		    dc.close();
+		    }
 			return createAuthtoken(mail,password);
 		}
 	}
@@ -54,8 +58,12 @@ public class AuthManage {
 					+ authtoken;
 			Statement dstmt = dc.conn.createStatement();
 			dstmt.executeUpdate(sql);
+			dc.close();
 			return true;
 		} catch (Exception e) {
+		    if (dc != null ){
+    		    dc.close();
+		    }
 			return false;
 		}
 	}
@@ -71,9 +79,18 @@ public class AuthManage {
 	        while(rs.next()){
 	            authtoken.add(rs.getString(1));
 	        }
+	        dc.close();
 	        return authtoken.toString();
 	    }catch(Exception e){
+		    if (dc != null ){
+    		    dc.close();
+		    }
 	        return null;
+	    }
+	}
+	public void close(){
+	    if (dc != null){
+	        dc.close();
 	    }
 	}
 }

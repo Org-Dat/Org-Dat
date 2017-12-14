@@ -42,6 +42,7 @@ public class UserSignUp extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) {
+			    System.out.println("werwerwerwerwer");
 		try {
 			out = response.getWriter();
 			String name = request.getParameter("name");

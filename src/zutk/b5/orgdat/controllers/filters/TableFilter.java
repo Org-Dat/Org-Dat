@@ -32,6 +32,7 @@ public class TableFilter extends DownloadFilter {
 	public void doFilter(ServletRequest req, ServletResponse res,
 			FilterChain chain) throws IOException, ServletException {
 		try {
+		    System.out.println("table filter ");
 			HttpServletRequest request = (HttpServletRequest) req;
 			HttpServletResponse response = (HttpServletResponse) res;
 			roleFinder = new RoleChecker(request);
@@ -60,6 +61,10 @@ public class TableFilter extends DownloadFilter {
 				System.out.println(" t db connected");
 				if (request.getRequestURI().endsWith("/createTable") == false) {
 					if (vaildCheck(user_id, org_name, db_name, table_name) == false) {
+						throw new Exception();
+					}
+				} else {
+				    if (vaildCheck(user_id, org_name, db_name) == false || table_name.matches("[a-z][a-z0-9]{3,30}") == false) {
 						throw new Exception();
 					}
 				}
@@ -102,6 +107,7 @@ public class TableFilter extends DownloadFilter {
 					}
 				}
 				if (rights == true) {
+				    System.out.println();
 					if (requri.endsWith("/readRecord")
 							|| requri.endsWith("/shareTable")
 							|| requri.endsWith("/createTable")) {
@@ -133,6 +139,7 @@ public class TableFilter extends DownloadFilter {
 								out.write("{'status':200 ,'message':'"
 										+ rs.getString(1)
 										+ " was edit this page , so pleace !!'}");
+										return;
 							}
 						} else {
 							if (requri.endsWith("/renameTable") == false) {
@@ -152,13 +159,16 @@ public class TableFilter extends DownloadFilter {
 					}
 
 				} else {
-					throw new Exception();
+				    out.write("{'status':403 ,'message':'Permission denied'}");
+				    return;
+					//throw new Exception();
 				}
 			}
-
+ 
 		} catch (Exception e) {
 			System.out.println("lock errror : " + e.getMessage());
 			out.write("{'status':403 ,'message':'Forbidden'}");
+			return;
 		} finally {
 			try {
 				dc.conn.close();
@@ -168,23 +178,35 @@ public class TableFilter extends DownloadFilter {
 		}
 
 	}
-
-	private boolean vaildCheck(long user_id, String org_name, String db_name,
-			String table_name) {
-		try {
-			if (org_name == null || db_name == null || table_name == null ) {
+    private boolean vaildCheck(long user_id, String org_name, String db_name){
+        	try {
+			if ( db_name == null  ) {
 				throw new Exception();
 			}
 			ShowDetails shower = new ShowDetails();
-			ArrayList<String> tem = shower.getOrganization(user_id);
-			System.out.println("orgs " + tem);
-			if (tem.contains(org_name) == false) {
-
-				throw new Exception();
-			}
+			ArrayList<String> tem ;
 			tem = shower.getDatabase(org_name);
 			System.out.println("databases 1 " + tem.getClass());
-
+			if (tem.contains(db_name) == false) {
+				System.out.println("some");
+				throw new Exception();
+			}
+			return true;
+		} catch (Exception e) {
+			System.out.println(e);
+			return false;
+		}
+    }
+	private boolean vaildCheck(long user_id, String org_name, String db_name,
+			String table_name) {
+		try {
+			if ( db_name == null || table_name == null ) {
+				throw new Exception();
+			}
+			ShowDetails shower = new ShowDetails();
+			ArrayList<String> tem ;
+			tem = shower.getDatabase(org_name);
+			System.out.println("databases 1 " + tem.getClass());
 			if (tem.contains(db_name) == false) {
 				System.out.println("some");
 				throw new Exception();

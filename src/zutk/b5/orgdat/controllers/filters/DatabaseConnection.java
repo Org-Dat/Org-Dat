@@ -58,4 +58,16 @@ public class DatabaseConnection {
 			return -1;
 		}
 	}
+	public void close(){
+	    try { 
+    	    if (stmt !=  null && stmt.isClosed() == false){
+    	        stmt.close();
+    	    }
+    	    if (conn != null && conn.isClosed() == false){
+    	        conn.close();
+    	    }
+	    } catch (Exception e) {
+	        System.out.println("connection close has problem = "+e);
+	    }
+	}
 }

@@ -59,11 +59,14 @@ public class DownloadDeets extends HttpServlet {
 					filePath, " to ", "yes");
 		} else {
 			PrintWriter out = response.getWriter();
+			System.out.println("downloading");
+			
 			out.write("{'status':400,'message':'Bad Reuest'}");
 			return;
 		}
 		if (filePath.equals(tem) == false) {
 			out = response.getWriter();
+			System.out.println("downloading2");
 			out.write("{'status':400,'message':'Bad Reuest'}");
 			return;
 		}

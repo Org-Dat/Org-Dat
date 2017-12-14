@@ -61,7 +61,7 @@ public class DatabaseFilter extends DownloadFilter implements Filter {
     			String org_name =  request.getParameter("org_name");
     			String db_name =  request.getParameter("db_name");
     			System.out.println("ORG : "+org_name+" ;DB  : "+db_name+"  ;user_id : "+user_id);
-    			if (org_name == null || org_name.matches("^[a-z][a-z0-9]{3,25}$")== false || db_name == null || db_name.matches("^[a-z][a-z0-9]{3,25}$") == false) {
+    			if (org_name == null || org_name.matches("^[a-z][a-z0-9]{3,30}$")== false || db_name == null || db_name.matches("^[a-z][a-z0-9]{3,30}$") == false) {
     				throw new Exception();
     			}
     			String role = roleFinder.dbRole(org_name, db_name, user_id);

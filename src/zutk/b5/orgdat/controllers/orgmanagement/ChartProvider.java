@@ -31,7 +31,7 @@ public class ChartProvider extends HttpServlet {
              out.write("{'status':405,'message':'this post only url'}");
 		}
 
-	}
+	} 
 	/**
 	 * This method check and provider chart
 	 * 
@@ -50,7 +50,7 @@ public class ChartProvider extends HttpServlet {
 			String db_name = request.getParameter("db_name");
 			String table_name = request.getParameter("table_name");
 			if (cp.isCorrect(org_name) == false || cp.isCorrect(db_name) == false
-					|| cp.isCorrect(table_name) == false) {
+					|| cp.isCorrect(table_name) == false) { 
 				throw new Exception();
 			}
 			dc = new DatabaseConnection(db_name, org_name, "");
@@ -59,10 +59,7 @@ public class ChartProvider extends HttpServlet {
 			    throw new Exception();
 			}
 			String detailArray = cp.getDetail(table_name, column);
-			String[] chartList = request.getParameterValues("chartNames");
-			for(String chart_name : chartList){
-			    
-			}
+			//String[] chartList = request.getParameterValues("chartNames");
 			switch (chart) {
 			case "pieChart":
 				String is3D = request.getParameter("is3D");

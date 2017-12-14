@@ -8,26 +8,43 @@ function tab_change(tab) {
     document.getElementById(tab).style.display = "block";  
 }
 $(document).ready(function(){
-	$(document).on("click",".org_box>span",function(){
-		$(".whole_org_box").css("display","none");
+	$(document).on("click",".org_box>span,.databs>span",function(){
+// 		$(".whole_org_box").css("display","none");
 // 		$(".whole_org_box").hide();
 //         // $(".whole_org_box").css("transform","translate(-100%)")
 //         // $(".whole_database").css("transform","translate(0%)")
 //         setTimeout(function(){
 //             $(".whole_org_box").hide();
-//         },700)
-		$(".whole_database").css("display","flex");
+// //         },700)
+// alert($(this).text());
+// alert(location.pathname+$(this).text());
+        alert($(this).parent().attr("class"));
+        console.log($(this).parent().attr("class"));
+        var path = location.pathname;
+        if (path.endsWith("/")){
+            path = path +$(this).text() ; 
+        } else {
+            path = path +"/"+$(this).text();
+        }
+        history.pushState({title:"xczxczx"},null,path);
+        console.log("done");
+        niceURL();
+// alert("org");
+//         history.pu
+// 		$(".whole_database").css("display","flex");
 	});
-	$(document).on("click",".databs>span",function(){
-	    console.log("hi");
-		$(".whole_database").hide();
-        // $(".whole_org_box").css("transform","translate(-100%)")
-        // $(".whole_database").css("transform","translate(0%)")
-        // setTimeout(function(){
-            $(".whole_database").hide();
-        // },700)
-		$(".whole_table").css("display","flex");
-	});
+// 	$(document).on("click",".databs>span",function(){
+// 	    console.log("hi");
+// 		$(".whole_database").css("display","none");
+//         // $(".whole_org_box").css("transform","translate(-100%)")
+//         // $(".whole_database").css("transform","translate(0%)")
+//         // // setTimeout(function(){
+//         //     $(".whole_database").hide();
+//         // },700)
+//         alert("db");
+// 		$(".whole_table").css("display","flex");
+// 	});
+	
 	
 // 	-------------------------------Share page-------------------------------------
 
@@ -35,7 +52,7 @@ $(document).ready(function(){
         //$(".share").css("transform","translateY(0)")
         $(".share").css("display","flex");
         $(".org").css("display","none");
-    })
+    });
     
     drop_num=1;
     $(".dropdown").click(function(){
@@ -121,7 +138,7 @@ $(document).ready(function(){
         if(nu%2==0){
          document.getElementById("demo").click();   
         }
-        $("..org_box").css("display","flex")
+        $(".org_box").css("display","flex")
         $(".dsh_brd,.cmn_tab,.main_tab,.admin,.log").css("display","none")
     })
     //------------------------------------Create Org------------------------------------
@@ -159,22 +176,41 @@ $(document).ready(function(){
     })*/
     
     $(document).on("click","#Name+button",function(){
-        var parent = $(this).parents("main");
-        if (parent.siblings().length  < 3){
-            var source   = $("#org_template").html();
-            var template = Handlebars.compile(source);
-            var content = {};
-            content.org_name = $(this).prev().val();
-            $(this).prev().val("");
-            var htmlForOrg = template(content);
-            parent.before(htmlForOrg);
-            if (parent.siblings().length  == 3){
-                parent.css("display","none");
-            }
-        } else {
-            parent.css("display","none");
-        }
+        var name = $(this).prev().val();
+        var purpose =  $(this).attr("purpose");var currentPath = location.pathname; 
+        var pathList = currentPath.substring(4).split("/");
+        var data = {};
+        data.org_name = pathList[0];
+        if (purpose == "Organization"){
+            data.org_name = $(this).prev().val();
+            sendPostRequest( "/createOrg",data,alert);
+        } else if (purpose == "Database"){
+            data.db_name = $(this).prev().val();
+           sendPostRequest(  "/createDB",data,alert);
+        }  else if (purpose == "Table"){
+            data.db_name = pathList[1];
+            data.table_name = $(this).prev().val();
+            sendPostRequest(  "/createTable",data,alert);
+        } 
     });
+    // $(document).on("click","#Name+button",function(){
+        
+        // var parent = $(this).parents("main");
+        // if (parent.siblings().length  < 3){
+        //     var source   = $("#org_template").html();
+        //     var template = Handlebars.compile(source);
+        //     var content = {};
+        //     content.org_name = $(this).prev().val();
+        //     $(this).prev().val("");
+        //     var htmlForOrg = template(content);
+        //     parent.before(htmlForOrg);
+        //     if (parent.siblings().length  == 3){
+        //         parent.css("display","none");
+        //     }
+        // } else {
+        //     parent.css("display","none");
+        // }
+    // });
     $(document).on("click",".fa-chevron-circle-left",function(){
         $(this).parent().css("transform","translateX(100%) rotateY(90deg)");
         $(this).parent().next().css("transform","translateX(0) rotateY(0deg)");
@@ -387,14 +423,34 @@ $(document).on("click",".org_name i",function(){
     })
 
 // -----------------------------------------------Main Table---------------------------------------
-
-$(document).on("click",".main_tab td",function(){
+$(document).on("click",".row_but,.main_tab td",function(){
     //$(this).attr("contenteditable","true")
      $(".tbl_srch").css({
          "transform":"translate(0px)"
      })
     
 })
+
+
+$(document).on("click",".sub",function(){
+    //$(this).attr("contenteditable","true")
+    var purpose = $(this).parent().attr("purpose");
+    var data = {};
+    var path = location.pathname.substring(4).split("/");
+    data.org_name = path[0];
+    data.db_name = path[1];
+    data.table_name = path[2];
+    if (purpose == "add"){
+        
+        data.records = JSON.stringify(addColumn());
+        console.log(data);
+        sendPostRequest("/addRecord",data,alert);
+        
+        
+    }
+})
+
+
 $(document).on("click",".can,.sub",function(){
     //$(this).attr("contenteditable","true")
      $(".tbl_srch").css({
@@ -407,10 +463,10 @@ $(document).on("click",".fa-sort",function(){
     $(".sort_box").slideToggle();
 })
 
-$(document).on("click",".tble",function(){
-    $(".whole_org,.security_whole,.cmn_tab").css("display","none")
-    $(".main_tab").css("display","block")
-})
+// $(document).on("click",".tble",function(){
+//     $(".whole_org,.security_whole,.cmn_tab").css("display","none")
+//     $(".main_tab").css("display","block")
+// })
 
     // ------------------------POPUP-------------------------------------------------
     
@@ -441,9 +497,9 @@ $(document).on("click",".tble",function(){
     });
     
     $(".submit,.cancel").click(function(){
-        if(nu%2==0){
-         document.getElementById("demo").click();   
-        }
+        // if(nu%2==0){
+        //  document.getElementById("demo").click();   
+        // }
         $(".main_tab").css("filter","blur(0px)")
         // $(".main_tab>caption button:nth-child(2)").css("opacity","1")
         
@@ -470,24 +526,51 @@ $(document).on("click",".tble",function(){
         if(nu%2==0){
          document.getElementById("demo").click();   
         }
-        $(".whole_popup").css("background","none")
-        $(".add_col").append("<div class='col'><ul><li><i class='fa fa-times-circle sel_col_del' aria-hidden='true'></i><label>Column:</label><input></li><li><label>Type</label><select><option selected>--select--</option><option>Text</option><option>Integer</option><option>Boolean</option><option>Float</option><option>Date</option><option>Time</option><option>Time stamp</option></select><input><label>Charc</label></li><li><label>Default Value:</label><input></li><li><input type='checkbox'><label>Mandatory</label></li></ul></div>")
+        $(".whole_popup").css("background","none");
+        console.log("add");
+        var theTemplateScript,theTemplate,theCompiledHtml;
+        theTemplateScript = $("#addcolumn").html();
+        theTemplate = Handlebars.compile(theTemplateScript);
+         theCompiledHtml = theTemplate({});
+        //  $('.whole_org_box').append(theCompiledHtml);
+        $(".add_col").append(theCompiledHtml);
+        // $(".add_col").append("<div class='col'><ul><li><i class='fa fa-times-circle sel_col_del' aria-hidden='true'></i><label>Column:</label><input></li><li><label>Type</label><select><option selected>--select--</option><option>Text</option><option>Integer</option><option>Boolean</option><option>Float</option><option>Date</option><option>Time</option><option>Time stamp</option></select><input><label>Charc</label></li><li><label>Default Value:</label><input></li><li><input type='checkbox'><label>Mandatory</label></li></ul></div>")
     })
     
     $(document).on("click",".sel_col_del",function(){
         if(nu%2==0){
          document.getElementById("demo").click();   
         }
-        $(this).parent().parent().parent().css("display","none")
+    }) 
+    $(document).on("click",".submit",function(){
+        console.log("submiting");
+        var data = {};
+         $(".add_col").html();
+        alert(getColumnDetail())
+        data.query = JSON.stringify(getColumnDetail());
+        
+        data.wanted = "addColumn";
+        var path = location.pathname.substring(4).split("/");
+        data.org_name = path[0];
+        data.db_name = path[1];
+        data.table_name = path[2];
+        console.log("asdads\"asd = " +data);
+        sendPostRequest("/alterTable",data,alert);
+        console.log("submiting");
+        // $(".col").css("display","none")
+        $(".whole_popup").css("background","url(https://assets.materialup.com/uploads/77a5d214-0a8a-4444-a523-db0c4e97b9c0/preview.jpg) center/cover");
+        
     })
-    
-    $(document).on("click",".del,.submit",function(){
-        $(".col").css("display","none")
-        $(".whole_popup").css("background","url(https://assets.materialup.com/uploads/77a5d214-0a8a-4444-a523-db0c4e97b9c0/preview.jpg) center/cover")
+    $(document).on("click",".del,.submit,.cancel",function(){
+         $(".col").remove();
+        $(".whole_popup").css("background","url(https://assets.materialup.com/uploads/77a5d214-0a8a-4444-a523-db0c4e97b9c0/preview.jpg) center/cover");
+        console.log("canceling");
     })
     
             // --------------------------------Admin Dashboard---------------------------------------------
-
+    $(document).on("click",".add-column-x",function(){
+        $(this).parents(".col").remove();
+    });
     $(document).on("click",".sidebar ul li:last-child",function(){
         if(nu%2==0){
          document.getElementById("demo").click();   
@@ -551,5 +634,6 @@ $(document).on("click",".tble",function(){
         $(".chart").css("display","block")
         $(".whole_org,.whole_org,.cmn_tab,.main_tab,.admin,.log,.dsh_ovr,.box").css("display","none")
     });
-     niceURL();
+     
 });
+niceURL();

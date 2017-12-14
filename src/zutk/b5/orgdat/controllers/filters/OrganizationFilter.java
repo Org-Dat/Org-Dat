@@ -54,7 +54,7 @@ public class OrganizationFilter extends HttpServlet implements Filter {
 			dc = new DatabaseConnection("postgres", "postgres", "");
 
 			String org_name = request.getParameter("org_name");
-			if (org_name == null || org_name.matches("^[a-z][a-z0-9]{3,25}$") == false) {
+			if (org_name == null || org_name.matches("^[a-z][a-z0-9]{3,30}$") == false) {
 				throw new Exception();
 			}
 // 			String role = roleFinder.orgRole(org_name, user_id);

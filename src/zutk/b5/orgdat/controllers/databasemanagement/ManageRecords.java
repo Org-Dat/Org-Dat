@@ -19,14 +19,15 @@ public class ManageRecords extends HttpServlet {
 			HttpServletResponse response) {
 		try {
 			writer = response.getWriter();
-			if (request.getMethod().toLowerCase().equals("post")) {
+			if (request.getMethod().toLowerCase().equals("post") || request.getRequestURI().endsWith("/readRecord") ) {
 				doPost(request, response);
 			} else {
-
 				writer.write("{'status':405,'message':'this post only url'}");
+				return;
 			}
 		} catch (Exception e) {
 			writer.write("{'status':405,'message':'this post only url'}");
+			return;
 		}
 	}
 
@@ -46,6 +47,8 @@ public class ManageRecords extends HttpServlet {
 			String reqURI = request.getRequestURI();
 			if (reqURI.startsWith("/api/")) {
 				reqURI = reqURI.substring(reqURI.lastIndexOf("/") + 1);
+			} else {
+			    reqURI = reqURI.substring(1);
 			}
 			String org_name = request.getParameter("org_name");
 			String db_name = request.getParameter("db_name");
@@ -61,13 +64,16 @@ public class ManageRecords extends HttpServlet {
 			} else {
 				conditionArray = null;
 			}
-            System.out.println(conditionArray);
+            System.out.println(parser);
+            System.out.println(request.getParameter("records"));
+            System.out.println(request.getQueryString());
 			switch (reqURI) {
 			case "addRecord":
 				JsonObject records = parser.parse(request.getParameter("records")).getAsJsonObject();
 				writer.write(databaseProcess.addRecord(org_name,db_name,table_name, records));
 				break;
 			case "readRecord":
+			    System.out.println("readRecord");
 				if (request.getParameter("columnNames") != null) {
 					columnArray = parser.parse(
 							request.getParameter("columnNames"))
@@ -85,12 +91,16 @@ public class ManageRecords extends HttpServlet {
 				writer.write( databaseProcess.updateRecord(org_name,db_name,table_name, set,conditionArray, request.getParameter("andOr")));
 				break;
 			default:
+			    System.out.println("default");
 				writer.write("{'status':400,'message':'Bad Request'}");
+				return;
 			}
 		} catch (Exception e) {
+		    e.printStackTrace();
 		    System.out.println("mag records con = "+e);
 		    
 			writer.write("{'status':400,'message':'Bad Reuest'}");
+			return;
 		}
 
 	}

@@ -52,7 +52,7 @@ public class ManageOrg {
 	 * @return : if name match to regex it return true.else it return false
 	 */
 	private boolean isCorrect(String orgName) {
-		boolean correct = orgName.matches("^[a-z0-9][a-z0-9]{3,25}");
+		boolean correct = orgName.matches("^[a-z0-9][a-z0-9]{3,30}");
 		return correct;
 	}
 

@@ -10,6 +10,7 @@ public class ShowDetails {
 	public ArrayList<String> getOrganization(long user_id) {
 		ArrayList<String> organizations = new ArrayList<String>();
 		String sqlQuery = "select org_name from org_management where user_id=?";
+		dc =  new DatabaseConnection("postgres","postgres","");
 		try {
 			dc.stmt = dc.conn.prepareStatement(sqlQuery);
 			dc.stmt.setLong(1, user_id);
@@ -18,6 +19,8 @@ public class ShowDetails {
 				organizations.add(rs.getString(1));
 			}
 			System.out.println(organizations.toString());
+			dc.stmt.close();
+			dc.conn.close();
 			return organizations;
 		} catch (SQLException e) {
 		    System.out.println(e.getMessage());
