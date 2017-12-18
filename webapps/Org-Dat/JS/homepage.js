@@ -9,6 +9,17 @@ function tab_change(tab) {
 }
 $(document).ready(function(){
     
+    $(document).on("click",".shr,.del_but,.add_fld button,.input>button",function(){
+        var msg=$(this).text();
+        $(".altMsg").text(msg+"d Organization One")
+        $(".alertPop").css("transform","translateY(0px)")
+        setTimeout(function(){
+            $(".alertPop").css("transform","translateY(-45px)")
+        },1000)
+    })
+    
+    
+    
 	$(document).on("click",".org_box>span",function(){
 		$(".whole_org_box").hide();
         // $(".whole_org_box").css("transform","translate(-100%)")
@@ -20,14 +31,88 @@ $(document).ready(function(){
 	});
 	$(document).on("click",".databs>span",function(){
 	    console.log("hi");
-		$(".whole_database").hide();
+	    if($(this).attr("contenteditable") != "true"){
+	           	$(".whole_database").hide();
         // $(".whole_org_box").css("transform","translate(-100%)")
         // $(".whole_database").css("transform","translate(0%)")
         // setTimeout(function(){
             $(".whole_database").hide();
         // },700)
-		$(".whole_table").css("display","flex");
+		$(".whole_table").css("display","flex");      
+	    }
+	  
 	});
+	
+	$(document).keypress(function(event){
+	   // alert(event.keyCode)
+	    if(event.keyCode==13){
+	        $(".databs>span").attr("contenteditable","false")
+	    }
+	})
+// 	-------------------------------Share page-------------------------------------
+
+    $(document).on("click",".fa-share-alt",function(){
+        //$(".share").css("transform","translateY(0)")
+        $(".share").css("display","flex");
+        $(".org").css("display","none");
+    })
+    $(document).on("click",".rghtCls",function(){
+        $(".share").hide();
+        $(".org").css("display","flex");
+    })
+    
+    $(document).on("click",".shr_close",function(){
+        $(this).parent().fadeOut();
+    })
+    
+    drop_num=1;
+    $(document).on("click",".dropdown",function(){
+        drop_num++;
+        if(drop_num%2==0){
+            $(this).css({
+                "height":"auto",
+                // "z-index":"0"
+            });
+        }else{
+           $(this).css({
+                "height":"30px",
+                // "z-index":"-1"
+            });
+        }
+        
+    });
+    $(document).on("click",".dropdown ul li",function(){
+        $(this).parent().children("li:first-child").text($(this).text())
+    })
+    share=1;
+    $(".mng").click(function(){
+        share++;
+        if(share%2==0){
+            //  $(".shr_fld").css("z-index","-1");
+            $(".shr_fld").css({
+                "opacity":"0",
+                "z-index":"-1"
+            });
+             $(".co_dev").css({
+                 "opacity":"1",
+                 "transform":"translateY(0px)",
+                 "z-index":"1"
+                //  "transition":"0.4s"
+             });
+        }else{
+             //$(".shr_fld").css("opacity","1");
+             $(".shr_fld").css({
+                "opacity":"1",
+                "z-index":"1"
+            });
+             $(".co_dev").css({
+                 "opacity":"0",
+                 "transform":"translateY(60px)",
+                 "z-index":"-1"
+                //  "transition":"0.4s"
+             });
+        }
+    })
 	
 	/*
     // ---------------------------Org Box Menu-------------------------------------------
@@ -52,17 +137,45 @@ $(document).ready(function(){
     */
     // ----------------------------------Org Box Popup alerts--------------------------
     
-    $(document).on("click",".options .fa-share-alt,.fa-trash-o,.fa-users,.fa-pencil-square-o",function(){
+    $(document).on("click",".options .fa-trash-o,.fa-users,.fa-upload,.fa-users",function(){
         if(nu%2==0){
          document.getElementById("demo").click();   
         }
         
-        $(".org_popup").css("top","14%")
+        $(".org_popup").css("top","30%")
         $(".whole_org").css("filter","blur(5px)")
         //$(".org_popup .decline").css("display","none")
     })
+    $(document).on("click",".options .fa-upload",function(){
+        $("input[type=file]").show();
+        $(".titH3,.PopUsr").hide();
+        $(".TpH1").text("Are You Sure to Upload?");
+        $(".del_but").text("Upload");
+    })
+     $(document).on("click",".options .fa-trash-o",function(){
+            $("input[type=file],.PopUsr").hide();
+            $(".titH3").show();
+            $(".TpH1").text("Are You Sure to Delete?")
+            $(".del_but").text("Delete")
+     })
+     $(document).on("click",".fa-users",function(){
+            $("input[type=file]").hide();
+            $(".PopUsr,.titH3").show();
+            $(".titH3").text("Members")
+            $(".TpH1").text("Organization 1")
+            $(".decline").text("Close")
+            $(".del_but").hide()
+     })
+     
+     $(document).on("click",".options .fa-pencil-square-o",function(){
+         $(this).parent().prev("span").css("border-bottom","1px solid");
+          $(this).parent().prev("span").attr({
+              "contenteditable":"true",
+              "autofocus":"true"
+          })
+     })
     
-    $(document).on("click",".org_popup .decline",function(){
+    $(document).on("click",".org_popup .decline,.del_but",function(){
         $(".org_popup").css("top","-300%")
         $(".whole_org").css("filter","blur(0px)")
     })
@@ -271,10 +384,17 @@ $(".security_whole>div:nth-child(2)>nav").click(function(){
     }
         
 });
+    pf_ed=1;
+    $(".pf_ed").click(function(){
+        pf_ed++;
+        if(pf_ed%2==0){
+            $(this).removeClass("fa fa-pencil").addClass("fa fa-check")        
+        }else{
+            $(this).removeClass("fa fa-check").addClass("fa fa-pencil")        
+        }
     
-    $(".security_whole li").click(function(){
-    $(this).attr("contenteditable","true");
-    $(this).css({
+    $(this).parent().children("span").attr("contenteditable","true");
+    $(this).parent().children("span").css({
         "cursor":"text",
         "outline":"none",
         "border-bottom":"1px solid"
@@ -305,12 +425,14 @@ $(".security_whole .slide_button div").click(function(){
         }
         
         $(".cmn_tab").css("display","block")
-        $(".org_box,.security_whole,.org_name,.whole_org,.admin,.log,.main_tab").css("display","none")
+        $(".org_box,.security_whole,.org_name,.whole_org,.admin,.log,.main_tab,.dsh_brd").hide();
         $(".cmn_tab>h2").text("History")
+        $(".cm_tb table th:first-child,.cm_tb table td:first-child").hide();
     })
     
     $(document).on("click",".sidebar>ul>li:nth-child(4)",function(){
         $(".cmn_tab>h2").text("Auth Tokens")
+        $(".cm_tb table th:first-child,.cm_tb table td:first-child").show();
     })
     
 // ----------------------------------Database---------------------------------------------------
@@ -339,33 +461,54 @@ $(document).on("click",".org_name i",function(){
     })
 
 // -----------------------------------------------Main Table---------------------------------------
-
-$(document).on("click",".main_tab td,.main_tab th",function(){
-    $(this).attr("contenteditable","true")
-    // $(this).css({
-    //     "white-space"
-    // })
+$(document).on("click", ".row_but,.main_tab td", function() {
+        //$(this).attr("contenteditable","true")
+        $(".tbl_srch").css({
+            "transform": "translate(0px)"
+        });
+        console.log("click");
+    })
+$(document).on("click",".row_but,.main_tab td",function(){
+    //$(this).attr("contenteditable","true")
+     $(".tbl_srch").css({
+         "transform":"translate(0px)"
+     })
+     $(".srch_edit").hide();
+    $(".row_edit").show();
+})
+$(document).on("click",".srch_col",function(){
+    $(".srch_edit").show();
+    $(".row_edit").hide();
+    $(".tbl_srch").css({
+         "transform":"translate(0px)"
+     })
+})
+$(document).on("click",".can,.mn_tb td:first-child",function(){
+    //$(this).attr("contenteditable","true")
+     $(".tbl_srch").css({
+         "transform":"translate(-350px)"
+     })
+    
 })
 
 $(document).on("click",".fa-sort",function(){
-    $(".sort_box").slideToggle();
+    $(this).parent().next().slideToggle();
 })
 
-$(document).on("click",".tble",function(){
-    console.log("fsdfsdf");
-    $(".whole_org,.security_whole,.cmn_tab").css("display","none")
-    $(".main_tab").css("display","block")
-})
+// $(document).on("click",".tble",function(){
+//     $(".whole_org,.security_whole,.cmn_tab").css("display","none")
+//     $(".main_tab").css("display","block")
+// })
 
     // ------------------------POPUP-------------------------------------------------
     
-    $(".hdr>button:nth-child(1)").click(function(){
-        $(".whole_popup").css("background","url(https://cdn.dribbble.com/users/463734/screenshots/2016792/empty-result_shot.png) center/cover")
+    $(".col_but,.tb_op .fa-pencil").click(function(){
+        
         $(".whole_popup").css({
             "transform":"translateY(50px) scale(0.2)"
         })
         
-        // $(".main_table>caption button:nth-child(2)").css("opacity","0")
+        
         $(".main_tab").css("filter","blur(3px)")
             
         setTimeout(function(){
@@ -408,7 +551,7 @@ $(document).on("click",".tble",function(){
         $(".whole_popup>div,.whole_popup button").css("opacity","0")
                 
         setTimeout(function(){
-            $(".whole_popup").css("transform","translateY(-300px) scale(0.2)")},500)
+            $(".whole_popup").css("transform","translateY(-100%) scale(0.2)")},500)
         })
     
     $(".add").click(function(){
@@ -416,7 +559,7 @@ $(document).on("click",".tble",function(){
          document.getElementById("demo").click();   
         }
         $(".whole_popup").css("background","none")
-        $(".add_col").append("<div class='col'><ul><li><i class='fa fa-times-circle sel_col_del' aria-hidden='true'></i><label>Column:</label><input></li><li><label>Type</label><select><option selected>--select--</option><option>Text</option><option>Integer</option><option>Boolean</option><option>Float</option><option>Date</option><option>Time</option><option>Time stamp</option></select><input><label>Charc</label></li><li><label>Default Value:</label><input></li><li><input type='checkbox'><label>Mandatory</label></li></ul></div>")
+        // $(".add_col").append("<div class='col'><ul><li><i class='fa fa-times-circle sel_col_del' aria-hidden='true'></i><label>Column:</label><input></li><li><label>Type</label><select><option selected>--select--</option><option>Text</option><option>Integer</option><option>Boolean</option><option>Float</option><option>Date</option><option>Time</option><option>Time stamp</option></select><input><label>Charc</label></li><li><label>Default Value:</label><input></li><li><input type='checkbox'><label>Mandatory</label></li></ul></div>")
     })
     
     $(document).on("click",".sel_col_del",function(){
@@ -428,7 +571,7 @@ $(document).on("click",".tble",function(){
     
     $(document).on("click",".del,.submit",function(){
         $(".col").css("display","none")
-        $(".whole_popup").css("background","url(https://assets.materialup.com/uploads/77a5d214-0a8a-4444-a523-db0c4e97b9c0/preview.jpg) center/cover")
+        $(".whole_popup").css("background","url(https://cdn.dribbble.com/users/463734/screenshots/2016792/empty-result_shot.png) center/cover")
     })
     
             // --------------------------------Admin Dashboard---------------------------------------------
@@ -441,10 +584,15 @@ $(document).on("click",".tble",function(){
         $(".whole_org").css("display","none")
     })
     
-    $(document).on("click",".add_fld button,.add_fld .fa-trash-o",function(){
+    // $(document).on("click",".add_fld button,.add_fld .fa-trash-o",function(){
         
-        $(this).parent(".add_fld").slideUp();
-    })
+    //     $(this).parent(".add_fld").slideUp();
+    // })
+    
+    // $(document).on("click",",list .fa-pencil-square-o",function(){
+    //     $(".list input").attr("disabled","false")
+    //     $(".list input").css("border-bottom","1px solid silver")
+    // })
     
         // ----------------------------------------Log file--------------------------------
         
@@ -452,10 +600,16 @@ $(document).on("click",".tble",function(){
         if(nu%2==0){
          document.getElementById("demo").click();   
         }
-        
         $(".log").css("display","block")
         $(".whole_org,.cmn_tab,.dsh_brd,.main_tab,.admin").css("display","none")
     })  
+    $(document).on("click",".log_list li",function(){
+        $(".log_list").hide();
+        $(".log_show").show();
+        
+        $(".log_det").text($(this).children("date").text())
+    })
+    
     
     // ----------------------------------------Dash board--------------------------------
         
@@ -464,17 +618,25 @@ $(document).on("click",".tble",function(){
          document.getElementById("demo").click();   
         }
         $(".dsh_brd").css("display","block")
-        $(".whole_org,.whole_org,.cmn_tab,.main_tab,.admin,.log").css("display","none")
+        $(".whole_org,.whole_org,.cmn_tab,.main_tab,.admin,.log,.security_whole").hide();
     })  
     
             // -------------------------dashboard overview----------------------
     
-    $(document).on("click",".dsh_org footer span:first-child",function(){
+    $(document).on("click",".ovrView",function(){
         if(nu%2==0){
          document.getElementById("demo").click();   
         }
         $(".dsh_ovr").css("display","block")
         $(".dsh_brd .box").css("display","none")
+    })
+    
+    $(document).on("click",".fa-hand-o-left",function(){
+        if(nu%2==0){
+         document.getElementById("demo").click();   
+        }
+        $(".dsh_ovr").hide();
+        $(".dsh_brd .box").show();
     })
     var dt=1;
     $(document).on("click",".dtb li span",function(){
@@ -488,43 +650,26 @@ $(document).on("click",".tble",function(){
     })
     
     $(document).on("click",".dsh_ovr .tbl li span i",function(){
-        $(".chart").css("display","block")
-        $(".whole_org,.whole_org,.cmn_tab,.main_tab,.admin,.log,.dsh_ovr,.box").css("display","none")
+        $(".setGrph").css("transform","translate(0px)");
+        $(".tbl_srh_box").css("height","60px");
+        $(".srch_edit").show();
+        $(".b").addClass("grpShow");
+        $(".row_edit").css({
+            "height": "calc(100% - 135px)",
+            "overflow":"auto"
+        })
+        // $(".whole_org,.whole_org,.cmn_tab,.main_tab,.admin,.log,.dsh_ovr,.box").css("display","none")
     })
-    processer();
+    
+    $(document).on("click",".grpShow",function(){
+        $(".chart").show();
+        $(".whole_org,.whole_org,.cmn_tab,.main_tab,.admin,.log,.dsh_ovr,.box").hide();
+    })
+    
+    $(document).on("click",".chart .rghtCls",function(){
+        $(".dsh_ovr").show();
+        $(".whole_org,.whole_org,.cmn_tab,.main_tab,.admin,.log,.chart,.box").hide();
+    })
+       
+    
 });
-function processer(){
-     var tem = showAllOrg(showOrgs);
-    console.log(tem[0]);
-}
-function showOrgs(tem){
-     alert(tem);
-     var theTemplateScript = $("#org_template").html();
-    var theTemplate = Handlebars.compile(theTemplateScript);
-    if (tem.length > 2) {
-        $("#createOrg").css("display","none");
-    }
-    $(".whole_database").css("display","none");
-    $(".whole_table").css("display","none");
-    // whole_database  whole_table
-    
-    for (var name of tem){
-        var context={
-            "org_name": "abcd",
-            "dat_count": 0
-          };
-          context.org_name = name;
-        var theCompiledHtml = theTemplate(context);
-        $('.whole_org_box').append(theCompiledHtml);
-    }
-    return tem;
-}
-function showAllOrg(wer){
-    $.ajax({url:"/getOrgName",success : function(result){
-        console.log(result);
-        result = JSON.parse(result)
-        wer(result);
-        return result;
-    }});
-    
-}

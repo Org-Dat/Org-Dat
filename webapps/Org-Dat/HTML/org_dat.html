@@ -241,16 +241,16 @@
                 <h3>Share Organization</h3>
                 <div class="field">
                     <input placeholder="Enter your e-mail address" class="mail_inp">
-                    <!--<div class="dropdown">-->
-                    <!--    <i class="fa fa-caret-down" aria-hidden="true"></i>-->
-                    <!--    <p class="con_p">Co-Owner</p>-->
-                    <!--    <p>Can-Write</p>-->
-                    <!--</div>   -->
-                    <select class="dropdown">
-                        <option>Co-Owner</option>
-                        <option>Can-Write</option>
-                    </select>
-                    <div>
+                    <div class="dropdown">
+                        <i class="fa fa-caret-down" aria-hidden="true"></i>
+                        <p class="con_p">Co-Owner</p>
+                        <p>Can-Write</p>
+                    </div>   
+                    <!--<select class="dropdown">-->
+                    <!--    <option>Co-Owner</option>-->
+                    <!--    <option>Can-Write</option>-->
+                    <!--</select>-->
+                    <div class='share-proper'>
                         <button class="shr">Share</button>
                         <button class="shr">Cancel</button>
                     </div>
@@ -288,15 +288,15 @@
                         <p>Praveen</p>
                         <p>praveen.madhavan@zohocorp.com</p>
                     </div>
-                    <!--<div class="dropdown">-->
-                    <!--    <i class="fa fa-caret-down" aria-hidden="true"></i>-->
-                    <!--    <p class="con_p">Co-Owner</p>-->
-                    <!--    <p>Can-Write</p>-->
-                    <!--</div> -->
-                    <select class="dropdown">
-                        <option>Co-Owner</option>
-                        <option>Can-Write</option>
-                    </select>
+                    <div class="dropdown">
+                        <i class="fa fa-caret-down" aria-hidden="true"></i>
+                        <p class="con_p">Co-Owner</p>
+                        <p>Can-Write</p>
+                    </div> 
+                    <!--<select class="dropdown">-->
+                    <!--    <option>Co-Owner</option>-->
+                    <!--    <option>Can-Write</option>-->
+                    <!--</select>-->
                     <i class="fa fa-times shr_close" aria-hidden="true"></i>
                 </div>
                 
@@ -316,8 +316,8 @@
         
         <div class="org_popup">
                 <h1>Are You Sure to delete?</h1>
-                <h3>Organization</h3>
-                <button class="del_but">Delete</button>
+                <h3 id='rawMaterial'>Organization</h3>
+                <button id="config" class="del_but">Delete</button>
                 <button class="decline">Cancel</button>
                 
             </div>
@@ -498,88 +498,101 @@
         <!--.............................Main Table......................................-->
         
         <div class="main_tab">
+            <div class="hdr">
+                <button class="col_but"><i class="fa fa-plus" aria-hidden="true"></i> Column</button>
+                <button class="del_col"><i class="fa fa-trash-o" aria-hidden="true"></i> Column</button>
+                <p class="clr"></p>
+                <span  class="tbl_name">Untitled</span>
+                <button class="row_but"><i class="fa fa-plus" aria-hidden="true"></i> Row</button>
+                <button class="del_row"><i class="fa fa-trash-o" aria-hidden="true"></i> Row</button>
+            </div>
             <div class="tbl_srch">
-                <div class="tbl_srh_box">
-                    <!--<select>-->
-                    <!--    <option>Column</option>-->
-                    <!--    <option>jnlklklk</option>-->
-                    <!--</select>-->
-                    <!--<div class="dropdown src_drop">-->
-                    <!--    <i class="fa fa-caret-down" aria-hidden="true"></i>-->
-                    <!--    <ul class="row_data">-->
-                    <!--        <li>kjevnvjk kjrnjker</li>-->
-                    <!--        <li>kjevnvjk </li>-->
-                    <!--        <li>kjevnvjk kjrnjker</li>-->
-                    <!--        <li>kjevnvjk kjrnjker</li>-->
-                    <!--        <li>kjevnvjk kjrnjker</li>-->
-                    <!--        <li>kjevnvjk kjrnjker</li>-->
-                    <!--    </ul>-->
-                    <!--</div>-->
-                    <select class="dropdown src_drop">
-                        <option>Co-Owner</option>
-                        <option>Can-Write</option>
-                        <option>Can-jgb</option>
-                        <option>Can-Wrikjgjiuguite</option>
-                    </select>
-                    
-                    <!--<div class="dropdown src_drop opr">-->
-                    <!--    <i class="fa fa-caret-down" aria-hidden="true"></i>-->
-                    <!--    <p class="con_p">Co-Owner</p>-->
-                    <!--    <p>Can-Write</p>-->
-                    <!--</div>-->
-                    <select class="dropdown src_drop opr">
-                        <option>Co-Owner</option>
-                        <option>Can-Write</option>
-                        <option>Can-jgb</option>
-                        <option>Can-Wrikjgjiuguite</option>
-                    </select>
-                    
-                    <!--<select>-->
-                    <!--    <option>Operators</option>-->
-                    <!--    <option>AND</option>-->
-                    <!--</select>-->
-                    
-                    <input placeholder="enter the value...">
-                </div>
-                <div class="tbl_srh_box">
-                    <!--<select>-->
-                    <!--    <option>Column</option>-->
-                    <!--    <option>jnlklklk</option>-->
-                    <!--</select>-->
-                    <!--<div class="dropdown src_drop">-->
-                    <!--    <i class="fa fa-caret-down" aria-hidden="true"></i>-->
-                    <!--    <p class="con_p">Co-Owner</p>-->
-                    <!--    <p>Can-Write</p>-->
-                    <!--</div>-->
-                    
-                    <select class="dropdown src_drop ">
-                        <option>Co-Owner</option>
-                        <option>Can-Write</option>
-                        <option>Can-jgb</option>
-                        <option>Can-Wrikjgjiuguite</option>
-                    </select>
-                    <!--<div class="dropdown src_drop opr">-->
-                    <!--    <i class="fa fa-caret-down" aria-hidden="true"></i>-->
-                    <!--    <p class="con_p">Co-Owner</p>-->
-                    <!--    <p>Can-Write</p>-->
-                    <!--</div>-->
-                    <select class="dropdown src_drop opr">
-                        <option>Co-Owner</option>
-                        <option>Can-Write</option>
-                        <option>Can-jgb</option>
-                        <option>Can-Wrikjgjiuguite</option>
-                    </select>
-                    
-                    <!--<select>-->
-                    <!--    <option>Operators</option>-->
-                    <!--    <option>AND</option>-->
-                    <!--</select>-->
-                    
-                    <input placeholder="enter the value...">
-                </div>
-                <div class="tbl_con">
-                    <span class="cond">AND</span>
-                    <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                <div class ="filter_box">
+                    <div class ="filter_search">
+                        <div class="tbl_srh_box">
+                            <!--<select>-->
+                            <!--    <option>Column</option>-->
+                            <!--    <option>jnlklklk</option>-->
+                            <!--</select>-->
+                            <div class="dropdown src_drop">
+                                <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                <ul class="row_data">
+                                    <li>kjevnvjk kjrnjker</li>
+                                    <li>kjevnvjk </li>
+                                    <li>kjevnvjk kjrnjker</li>
+                                    <li>kjevnvjk kjrnjker</li>
+                                    <li>kjevnvjk kjrnjker</li>
+                                    <li>kjevnvjk kjrnjker</li>
+                                </ul>
+                            </div>
+                            <!--</div>-->
+                            <!--<select class="dropdown src_drop">-->
+                            <!--    <option>Co-Owner</option>-->
+                            <!--    <option>Can-Write</option>-->
+                            <!--    <option>Can-jgb</option>-->
+                            <!--    <option>Can-Wrikjgjiuguite</option>-->
+                            <!--</select>-->
+                            
+                            <div class="dropdown src_drop opr">
+                                <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                <p class="con_p">Co-Owner</p>
+                                <p>Can-Write</p>
+                            </div>
+                            <!--<select class="dropdown src_drop opr">-->
+                            <!--    <option>Co-Owner</option>-->
+                            <!--    <option>Can-Write</option>-->
+                            <!--    <option>Can-jgb</option>-->
+                            <!--    <option>Can-Wrikjgjiuguite</option>-->
+                            <!--</select>-->
+                            
+                            <!--<select>-->
+                            <!--    <option>Operators</option>-->
+                            <!--    <option>AND</option>-->
+                            <!--</select>-->
+                            
+                            <input placeholder="enter the value...">
+                        </div>
+                        <div class="tbl_srh_box">
+                            <!--<select>-->
+                            <!--    <option>Column</option>-->
+                            <!--    <option>jnlklklk</option>-->
+                            <!--</select>-->
+                            <div class="dropdown src_drop">
+                                <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                <p class="con_p">Co-Owner</p>
+                                <p>Can-Write</p>
+                            </div>
+                            
+                            <!--<select class="dropdown src_drop ">-->
+                            <!--    <option>Co-Owner</option>-->
+                            <!--    <option>Can-Write</option>-->
+                            <!--    <option>Can-jgb</option>-->
+                            <!--    <option>Can-Wrikjgjiuguite</option>-->
+                            <!--</select>-->
+                            <div class="dropdown src_drop opr">
+                                <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                <p class="con_p">Co-Owner</p>
+                                <p>Can-Write</p>
+                            </div>
+                            <!--<select class="dropdown src_drop opr">-->
+                            <!--    <option>Co-Owner</option>-->
+                            <!--    <option>Can-Write</option>-->
+                            <!--    <option>Can-jgb</option>-->
+                            <!--    <option>Can-Wrikjgjiuguite</option>-->
+                            <!--</select>-->
+                            
+                            <!--<select>-->
+                            <!--    <option>Operators</option>-->
+                            <!--    <option>AND</option>-->
+                            <!--</select>-->
+                            
+                            <input placeholder="enter the value...">
+                        </div>
+                    </div>
+                    <div class="tbl_con">
+                        <span class="cond">AND</span>
+                        <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                    </div>
                 </div>
                 <ul class="row_edit">
                     <li>
@@ -622,15 +635,10 @@
                     <span class="can b">Cancel</span>
                 </div>
             </div>
-            <div class="hdr">
-                <button class="col_but"><i class="fa fa-plus" aria-hidden="true"></i> Column</button>
-                <button class="del_col"><i class="fa fa-trash-o" aria-hidden="true"></i> Column</button>
-                <p class="clr"></p>
-                <span contenteditable="true" class="tbl_name">Untitled</span>
-                <button class="row_but"><i class="fa fa-plus" aria-hidden="true"></i> Row</button>
-                <button class="del_row"><i class="fa fa-trash-o" aria-hidden="true"></i> Row</button>
-            </div>
             
+        
+         
+        
         <div class="mn_tb">    
             <table>
                 <thead>
@@ -922,9 +930,7 @@
                 </tbody>
             </table>
          </div>
-         
         </div>
-        
         <!--..............................Main Table Popup...............................................-->
         
         <div class="whole_popup">
@@ -941,17 +947,17 @@
             
             <div class="adm_hdr">
                 <span>Welcome Ponkumar.S</span>
-                <span>Organization</span>
+                <span >Organization</span>
                 <span><i class="fa fa-users" aria-hidden="true"></i> 22</span>
             </div>
             
             <!--<div class="add_usr">-->
                 <div class="add_fld">
-                    <input placeholder="username" >
-                    <input placeholder="E-mail id" class="add_em">
-                    <label class="add_mail">@orgdat.com</label>
-                    <input placeholder="Password" type="password">
-                    <button>Create</button>
+                    <input placeholder="username" id="name" >
+                    <input placeholder="E-mail id" id="emailName" class="add_em">
+                    <label class="add_mail" id="host">@zoho.com</label>
+                    <input placeholder="Password" id="password" type="password">
+                    <button id="addMember" >Create</button>
                     <!--<i class="fa fa-trash-o" aria-hidden="true"></i>-->
                     <!--<i class="fa fa-plus" aria-hidden="true"></i>-->
                 </div>
@@ -1368,21 +1374,22 @@
         
         
         <script id='org_template' type="text/x-handlebars-template" >
-            <div class="org_box">
-                <span>{{name}}</span>
-                <div class="options">
-                    <i class="fa fa-share-alt" aria-hidden="true"></i>
-                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-                    <i class="fa fa-download" aria-hidden="true"></i>
-                    
-                    <label for="file"><i class="fa fa-upload" aria-hidden="true"></i></label>
-                    <i class="fa fa-users" aria-hidden="true"></i>
-                </div>
-                <div class="usrs">
-                    <i class="fa fa-database" aria-hidden="true"></i>
-                    <span>{{count}}</span>
-                  </div>
+        <div class="org_box">
+            <span>{{name}}</span>
+            <div class="options">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+                <i class="fa fa-trash-o" aria-hidden="true"></i>
+                <!--<label for="file">-->
+                    <i class="fa fa-upload" aria-hidden="true"></i>
+                    <!--</label>-->
+                <i class="fa fa-users" aria-hidden="true"></i>
+                <i class="fa fa-file-text-o" aria-hidden="true" title="Log Files"></i>
             </div>
+            <div class="usrs">
+                <i class="fa fa-database" aria-hidden="true"></i>
+                <span>{{count}}</span>
+              </div>
+        </div>
         </script>
         <script id='dat_template' type="text/x-handlebars-template" >
             <div class="databs">
@@ -1413,12 +1420,12 @@
                     <span>{{count}}</span>
                 </div>
             </div>
-        </script> 
+        </script>  
         <script id='create_template' type="text/x-handlebars-template" >
              <div class="{{cla1}} {{cla2}}">
                 <span class="crt_org">Create {{purpose}}</span>
                 <i class="fa fa-plus-circle crt_pls" aria-hidden="true" ></i>
-                 <div class="input">
+                 <div class="input" style="transform: scale(0);" >
                      <span class="cls_but">X</span>
                      <input type="text"  placeholder="{{purpose}} Name" id="Name">
                      <button type="submit" purpose="{{purpose}}" >Submit</button>
@@ -1429,9 +1436,9 @@
         <script id="table-template" type="text/x-handlebars-template">
         <table>
             <thead>
-                <tr>
+                <tr><th><input type='checkbox' /></th>
                     {{#each headers}}
-                        <th class='th' type='{{type}}' >
+                        <th class='th' type='{{type}}' defaulf="{{defalt}}" isNull="{{isNull}}">
                             {{key}}
                             <i class="fa fa-sort" aria-hidden="true"></i>
                             <div class="sort_box">
@@ -1446,10 +1453,11 @@
             <tbody>
                 {{#each values}}
                     <tr>
+                     <td><input type="checkbox" class="check" /></td>
                         {{#each value}}
                             <td>
                                 {{values}}
-                            </td>
+                             </td>
                         {{/each}}
                     </tr>
                 {{/each}}
@@ -1467,7 +1475,6 @@
                     <li>
                         <label>Type</label>
                         <select class='type'>
-                            <option>bigserial</option>
                             <option>bigint</option>
                             <option>text</option>
                             <option>numeric</option>
@@ -1493,11 +1500,28 @@
             <li>
                 <label>
                     {{columnName}}:<br>
-                    <input class="row_inp" >
+                    <input class="row_inp" value="{{value}}" >
                 </label>
             </li>
             {{/each }}
          </script>
+         <script  id="filter-template" type="text/x-handlebars-template">
+            <div class="tbl_srh_box">
+                <select class="dropdown src_drop column_name" style="height: auto;">
+                <option type="bigint">roll_no</option>
+                    {{#each list }}
+                        <option type="{{type}}" class='columnName'>{{columnName}}</option>
+                    {{/each}}
+                </select>
+                <select class="dropdown src_drop opr opertor" style="height: 30px;">
+                    {{#each condition }}
+                        <option >{{opareter}}</option>
+                    {{/each}}
+                </select>
+                <input class="update" placeholder="enter the value...">
+            </div>
+         </script>
+                
     </body>
 </html>
 

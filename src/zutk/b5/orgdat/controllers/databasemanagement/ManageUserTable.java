@@ -14,7 +14,7 @@ import java.sql.*;
 import zutk.b5.orgdat.model.orgmanagement.Share;
 import com.google.gson.*;
 import zutk.b5.orgdat.model.databasemanagement.*;
-import zutk.b5.orgdat.controllers.filters.RoleChecker;
+import zutk.b5.orgdat.controllers.filters.*;
 
 public class ManageUserTable extends HttpServlet {
 	DatabaseConnection dc = null;
@@ -25,7 +25,7 @@ public class ManageUserTable extends HttpServlet {
 
 	@Override
 	protected void service(HttpServletRequest request,
-			HttpServletResponse response) {
+			HttpServletResponse response) { 
 		try {
 			writer = response.getWriter();
 			if (request.getMethod().toLowerCase().endsWith("post")) {
@@ -90,7 +90,7 @@ public class ManageUserTable extends HttpServlet {
 			}
 			/***************************** Rename Table ********************************************/
 			else if (reqURI.endsWith("renameTable") == true) {
-				String newTable = request.getParameter("newtable_name");
+				String newTable = request.getParameter("rename");
 				if (isCorrect(newTable) == false) {
 				    writer.write("{'status':406,'message':'Invaild new table name'}");
 				   dc.close();
@@ -120,27 +120,54 @@ public class ManageUserTable extends HttpServlet {
 				} else {
 					throw new Exception();
 				}
+		    if (dc != null ){
+		        dc.close();
+		    }
 			}
 			/***************************** Alter Table ********************************************/
 			else if (reqURI.endsWith("alterTable") == true) {
 				String columnNameArray = request.getParameter("query");
 				System.out.println("columnNameArray = "+columnNameArray);
-				JsonArray columnArray = new JsonParser().parse(columnNameArray)
+				JsonArray columnArray ;
+				if (columnNameArray == null){
+				     columnArray = null;
+				} else {
+				     columnArray = new JsonParser().parse(columnNameArray)
 						.getAsJsonArray();
+				}
 				writer.write(templateTable.alterColumn(org_name,db_name,table_name, columnArray,request.getParameter("wanted")));
+				dc.close();
+				return;
+			}/***************************** edit Column ********************************************/
+			else if (reqURI.endsWith("editColumn") == true) {
+				String columnNameArray = request.getParameter("query");
+				System.out.println("columnNameArray = "+columnNameArray);
+				JsonObject columnArray ;
+				if (columnNameArray == null){
+				     columnArray = null;
+				} else {
+				     columnArray = new JsonParser().parse(columnNameArray)
+						.getAsJsonObject();
+				}
+				writer.write(templateTable.editColumn(org_name,db_name,table_name, columnArray));
 				dc.close();
 				return;
 			} else {
 				throw new Exception();
 			}
 		} catch (Exception e) {
+		    if (dc != null ){
+		        dc.close();
+		    }
 		    System.out.println("manage user table error : "+e);
 		    e.printStackTrace();
 			writer.write("{'status':400,'message':'Bad Reuest'}");
 			return;
 		} finally {
 			try {
-				dc.close();
+		    if (dc != null ){
+		        dc.close();
+		    }
 			} catch (Exception e) {
 				System.out.println("Connection Not Close");
 			}
@@ -180,18 +207,28 @@ public class ManageUserTable extends HttpServlet {
 	public boolean checkCount(String org_name, String db_name) {
 		try {
 		    dc = new DatabaseConnection("postgres","postgres","");
-			String sql = "select count(table_name) from table_management where org_name=? and db_name=?";
+			String sql = "select count(table_id) from table_details where org_id = (select org_id from org_details where org_name = ?) and db_id = (select db_id from db_details where db_name = ?)";
 			dc.stmt = dc.conn.prepareStatement(sql);
 			dc.stmt.setString(1, org_name);
 			dc.stmt.setString(2, db_name);
+			
 			ResultSet rs = dc.stmt.executeQuery();
+			System.out.println(rs.wasNull());
+			long count = 0;
 			while (rs.next()) {
-			    dc.close();
-				return rs.getLong(1) < 25;
+			    count = rs.getLong(1);
 			}
 			dc.close();
+			if(count > 25){
+			    return false;
+			}
+			
 			return true;
 		} catch (Exception e) {
+		    if (dc != null ){
+		        dc.close();
+		    }
+		    System.out.println("retgutvygv = "+e);
 			return false;
 		}
 	}

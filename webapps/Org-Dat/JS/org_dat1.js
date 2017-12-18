@@ -8,62 +8,82 @@ function tab_change(tab) {
     document.getElementById(tab).style.display = "block";  
 }
 $(document).ready(function(){
-	$(document).on("click",".org_box>span,.databs>span",function(){
-// 		$(".whole_org_box").css("display","none");
-// 		$(".whole_org_box").hide();
-//         // $(".whole_org_box").css("transform","translate(-100%)")
-//         // $(".whole_database").css("transform","translate(0%)")
-//         setTimeout(function(){
-//             $(".whole_org_box").hide();
-// //         },700)
-// alert($(this).text());
-// alert(location.pathname+$(this).text());
-        alert($(this).parent().attr("class"));
-        console.log($(this).parent().attr("class"));
-        var path = location.pathname;
-        if (path.endsWith("/")){
-            path = path +$(this).text() ; 
-        } else {
-            path = path +"/"+$(this).text();
-        }
-        history.pushState({title:"xczxczx"},null,path);
-        console.log("done");
-        niceURL();
-// alert("org");
-//         history.pu
-// 		$(".whole_database").css("display","flex");
+    
+    $(document).on("click",".shr,.del_but,.add_fld button,.input>button",function(){
+        var msg=$(this).text();
+        $(".altMsg").text(msg+"d Organization One");
+        $(".alertPop").css("transform","translateY(0px)");
+        setTimeout(function(){
+            $(".alertPop").css("transform","translateY(-45px)");
+        },1000)
+    })
+    
+    
+    
+	$(document).on("click",".org_box>span",function(){
+		$(".whole_org_box").hide();
+        // $(".whole_org_box").css("transform","translate(-100%)")
+        // $(".whole_database").css("transform","translate(0%)")
+        setTimeout(function(){
+            $(".whole_org_box").hide();
+        },700)
+		$(".whole_database").css("display","flex");
 	});
-// 	$(document).on("click",".databs>span",function(){
-// 	    console.log("hi");
-// 		$(".whole_database").css("display","none");
-//         // $(".whole_org_box").css("transform","translate(-100%)")
-//         // $(".whole_database").css("transform","translate(0%)")
-//         // // setTimeout(function(){
-//         //     $(".whole_database").hide();
-//         // },700)
-//         alert("db");
-// 		$(".whole_table").css("display","flex");
-// 	});
+	$(document).on("click",".databs>span",function(){
+	    console.log("hi");
+	    if($(this).attr("contenteditable") != "true"){
+	           	$(".whole_database").hide();
+        // $(".whole_org_box").css("transform","translate(-100%)")
+        // $(".whole_database").css("transform","translate(0%)")
+        // setTimeout(function(){
+            $(".whole_database").hide();
+        // },700)
+		$(".whole_table").css("display","flex");      
+	    }
+	  
+	});
 	
-	
+	$(document).keypress(function(event){
+	   // alert(event.keyCode)
+	    if(event.keyCode==13){
+	        $(".databs>span").attr("contenteditable","false")
+	    }
+	})
 // 	-------------------------------Share page-------------------------------------
 
     $(document).on("click",".fa-share-alt",function(){
         //$(".share").css("transform","translateY(0)")
         $(".share").css("display","flex");
         $(".org").css("display","none");
-    });
+    })
+    $(document).on("click",".rghtCls",function(){
+        $(".share").hide();
+        $(".org").css("display","flex");
+    })
+    
+    $(document).on("click",".shr_close",function(){
+        $(this).parent().fadeOut();
+    })
     
     drop_num=1;
     $(".dropdown").click(function(){
         drop_num++;
         if(drop_num%2==0){
-            $(this).css("height","auto");
+            $(this).css({
+                "height":"auto",
+                // "z-index":"0"
+            });
         }else{
-            $(this).css("height","30px");
+           $(this).css({
+                "height":"30px",
+                // "z-index":"-1"
+            });
         }
         
     });
+    $(".dropdown ul li").click(function(){
+        $(this).parent().children("li:first-child").text($(this).text())
+    })
     share=1;
     $(".mng").click(function(){
         share++;
@@ -117,17 +137,45 @@ $(document).ready(function(){
     */
     // ----------------------------------Org Box Popup alerts--------------------------
     
-    $(document).on("click",".options .fa-trash-o,.fa-users",function(){
+    $(document).on("click",".options .fa-trash-o,.fa-users,.fa-upload,.fa-users",function(){
         if(nu%2==0){
          document.getElementById("demo").click();   
         }
         
-        $(".org_popup").css("top","14%")
+        $(".org_popup").css("top","30%")
         $(".whole_org").css("filter","blur(5px)")
         //$(".org_popup .decline").css("display","none")
     })
+    $(document).on("click",".options .fa-upload",function(){
+        $("input[type=file]").show();
+        $(".titH3,.PopUsr").hide();
+        $(".TpH1").text("Are You Sure to Upload?")
+        $(".del_but").text("Upload")
+    })
+     $(document).on("click",".options .fa-trash-o",function(){
+            $("input[type=file],.PopUsr").hide();
+            $(".titH3").show();
+            $(".TpH1").text("Are You Sure to Delete?")
+            $(".del_but").text("Delete")
+     })
+     $(document).on("click",".fa-users",function(){
+            $("input[type=file]").hide();
+            $(".PopUsr,.titH3").show();
+            $(".titH3").text("Members")
+            $(".TpH1").text("Organization 1")
+            $(".decline").text("Close")
+            $(".del_but").hide()
+     })
+     
+     $(document).on("click",".options .fa-pencil-square-o",function(){
+         $(this).parent().prev("span").css("border-bottom","1px solid");
+          $(this).parent().prev("span").attr({
+              "contenteditable":"true",
+              "autofocus":"true"
+          })
+     })
     
-    $(document).on("click",".org_popup .decline",function(){
+    $(document).on("click",".org_popup .decline,.del_but",function(){
         $(".org_popup").css("top","-300%")
         $(".whole_org").css("filter","blur(0px)")
     })
@@ -138,7 +186,7 @@ $(document).ready(function(){
         if(nu%2==0){
          document.getElementById("demo").click();   
         }
-        $(".org_box").css("display","flex")
+        $("..org_box").css("display","flex")
         $(".dsh_brd,.cmn_tab,.main_tab,.admin,.log").css("display","none")
     })
     //------------------------------------Create Org------------------------------------
@@ -176,41 +224,22 @@ $(document).ready(function(){
     })*/
     
     $(document).on("click","#Name+button",function(){
-        var name = $(this).prev().val();
-        var purpose =  $(this).attr("purpose");var currentPath = location.pathname; 
-        var pathList = currentPath.substring(4).split("/");
-        var data = {};
-        data.org_name = pathList[0];
-        if (purpose == "Organization"){
-            data.org_name = $(this).prev().val();
-            sendPostRequest( "/createOrg",data,alert);
-        } else if (purpose == "Database"){
-            data.db_name = $(this).prev().val();
-           sendPostRequest(  "/createDB",data,alert);
-        }  else if (purpose == "Table"){
-            data.db_name = pathList[1];
-            data.table_name = $(this).prev().val();
-            sendPostRequest(  "/createTable",data,alert);
-        } 
+        var parent = $(this).parents("main");
+        if (parent.siblings().length  < 3){
+            var source   = $("#org_template").html();
+            var template = Handlebars.compile(source);
+            var content = {};
+            content.org_name = $(this).prev().val();
+            $(this).prev().val("");
+            var htmlForOrg = template(content);
+            parent.before(htmlForOrg);
+            if (parent.siblings().length  == 3){
+                parent.css("display","none");
+            }
+        } else {
+            parent.css("display","none");
+        }
     });
-    // $(document).on("click","#Name+button",function(){
-        
-        // var parent = $(this).parents("main");
-        // if (parent.siblings().length  < 3){
-        //     var source   = $("#org_template").html();
-        //     var template = Handlebars.compile(source);
-        //     var content = {};
-        //     content.org_name = $(this).prev().val();
-        //     $(this).prev().val("");
-        //     var htmlForOrg = template(content);
-        //     parent.before(htmlForOrg);
-        //     if (parent.siblings().length  == 3){
-        //         parent.css("display","none");
-        //     }
-        // } else {
-        //     parent.css("display","none");
-        // }
-    // });
     $(document).on("click",".fa-chevron-circle-left",function(){
         $(this).parent().css("transform","translateX(100%) rotateY(90deg)");
         $(this).parent().next().css("transform","translateX(0) rotateY(0deg)");
@@ -355,10 +384,17 @@ $(".security_whole>div:nth-child(2)>nav").click(function(){
     }
         
 });
+    pf_ed=1;
+    $(".pf_ed").click(function(){
+        pf_ed++;
+        if(pf_ed%2==0){
+            $(this).removeClass("fa fa-pencil").addClass("fa fa-check")        
+        }else{
+            $(this).removeClass("fa fa-check").addClass("fa fa-pencil")        
+        }
     
-    $(".security_whole li").click(function(){
-    $(this).attr("contenteditable","true");
-    $(this).css({
+    $(this).parent().children("span").attr("contenteditable","true");
+    $(this).parent().children("span").css({
         "cursor":"text",
         "outline":"none",
         "border-bottom":"1px solid"
@@ -389,12 +425,14 @@ $(".security_whole .slide_button div").click(function(){
         }
         
         $(".cmn_tab").css("display","block")
-        $(".org_box,.security_whole,.org_name,.whole_org,.admin,.log,.main_tab").css("display","none")
+        $(".org_box,.security_whole,.org_name,.whole_org,.admin,.log,.main_tab,.dsh_brd").hide();
         $(".cmn_tab>h2").text("History")
+        $(".cm_tb table th:first-child,.cm_tb table td:first-child").hide();
     })
     
     $(document).on("click",".sidebar>ul>li:nth-child(4)",function(){
         $(".cmn_tab>h2").text("Auth Tokens")
+        $(".cm_tb table th:first-child,.cm_tb table td:first-child").show();
     })
     
 // ----------------------------------Database---------------------------------------------------
@@ -423,35 +461,23 @@ $(document).on("click",".org_name i",function(){
     })
 
 // -----------------------------------------------Main Table---------------------------------------
-$(document).on("click",".row_but,.main_tab td",function(){
+
+$(document).on("click",".main_tab td",function(){
     //$(this).attr("contenteditable","true")
      $(".tbl_srch").css({
          "transform":"translate(0px)"
      })
-    
+     $(".srch_edit").hide();
+    $(".row_edit").show();
 })
-
-
-$(document).on("click",".sub",function(){
-    //$(this).attr("contenteditable","true")
-    var purpose = $(this).parent().attr("purpose");
-    var data = {};
-    var path = location.pathname.substring(4).split("/");
-    data.org_name = path[0];
-    data.db_name = path[1];
-    data.table_name = path[2];
-    if (purpose == "add"){
-        
-        data.records = JSON.stringify(addColumn());
-        console.log(data);
-        sendPostRequest("/addRecord",data,alert);
-        
-        
-    }
+$(document).on("click",".srch_col",function(){
+    $(".srch_edit").show();
+    $(".row_edit").hide();
+    $(".tbl_srch").css({
+         "transform":"translate(0px)"
+     })
 })
-
-
-$(document).on("click",".can,.sub",function(){
+$(document).on("click",".can,.mn_tb td:first-child",function(){
     //$(this).attr("contenteditable","true")
      $(".tbl_srch").css({
          "transform":"translate(-350px)"
@@ -460,23 +486,23 @@ $(document).on("click",".can,.sub",function(){
 })
 
 $(document).on("click",".fa-sort",function(){
-    $(".sort_box").slideToggle();
+    $(this).parent().next().slideToggle();
 })
 
-// $(document).on("click",".tble",function(){
-//     $(".whole_org,.security_whole,.cmn_tab").css("display","none")
-//     $(".main_tab").css("display","block")
-// })
+$(document).on("click",".tble",function(){
+    $(".whole_org,.security_whole,.cmn_tab").css("display","none")
+    $(".main_tab").css("display","block")
+})
 
     // ------------------------POPUP-------------------------------------------------
     
-    $(".hdr>button:nth-child(1)").click(function(){
-        $(".whole_popup").css("background","url(https://cdn.dribbble.com/users/463734/screenshots/2016792/empty-result_shot.png) center/cover")
+    $(".col_but,.tb_op .fa-pencil").click(function(){
+        
         $(".whole_popup").css({
             "transform":"translateY(50px) scale(0.2)"
         })
         
-        // $(".main_table>caption button:nth-child(2)").css("opacity","0")
+        
         $(".main_tab").css("filter","blur(3px)")
             
         setTimeout(function(){
@@ -497,9 +523,9 @@ $(document).on("click",".fa-sort",function(){
     });
     
     $(".submit,.cancel").click(function(){
-        // if(nu%2==0){
-        //  document.getElementById("demo").click();   
-        // }
+        if(nu%2==0){
+         document.getElementById("demo").click();   
+        }
         $(".main_tab").css("filter","blur(0px)")
         // $(".main_tab>caption button:nth-child(2)").css("opacity","1")
         
@@ -519,58 +545,31 @@ $(document).on("click",".fa-sort",function(){
         $(".whole_popup>div,.whole_popup button").css("opacity","0")
                 
         setTimeout(function(){
-            $(".whole_popup").css("transform","translateY(-300px) scale(0.2)")},500)
+            $(".whole_popup").css("transform","translateY(-100%) scale(0.2)")},500)
         })
     
     $(".add").click(function(){
         if(nu%2==0){
          document.getElementById("demo").click();   
         }
-        $(".whole_popup").css("background","none");
-        console.log("add");
-        var theTemplateScript,theTemplate,theCompiledHtml;
-        theTemplateScript = $("#addcolumn").html();
-        theTemplate = Handlebars.compile(theTemplateScript);
-         theCompiledHtml = theTemplate({});
-        //  $('.whole_org_box').append(theCompiledHtml);
-        $(".add_col").append(theCompiledHtml);
-        // $(".add_col").append("<div class='col'><ul><li><i class='fa fa-times-circle sel_col_del' aria-hidden='true'></i><label>Column:</label><input></li><li><label>Type</label><select><option selected>--select--</option><option>Text</option><option>Integer</option><option>Boolean</option><option>Float</option><option>Date</option><option>Time</option><option>Time stamp</option></select><input><label>Charc</label></li><li><label>Default Value:</label><input></li><li><input type='checkbox'><label>Mandatory</label></li></ul></div>")
+        $(".whole_popup").css("background","none")
+        $(".add_col").append("<div class='col'><ul><li><i class='fa fa-times-circle sel_col_del' aria-hidden='true'></i><label>Column:</label><input></li><li><label>Type</label><select><option selected>--select--</option><option>Text</option><option>Integer</option><option>Boolean</option><option>Float</option><option>Date</option><option>Time</option><option>Time stamp</option></select><input><label>Charc</label></li><li><label>Default Value:</label><input></li><li><input type='checkbox'><label>Mandatory</label></li></ul></div>")
     })
     
     $(document).on("click",".sel_col_del",function(){
         if(nu%2==0){
          document.getElementById("demo").click();   
         }
-    }) 
-    $(document).on("click",".submit",function(){
-        console.log("submiting");
-        var data = {};
-         $(".add_col").html();
-        alert(getColumnDetail())
-        data.query = JSON.stringify(getColumnDetail());
-        
-        data.wanted = "addColumn";
-        var path = location.pathname.substring(4).split("/");
-        data.org_name = path[0];
-        data.db_name = path[1];
-        data.table_name = path[2];
-        console.log("asdads\"asd = " +data);
-        sendPostRequest("/alterTable",data,alert);
-        console.log("submiting");
-        // $(".col").css("display","none")
-        $(".whole_popup").css("background","url(https://assets.materialup.com/uploads/77a5d214-0a8a-4444-a523-db0c4e97b9c0/preview.jpg) center/cover");
-        
+        $(this).parent().parent().parent().css("display","none")
     })
-    $(document).on("click",".del,.submit,.cancel",function(){
-         $(".col").remove();
-        $(".whole_popup").css("background","url(https://assets.materialup.com/uploads/77a5d214-0a8a-4444-a523-db0c4e97b9c0/preview.jpg) center/cover");
-        console.log("canceling");
+    
+    $(document).on("click",".del,.submit",function(){
+        $(".col").css("display","none")
+        $(".whole_popup").css("background","url(https://cdn.dribbble.com/users/463734/screenshots/2016792/empty-result_shot.png) center/cover")
     })
     
             // --------------------------------Admin Dashboard---------------------------------------------
-    $(document).on("click",".add-column-x",function(){
-        $(this).parents(".col").remove();
-    });
+
     $(document).on("click",".sidebar ul li:last-child",function(){
         if(nu%2==0){
          document.getElementById("demo").click();   
@@ -579,15 +578,15 @@ $(document).on("click",".fa-sort",function(){
         $(".whole_org").css("display","none")
     })
     
-    $(document).on("click",".add_fld button,.add_fld .fa-trash-o",function(){
+    // $(document).on("click",".add_fld button,.add_fld .fa-trash-o",function(){
         
-        $(this).parent(".add_fld").slideUp();
-    })
+    //     $(this).parent(".add_fld").slideUp();
+    // })
     
-    $(document).on("click",",list .fa-pencil-square-o",function(){
-        $(".list input").attr("disabled","false")
-        $(".list input").css("border-bottom","1px solid silver")
-    })
+    // $(document).on("click",",list .fa-pencil-square-o",function(){
+    //     $(".list input").attr("disabled","false")
+    //     $(".list input").css("border-bottom","1px solid silver")
+    // })
     
         // ----------------------------------------Log file--------------------------------
         
@@ -595,10 +594,16 @@ $(document).on("click",".fa-sort",function(){
         if(nu%2==0){
          document.getElementById("demo").click();   
         }
-        
         $(".log").css("display","block")
         $(".whole_org,.cmn_tab,.dsh_brd,.main_tab,.admin").css("display","none")
     })  
+    $(document).on("click",".log_list li",function(){
+        $(".log_list").hide();
+        $(".log_show").show();
+        
+        $(".log_det").text($(this).children("date").text())
+    })
+    
     
     // ----------------------------------------Dash board--------------------------------
         
@@ -607,17 +612,25 @@ $(document).on("click",".fa-sort",function(){
          document.getElementById("demo").click();   
         }
         $(".dsh_brd").css("display","block")
-        $(".whole_org,.whole_org,.cmn_tab,.main_tab,.admin,.log").css("display","none")
+        $(".whole_org,.whole_org,.cmn_tab,.main_tab,.admin,.log,.security_whole").hide();
     })  
     
             // -------------------------dashboard overview----------------------
     
-    $(document).on("click",".dsh_org footer span:first-child",function(){
+    $(document).on("click",".ovrView",function(){
         if(nu%2==0){
          document.getElementById("demo").click();   
         }
         $(".dsh_ovr").css("display","block")
         $(".dsh_brd .box").css("display","none")
+    })
+    
+    $(document).on("click",".fa-hand-o-left",function(){
+        if(nu%2==0){
+         document.getElementById("demo").click();   
+        }
+        $(".dsh_ovr").hide();
+        $(".dsh_brd .box").show();
     })
     var dt=1;
     $(document).on("click",".dtb li span",function(){
@@ -631,9 +644,26 @@ $(document).on("click",".fa-sort",function(){
     })
     
     $(document).on("click",".dsh_ovr .tbl li span i",function(){
-        $(".chart").css("display","block")
-        $(".whole_org,.whole_org,.cmn_tab,.main_tab,.admin,.log,.dsh_ovr,.box").css("display","none")
-    });
-     
+        $(".setGrph").css("transform","translate(0px)");
+        $(".tbl_srh_box").css("height","60px");
+        $(".srch_edit").show();
+        $(".b").addClass("grpShow");
+        $(".row_edit").css({
+            "height": "calc(100% - 135px)",
+            "overflow":"auto"
+        })
+        // $(".whole_org,.whole_org,.cmn_tab,.main_tab,.admin,.log,.dsh_ovr,.box").css("display","none")
+    })
+    
+    $(document).on("click",".grpShow",function(){
+        $(".chart").show();
+        $(".whole_org,.whole_org,.cmn_tab,.main_tab,.admin,.log,.dsh_ovr,.box").hide();
+    })
+    
+    $(document).on("click",".chart .rghtCls",function(){
+        $(".dsh_ovr").show();
+        $(".whole_org,.whole_org,.cmn_tab,.main_tab,.admin,.log,.chart,.box").hide();
+    })
+       
+    
 });
-niceURL();

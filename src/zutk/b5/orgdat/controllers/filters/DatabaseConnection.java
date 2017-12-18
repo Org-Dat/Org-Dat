@@ -19,12 +19,11 @@ public class DatabaseConnection {
 		this.url = "jdbc:postgresql://localhost:5432/" + db_name;
 		this.user = _user;
 		this.password = _password;
+		close();
 		try {
 			Class.forName("org.postgresql.Driver");
 			this.conn = DriverManager.getConnection(url, user, password);
-		} catch (SQLException sqlEx) {
-			return;
-		} catch (ClassNotFoundException e) {
+		} catch (Exception sqlEx) {
 			return;
 		}
 	}
@@ -50,24 +49,78 @@ public class DatabaseConnection {
 			stmt.setString(1, mail);
 			stmt.setString(2, password);
 			ResultSet rs = stmt.executeQuery();
-			while(rs.next()){
-			    user_id = rs.getLong(1);
+			while (rs.next()) {
+				user_id = rs.getLong(1);
 			}
 			return user_id;
 		} catch (Exception e) {
 			return -1;
 		}
 	}
-	public void close(){
-	    try { 
-    	    if (stmt !=  null && stmt.isClosed() == false){
-    	        stmt.close();
-    	    }
-    	    if (conn != null && conn.isClosed() == false){
-    	        conn.close();
-    	    }
-	    } catch (Exception e) {
-	        System.out.println("connection close has problem = "+e);
-	    }
+
+	public long getOrgId(String org_name) {
+		try {
+			stmt = conn
+					.prepareStatement("select org_id from org_details where org_name=?");
+			stmt.setString(1, org_name);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				return rs.getLong(1);
+			}
+			return -1;
+		} catch (Exception e) {
+			return -1;
+		}
+	}
+
+	public long getDBId(long org_id, String db_name) {
+		try {
+			stmt = conn
+					.prepareStatement("select db_id from db_details where db_name=? and org_id=?");
+			stmt.setString(1, db_name);
+			stmt.setLong(2, org_id);
+		
+			ResultSet rs = stmt.executeQuery();
+			long db_id = -1;
+			while (rs.next()) {
+				db_id =  rs.getLong(1);
+			}
+			//stmt.close();
+				System.out.println("ORG ID = "+org_id + "DB NAME = "+ db_name +" === DB ID  +==="+db_id);
+			return db_id;
+		} catch (Exception e) {
+		    e.printStackTrace();
+			return -1;
+		}
+	}
+
+	public long getTableId(long org_id, long db_id, String table_name) {
+		try {
+			stmt = conn
+					.prepareStatement("select table_id from table_details where table_name=? and org_id=? and db_id=?");
+			stmt.setString(1, table_name);
+			stmt.setLong(2, org_id);
+			stmt.setLong(3, db_id);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				return rs.getLong(1);
+			}
+			return -1;
+		} catch (Exception e) {
+			return -1;
+		}
+	}
+
+	public void close() {
+		try {
+			if (stmt != null && stmt.isClosed() == false) {
+				stmt.close();
+			}
+			if (conn != null && conn.isClosed() == false) {
+				conn.close();
+			}
+		} catch (Exception e) {
+			System.out.println("connection close has problem = " + e);
+		}
 	}
 }

@@ -77,7 +77,7 @@ public class UserSignUp extends HttpServlet {
 									cookie.setPath("/");
 									cookie.setHttpOnly(true);
 									response.addCookie(cookie);
-									response.sendRedirect("http://orgdat.zcodeusers.com/HTML/homepage.html");
+									response.sendRedirect("http://orgdat.zcodeusers.com/v1");
 									/** which file redirect ? **/
 								} else {
 									out.write("Invaild Inputs");

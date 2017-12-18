@@ -1,7 +1,7 @@
 package zutk.b5.orgdat.model.orgmanagement;
 
 import java.sql.*;
-import zutk.b5.orgdat.model.databasemanagement.DatabaseConnection;
+import zutk.b5.orgdat.controllers.filters.*;
 import java.util.*;
 
 public class ChartPrivers {
@@ -98,7 +98,7 @@ public class ChartPrivers {
 			lineChart
 					.append("var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));chart.draw(data, options); } </script>");
 			return lineChart.toString();
-		} catch (Exception e) {
+		} catch (Exception e) { 
 			return "invaild  Data";
 		}
 	}

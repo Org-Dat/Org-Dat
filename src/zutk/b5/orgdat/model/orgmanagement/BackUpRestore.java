@@ -23,7 +23,7 @@ public class BackUpRestore {
 		try {
 			connection = DriverManager.getConnection(
 					"jdbc:postgresql://127.0.0.1:5432/testdb", "postgres", "");
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			System.out.println("Connection Failed! Check output console");
 			e.printStackTrace();
 		} finally {

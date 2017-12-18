@@ -17,7 +17,7 @@ import zutk.b5.orgdat.model.accountmanagement.CookieManage;
 public class CookieFilter extends HttpServlet implements Filter {
 	public long user_id;
 	protected DatabaseConnection dc;
-	protected PreparedStatement stmt = null;
+// 	protected PreparedStatement stmt = null;
 	ServletContext servletContext ;
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
@@ -67,11 +67,11 @@ public class CookieFilter extends HttpServlet implements Filter {
 				String ipAddress = request.getRemoteAddr();
 				String user_agent = request.getHeader("User-Agent");
 				String query = "select user_id from cookie_management where user_agent = ? and ip_address = ? and iambdt_cookie = ?";
-				stmt = dc.conn.prepareStatement(query);
-				stmt.setString(1, user_agent);
-				stmt.setString(2, ipAddress);
-				stmt.setString(3, iambdt);
-				ResultSet rs = stmt.executeQuery();
+				dc.stmt = dc.conn.prepareStatement(query);
+				dc.stmt.setString(1, user_agent);
+				dc.stmt.setString(2, ipAddress);
+				dc.stmt.setString(3, iambdt);
+				ResultSet rs = dc.stmt.executeQuery();
 				if (rs.wasNull()) {
 					throw new Exception();
 				}
@@ -79,6 +79,8 @@ public class CookieFilter extends HttpServlet implements Filter {
 				    user_id = rs.getLong(1);
 				}
 			} 
+			
+	        dc.close();
 			System.out.println("cookie userid : " +user_id);
 			System.out.println("cookie iambdt : " + iambdt);
 // 			HttpSession session = request.getSession();
@@ -87,14 +89,16 @@ public class CookieFilter extends HttpServlet implements Filter {
 			if (requri.startsWith("/api/") == false) {
 			    CookieManage cm = new CookieManage();
     			Cookie cookie = new Cookie("iambdt",cm.changeCookie(iambdt));
-    			cookie.setPath("/");
+    		//	cookie.setPath("/");
     		//	cookie.setSecure(true);
     		    cookie.setHttpOnly(true);
     		    response.addCookie(cookie);
     			req.removeAttribute(iambdt);
     		}
-			dc.conn.close();
 		} catch (Exception e) {
+		    if (dc != null ){
+		        dc.close();
+		    }
 		    System.out.println("cookie Filter error : "+e.getMessage());
 		    response.sendRedirect("/JSP/landingPage.jsp");
 		}
@@ -104,9 +108,9 @@ public class CookieFilter extends HttpServlet implements Filter {
 	private long getUserId(String authtoken){
 	    	String query = "select user_id from auth_management where auth_token=?";
 		try {
-			stmt = (dc.conn).prepareStatement(query);
-			stmt.setString(1,authtoken);
-			ResultSet rs = stmt.executeQuery();
+			dc.stmt = (dc.conn).prepareStatement(query);
+			dc.stmt.setString(1,authtoken);
+			ResultSet rs = dc.stmt.executeQuery();
 			long user_id = -1l; 
 			if(rs.wasNull()){
 			    return -1l;
@@ -115,7 +119,7 @@ public class CookieFilter extends HttpServlet implements Filter {
 			    user_id = rs.getLong(1);
 			}
 			return user_id;
-		} catch (SQLException e) {
+		} catch (Exception e) {
 		    return -1l;
 		}
 	}

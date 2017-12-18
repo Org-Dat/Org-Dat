@@ -3,24 +3,29 @@ package zutk.b5.orgdat.model.accountmanagement;
 import java.util.ArrayList;
 import java.sql.*;
 import zutk.b5.orgdat.model.databasemanagement.*;
+import zutk.b5.orgdat.controllers.filters.*;
 
 public class DeleteAccount {
 	DatabaseConnection dc;
+
 	public boolean deleteAccount(long user_id) {
 		try {
-		//	rc = new RoleChecker();
+			// rc = new RoleChecker();
 			dc = new DatabaseConnection("postgres", "postgres", "");
-			
+
 			if (isOwner(user_id) == true) {
 				ManageOrg mo = new ManageOrg();
-                 ArrayList<String> org_names = getOrgNames(user_id);
-                 for(String org_name : org_names){
-                   mo.deleteOrg(mo.getDatabases(org_name), org_name);
-                   deleteMebmer(org_name);
-                 }
+				ArrayList<String> org_names = getOrgNames(user_id);
+				for (String org_name : org_names) {
+					mo.deleteOrg(mo.getDatabases(org_name), org_name);
+					deleteMebmer(org_name);
+				}
 			}
 			return deleteUser(user_id);
 		} catch (Exception e) {
+			if (dc != null) {
+				dc.close();
+			}
 			return false;
 		}
 	}
@@ -52,8 +57,14 @@ public class DeleteAccount {
 			dc.stmt = dc.conn.prepareStatement(sql);
 			dc.stmt.setLong(1, user_id);
 			dc.stmt.executeUpdate();
+			if (dc != null) {
+				dc.close();
+			}
 			return true;
 		} catch (Exception e) {
+			if (dc != null) {
+				dc.close();
+			}
 			return false;
 		}
 	}
@@ -74,21 +85,22 @@ public class DeleteAccount {
 			return false;
 		}
 	}
-	
-	private boolean deleteMebmer(String org_name){
-	    try{
-	        String sql = "select user_id from signup_datail email like %@"+org_name+".com";
-	        dc.stmt = dc.conn.prepareStatement(sql); 
-	        ResultSet rs = dc.stmt.executeQuery();
-	        if(rs.wasNull()){
-	            return true;
-	        }
-	        while(rs.next()){
-	            deleteUser(rs.getLong(1));
-	        }
-	        return true;
-	    }catch(Exception e){
-	        return false;
-	    }
+
+	private boolean deleteMebmer(String org_name) {
+		try {
+			String sql = "select user_id from signup_datail email like %@"
+					+ org_name + ".com";
+			dc.stmt = dc.conn.prepareStatement(sql);
+			ResultSet rs = dc.stmt.executeQuery();
+			if (rs.wasNull()) {
+				return true;
+			}
+			while (rs.next()) {
+				deleteUser(rs.getLong(1));
+			}
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 }

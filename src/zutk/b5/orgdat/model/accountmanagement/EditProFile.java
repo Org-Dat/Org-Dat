@@ -14,8 +14,14 @@ public class EditProFile {
 			dc.stmt.setString(1, value);
 			dc.stmt.setLong(2, user_id);
 			dc.stmt.executeUpdate();
+		    if (dc != null ){
+		        dc.close();
+		    }
 			return true;
 		} catch (Exception e) {
+		    if (dc != null ){
+		        dc.close();
+		    }
 			return false;
 		}
 	}

@@ -17,10 +17,16 @@ ul li{
 .fa,.dsh_org footer span,.tab_hdr span,.mng,.org_box span{
     cursor:pointer;
 }
-.fa-sort{
+.tb_op{
     position: absolute;
     right: 12px;
     top: 19px
+}
+.tb_op .fa-pencil{
+    opacity:0
+}
+.mn_tb th:hover .fa-pencil{
+    opacity:1
 }
 ::-webkit-scrollbar{
     display:none
@@ -36,12 +42,17 @@ ul li{
     box-shadow: 0px 0px 20px 0px inset;
     background: white
 }
+.mn_tb th{
+    padding-right: 31px
+}
 .clr{
     display:inline;
     clear:both
 }
 input[type=file]{
     display:none;
+    margin: 0 0 10px 8px;
+    margin-left: 8px
 }
 button,input{
     outline:none;
@@ -94,7 +105,26 @@ header .fa-caret-left::after{
     align-items: center;
     position: relative;
 }
-
+.alertPop{
+    padding:0 12px;
+    background: none;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    text-align: center;
+    display:flex;
+    transform: translateY(-45px)
+}
+.altCnt{
+    margin: auto;
+    background:white;
+    padding: 12px 14px;
+    border-radius: 0 0 8px 8px
+}
+.altCnt i{
+    margin-right:10px;
+}
 .org{
 	display:flex;
     flex-direction:column;
@@ -107,7 +137,9 @@ header .fa-caret-left::after{
 .whole_org_box,.whole_database,.whole_table{
     height: calc(100% - 50px);
     width: 100%;
-    display:flex
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center
 }
 .whole_database,.whole_table{
 	/*height:calc(100% - 50px);*/
@@ -131,6 +163,7 @@ header .fa-caret-left::after{
     position: relative;
     word-break: break-all;
     padding: 15px;
+    text-align:center;
     /* white-space: pre; */
     box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.36)
 }
@@ -150,21 +183,22 @@ header .fa-caret-left::after{
     background: white;
     align-items: center;
     border-radius: 0 0 49px 0px;
-    font-size: 18px;
-    box-shadow: 0px 0px 5px #000000ad
+    /* font-size: 18px; */
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.6784313725490196)
 }
-
 /*-------------------------------------------database----------------------------------*/
 .path{
     /* height: 49px; */
-    border-bottom: 1px solid;
     padding: 0 75px;
-    font-size: 20px;
-    line-height: 49px
+    line-height: 49px;
+    box-shadow: 0px 0px 12px 0px grey;
+    font-size: 16px;
+    letter-spacing: 2px
 }
 .databs{
     height: 250px;
     width: 250px;
+    flex-direction: column;
     box-shadow: 0px 0px 6px 1px rgba(0, 0, 0, 0.34901960784313724);
     justify-content: center;
     align-items: center;
@@ -178,11 +212,12 @@ header .fa-caret-left::after{
     border-radius: 45px 10px
 }
 .crt_pls{
-    margin: 10px 0 0 -13px
+    margin: 10px 0 0 -13px;
+    font-size: 23px;
+    color: rgba(0, 0, 0, 0.6196078431372549)
 }
 .whole_database,.whole_org,.database,.whole_table{
     width: 100%;
-    flex-wrap: wrap;
     /*height:calc(100% - 0px);*/
     /*overflow:auto;*/
     /*justify-content: space-evenly*/
@@ -192,14 +227,16 @@ header .fa-caret-left::after{
     height:100%;
     width: 1000px;
     margin: auto;
-    justify-content: space-around
+    justify-content: space-around;
+    flex-wrap:wrap;
+    text-align:center
 }
 
 /*--------------------------------table-------------------------------------------*/
 
 .tble{
-    height: 180px;
-    width: 180px;
+    height: 230px;
+    width: 230px;
     font-size: 15px
 }
 .table{
@@ -216,11 +253,11 @@ header .fa-caret-left::after{
     z-index: 1;
     background: whitesmoke;
     transition: 0.4s;
-    transform: scale(01);
+    transform: scale(0.97);
     align-items: center;
     display: flex;
     left: 0;
-    border-radius: 4px;
+    border-radius: 45px 10px;
     justify-content: center
 }
 .cls_but{
@@ -239,12 +276,10 @@ header .fa-caret-left::after{
     border-radius: 20px 0 0 20px
 }
 .input>button{
-    color: white;
-    padding: 9px 15px;
-    border: 2px solid rgba(0, 0, 0, 0.38);
+    padding: 9.2px 15px;
+    box-shadow: 0px 0px 0px 2px rgba(0, 0, 0, 0.6705882352941176);
     border-left: none;
-    border-radius: 0 20px 20px 0;
-    background: #3ea23e
+    border-radius: 0 20px 20px 0
 }
 
 /*------------------------------------------------------------------------------------------------------------------------------------*/
@@ -295,12 +330,13 @@ header .fa-caret-left::after{
     box-shadow: 0px 1px 10px 3px rgba(0, 0, 0, 0.35);
     padding: 14px 29px;
     position: absolute;
-    left: 38%;
-    top: -300%;
-    /*margin: -110px 0 0 -205px;*/
+    left: 50%;
+    top:-300%;
     background: white;
-    max-width:333px;
-    word-wrap: break-word
+    max-width: 333px;
+    word-wrap: break-word;
+    margin: -47px 0 0 -166px;
+    z-index:1
 }
 .org_popup h3{
     font-size: 15px;
@@ -323,6 +359,16 @@ header .fa-caret-left::after{
 }
 .org_popup .del_but:hover{
     background:rgba(237, 94, 104, 0.87)
+}
+.PopUsr{
+    max-height: 200px;
+    overflow: auto;
+    padding-left: 4px;
+    line-height:2.5;
+    width: 220px
+}
+.popNm{
+    margin-left:12px;
 }
 .org_popup ol{
     line-height: 30px;
@@ -580,16 +626,15 @@ header .fa-caret-left::after{
 /*----------------------------Side Bar Menu---------------------------------------*/
 
 .sidebar{
-    z-index:500;
-    height: 100%;
+    z-index: 500;
+    height: calc(100% - 40px);
     width: 250px;
     background: #2D2D2D;
     position: fixed;
-    top: 80px;
     right: 0;
     transition: 1s;
     transform: translateX(175px);
-    overflow:scroll
+    overflow: scroll;
 }
 .sidebar>ul,.logout{
     padding-left: 35px
@@ -618,7 +663,7 @@ header .fa-caret-left::after{
     position: absolute;
     bottom: 0px;
     width: 100%;
-    height: 200px
+    background: #2D2D2D
 }
 .sidebar>ul>li>label{
     position: absolute;
@@ -732,8 +777,15 @@ header .fa-caret-left::after{
     overflow-y: auto;
     word-break: break-word
 }
+.pf_ed{
+    font-size:14px;
+    opacity:0;
+}
+.prf_info>li:hover .pf_ed{
+    opacity:1
+}
 .prf_info>li span{
-    color: rgba(255, 255, 255, 0.94)
+    color: rgba(0, 0, 0, 0.2196078431372549)
 }
 .prf_info li:first-child{
     padding: 13px 0 0 0px
@@ -902,9 +954,38 @@ tbody{
   width:100%;
   display:none
 }
+
 .mn_tb th{
     position:relative
 }
+.mn_tb th:first-child,.mn_tb td:first-child{
+    min-width:20px
+}
+.cm_tb table th:first-child,.cm_tb table td:first-child{
+    width:20px;
+}
+.cm_tb table th:first-child input[type="checkbox"],.cm_tb table td:first-child input[type="checkbox"]{
+    display:none;
+}
+label[for=tick]{
+    display: inline-block;
+    border-radius: 3px;
+    height: 13px;
+    width: 13px;
+    /*border: 1px solid;*/
+    font-size: 17px;
+    font-weight: bolder;
+    position:relative;
+    box-shadow:inset 0px 0px 4px #0000007a;
+}
+#tick:checked+label[for=tick]::before{
+    content: "\2714";
+    position: absolute;
+    top: -8px;
+    left: 0px
+}
+
+
 .src_drop{
     height: 30px;
     width: 85%;
@@ -963,7 +1044,7 @@ tbody{
 .sub_can{
     height: 40px;
     background: white;
-    position: sticky;
+    position: absolute;
     bottom: 0;
     padding: 10px 0;
     border-top: 1px solid #eee
@@ -979,15 +1060,19 @@ tbody{
     color: rgba(0, 0, 0, 0.7607843137254902)
 }
 .row_edit{
-    padding: 5px 10px;
+    padding: 5px 10px
+}
+.srch_edit{
+    display:none
 }
 .row_edit li{
     margin-top: 15px
 }
 .row_inp{
     border: none;
-    width: 192px;
-    border-bottom: 1px solid silver
+    width: 90%;
+    border-bottom: 1px solid silver;
+    margin-top: 12px
 }
 .sort_box{
     background: dimgrey;
@@ -1018,7 +1103,7 @@ tbody{
     padding: 10px;
     font-size: 20px
 }
-.col_but,.del_col{
+.col_but,.srch_col{
     float:left;
     margin:0 6px
 }
@@ -1026,7 +1111,7 @@ tbody{
     float:right;
     margin:0 6px
 }
-.del_col,.del_row{
+.del_row{
     visibility:hidden
 }
 .hdr>button:hover{
@@ -1047,7 +1132,8 @@ tbody{
     /*min-height: 200px;*/
     /*max-height: 250px;*/
     white-space: nowrap;
-    overflow: hidden;
+    overflow-y: visible;
+    overflow-x: hidden;
     text-overflow: ellipsis
 }
 .main_tab thead{
@@ -1089,10 +1175,10 @@ tbody{
     height: 250px;
     width: 98%;
     margin: 6px auto;
-    background: #bddfeb;
+    background: white;
     border-radius: 7px;
-    box-shadow: 0px 0px 14px 0px #ddd;
-    opacity:1
+    box-shadow: 0px 0 6px 1px #333333;
+    opacity: 1
 }
 .col label{
     float:left
@@ -1104,7 +1190,7 @@ tbody{
     color:rgba(0, 0, 0, 0.71)
 }
 .col>ul>li{
-    list-style-type: none;
+    /*list-style-type: none;*/
     padding-top: 25px
 }
 .col>ul>li:nth-child(2){
@@ -1127,7 +1213,7 @@ tbody{
     /*box-sizing: border-box*/
 }
 .col input{
-    border: 1px solid #ddd;
+    border: none;
     border-bottom: 1px solid #eee;
     width: 310px
 }
@@ -1182,7 +1268,6 @@ tbody{
         /*-----------------------------------------Admin Dashboard---------------------------------------------*/
         
 .admin{
-    background: #eee;
     padding: 15px 45px
 }
 .adm_hdr{
@@ -1209,14 +1294,19 @@ tbody{
     align-items:center;
     transition:0s
 }
+.list_span{
+         width:350px;
+        font-size:14px
+    }
 .add_fld input{
     padding: 9px 3px;
     width: 313px;
     border-bottom: 1px solid #ddd;
 }
 .add_fld button{
-    background:#008cba;
-    color: white
+    background: #008cba;
+    color: white;
+    margin-top: 12px
 }
 .add_fld .fa-trash-o{
     color: rgba(255, 0, 0, 0.76)
@@ -1241,6 +1331,8 @@ tbody{
     border:none;
 }
 .s_no{
+    /*box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.5098039215686274)*/
+    /* box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.5098039215686274); */
     padding: 2px 7px;
     border-radius: 50%;
     border: 1px solid #ccc;
@@ -1248,7 +1340,9 @@ tbody{
     font-size: 15px;
     color: white;
     font-weight: bolder;
-    box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.5098039215686274)
+    /*box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.12), 1px 1px 9px rgba(0, 0, 0, 0.17), 1px -1px 9px rgba(0, 0, 0, 0.16), -1px 1px 9px rgba(0, 0, 0, 0.13)*/
+
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.12), 1px 1px 5px rgba(0, 0, 0, 0.17), 1px -1px 2px rgba(0, 0, 0, 0.16), -1px 1px 0px rgba(0, 0, 0, 0.13);
 }
 .add_em{
     padding-right: 62px !important
@@ -1264,9 +1358,39 @@ tbody{
     overflow:hidden;
     padding: 11px 46px
 }
-.log_list{
+.log_list,.log_show{
     overflow: auto;
     height: calc(100% - 29px)
+}
+.log_show{
+    line-height:2.5;
+    display:none
+}
+.log_shw li{
+    padding-left:20px;
+}
+.log_list li input[type="checkbox"]{
+    display:none
+}
+.logChk{
+    position: relative;
+    margin-left: 23px
+}
+.logChk::after{
+    content: "\2713";
+    position: absolute;
+    left: -21px;
+    top: 6px;
+    color: transparent;
+    height: 10px;
+    font-size: 13px;
+    line-height: 6px;
+    font-weight:bolder;
+    border-radius: 2px;
+    box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.611764705882353);
+}
+input:checked+.logChk::after{
+    color:black
 }
 .log_list li{
     border-bottom: 1px solid #ddd;
@@ -1281,6 +1405,10 @@ tbody{
     margin-left: 2%;
     color:rgba(255, 0, 0, 0.59);
     font-size:15px;
+    opacity:0;
+}
+.log_list li:hover i{
+    opacity:1;
 }
 date:after{
     content:"";
@@ -1300,7 +1428,9 @@ date:after{
     height:100%;
     display:flex;
     justify-content:space-around;
-    align-items:center
+    align-items:center;
+    flex-wrap:wrap;
+    overflow:auto
 }
 .dsh_org{
     height: 250px;
@@ -1360,7 +1490,7 @@ date:after{
     /* font-family: fantasy; */
     letter-spacing: 2px;
 }
-.dsh_org footer{
+.dsh_org .ovrView{
     position: absolute;
     background: white;
     color: rgba(0, 0, 0, 0.71);
@@ -1368,12 +1498,13 @@ date:after{
     box-shadow: 0px 5px 9px 2px;
     left: 0px;
     border-radius: 0px 0px 50px 0px;
-    bottom: -50px
+    bottom: -50px;
+    font-size:15px
 }
 /*.dsh_org footer span:first-child{*/
 /*    margin:0 19px;*/
 /*}*/
-.dsh_org:hover footer{
+.dsh_org:hover .ovrView{
     bottom:0px
 }
 
@@ -1466,6 +1597,13 @@ date:after{
     /*transform: translateY(-600px);*/
     z-index:1;
 }
+.rghtCls{
+    position: absolute;
+    right: 10px;
+    font-size: 21px;
+    top: 11px;
+    color: #0000008f
+}
 .co_dev{
     z-index:-1;
     opacity:0;
@@ -1506,6 +1644,13 @@ date:after{
     font-size: 15px;
     box-shadow: 1px 2px 9px rgba(26, 26, 26, 0.2784313725490196);
     transition:0s;
+    /*z-index:-1;*/
+}
+.dropdown ul{
+    margin: 0;
+    padding: 0;
+    line-height:2;
+    background:white;
 }
 .con_p{
     margin:0
@@ -1843,18 +1988,6 @@ date:after{
 /*}*/
 /*#tick{*/
 /*	display:none*/
-/*}*/
-/*label[for=tick]{*/
-/*    display: inline-block;*/
-/*    border-radius: 3px;*/
-/*    position: absolute;*/
-/*    left: 0;*/
-/*    top: 5px;*/
-/*    padding: 5px;*/
-/*    border: 1px solid*/
-/*}*/
-/*#tick:checked+label[for=tick]::before{*/
-/*    content:"\2714"*/
 /*}*/
 
 /*label[for=tick]::before{*/
@@ -2469,4 +2602,124 @@ date:after{
 /*.add_fld .fa-trash-o{*/
 /*    color: rgba(255, 0, 0, 0.76)*/
 /*}*/
-
+@media screen and (max-width:1087px){
+    .org_box{
+        width: 250px;
+        height: 250px;
+        margin:40px auto;
+        font-size:15px;
+    }
+}
+@media screen and (max-width:666px){
+    .whole_2{
+        height:calc(100% - 42px);
+        width: calc(100% - 57px)
+    }
+    .dsh_ovr .dtb,.dsh_ovr h1{
+        padding:0 0 15px 0;
+        font-size:14px;
+    }
+    .mbSrc{
+        display:none
+    }
+    .hdr{
+        padding:14px 4px
+    }
+    .tbl_name{
+        font-size:14px
+    }
+    .dsh_org p,.dsh_org h4{
+        font-size:15px
+    }
+    .dsh_ovr h1{
+        font-size:14px
+    }
+    .path{
+        padding:0 8px;
+        font-size:12px;
+    }
+    header{
+        padding:6px 29px;
+    }
+    .prj_name{
+        font-size:14px;
+    }
+    .prj_name b,header .fa-caret-left{
+        font-size:25px !important
+    }
+    .whole_org_box, .whole_database, .whole_table{
+        /*height: calc(100% - 48px);*/
+        display:none;
+        overflow: auto
+    }
+    .whole_org_box{
+        display:flex
+    }
+    .table{
+        height: 100%;
+    }
+    table{
+        font-size:11px;
+    }
+    td,th{
+        padding:15px 1px;
+    }
+    .admin{
+        padding:26px 6px
+    }
+    .adm_hdr{
+        font-size:11px
+    }
+    .adm_hdr span:first-child{
+        font-size:11px;
+    }
+    .add_fld{
+        height:auto;
+        padding-bottom: 10px;
+        display:block
+    }
+    .list{
+        margin-top:60px
+    }
+    .list .fa-trash-o{
+        float:right;
+        margin-top:-86px
+    }
+    .list .fa-trash-o::after{
+        content:"";
+        clear:both
+    }
+    .dsh_brd{
+        /*width:auto;*/
+        padding:13px 15px
+    }
+    .sidebar{
+        transform: translateX(194px)
+    }
+    .sidebar>ul, .logout{
+        padding-left:22px;
+    }
+    .sidebar>ul>li>i, .logout p i{
+        font-size:20px
+    }
+    .sidebar>ul>li{
+        line-height:55px
+    }
+    .sidebar>ul>li:first-child img{
+         width: 38px;
+        margin: 0 181px 0px -14px;
+    }
+    .tbl_srch{
+        width:auto;
+    }
+    .b{
+         padding: 5px 11px;
+         margin-right: 2px       
+    }
+}
+@media screen and (min-width:1300px) {
+    .database, .table{
+        width:100%;
+        align-items:center
+    }
+}

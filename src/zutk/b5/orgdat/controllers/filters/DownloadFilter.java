@@ -82,6 +82,10 @@ public class DownloadFilter implements Filter {
 		} catch (Exception e) {
 
 			writer.write("{'status':403,'message':'forbetten'}");
+		} finally {
+		    if (dc != null ){
+		        dc.close();
+		    }
 		}
 
 	}

@@ -1,6 +1,6 @@
 package zutk.b5.orgdat.model.orgmanagement;
 
-import zutk.b5.orgdat.model.databasemanagement.DatabaseConnection;
+import zutk.b5.orgdat.controllers.filters.*;
 
 public class Share { 
 	DatabaseConnection dc = new DatabaseConnection("postgres","postgres","");
@@ -8,6 +8,7 @@ public class Share {
 	public boolean shareTable(String org_name, String db_name,
 			String table_name, String role, long user_id, String query) {
 		try {
+		    
 			String sql = "";
 			if (query.equals("createRole")) {
 				sql = "insert into table_management (role,user_id,org_name,db_name,table_name)values(?,?,?,?,?)";
@@ -59,7 +60,11 @@ public class Share {
 	}
 	public boolean shareOrg(String org_name,String role,long user_id,String query){
 	    try{
+	        System.out.println("share");
 	        String sql = "";
+	        System.out.println("role = "+role);
+	        System.out.println("query = "+query);
+	        System.out.println(query.equals("createRole"));
 	        if(query.equals("createRole")){
 	            sql = "insert into org_management (role,user_id,org_name) values(?,?,?)";
 	        } else if (query.equals("deleteRole")) {
@@ -73,8 +78,10 @@ public class Share {
 	        dc.stmt.setLong(2, user_id);
 	        dc.stmt.setString(3, org_name);
 	        dc.stmt.executeUpdate();
+	        System.out.println("share perfact");
 	        return true;
 	    }catch(Exception e){
+	        e.printStackTrace();
 	        return false;
 	    }
 	}

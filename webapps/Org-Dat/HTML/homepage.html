@@ -1,18 +1,26 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" href="http://orgdat.zcodeusers.com/CSS/org_dat.css">
+        <link rel="stylesheet" href="http://orgdat.zcodeusers.com/CSS/homepage.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script src="http://orgdat.zcodeusers.com/JS/render.js"></script>
-        <script src="http://orgdat.zcodeusers.com/JS/org_dat1.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.js"></script>
+        <script src="http://orgdat.zcodeusers.com/JS/helpFunctions.js"></script>
+        <script src="http://orgdat.zcodeusers.com/JS/render.js"></script>
+        <script src="http://orgdat.zcodeusers.com/JS/homepage.js"></script>
         <link rel="icon" href="http://www.freepngimg.com/download/database/2-2-database-png-picture.png">
         <link href="https://fonts.googleapis.com/css?family=Lato:300,400" rel="stylesheet">
     </head>
     <body>
         <div class="whole">
-            <input id="file" type="file" >
+            <div class="alertPop">
+                   <div class="altCnt">
+                       <i class="fa fa-trash-o" aria-hidden="true"></i>
+                       <span class="altMsg"></span>
+                   </div>
+               </div>
+            <!--<input id="file" type="file" >-->
             <!--................................Header.............................................-->
             
             <header>
@@ -37,7 +45,8 @@
                         </label>
                     </li>
                     <li>
-                        <i class="fa fa-user-md" aria-hidden="true" title="Profile info"></i>
+                        <!--<i class="fa fa-user-md" aria-hidden="true" ></i>-->
+                        <i class="fa fa-user" aria-hidden="true" title="Profile info"></i>
                         Profile Info</li>
                     <li>
                         <i class="fa fa-history" aria-hidden="true" title="History"></i>
@@ -98,10 +107,12 @@
         <!--</div>-->
         
         <div class="whole_org">
-        
+                
             <div class="org"> 
                 <div class="path">
-                    <span title="back to org">Organization</span>
+                    <span title="back to org">Organizations</span>>
+                    <span title="back to dat">Databases</span>
+                
             </div>
             <div class="whole_org_box">
                     
@@ -123,11 +134,11 @@
                         <div class="options">
                             <i class="fa fa-share-alt" aria-hidden="true"></i>
                             <i class="fa fa-trash-o" aria-hidden="true"></i>
-                            <i class="fa fa-download" aria-hidden="true"></i>
-                            <label for="file"><i class="fa fa-upload" aria-hidden="true"></i></label>
+                            <!--<label for="file">-->
+                                <i class="fa fa-upload" aria-hidden="true"></i>
+                                <!--</label>-->
                             <i class="fa fa-users" aria-hidden="true"></i>
                             <i class="fa fa-file-text-o" aria-hidden="true" title="Log Files"></i>
-                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                         </div>
                         <div class="usrs">
                             <i class="fa fa-database" aria-hidden="true"></i>
@@ -151,7 +162,10 @@
                                 <i class="fa fa-share-alt" aria-hidden="true"></i>
                                 <i class="fa fa-trash-o" aria-hidden="true"></i>
                                 <i class="fa fa-download" aria-hidden="true"></i>
-                                <label for="file"><i class="fa fa-upload" aria-hidden="true"></i></label>
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                <!--<label for="file">-->
+                                    <i class="fa fa-upload" aria-hidden="true"></i>
+                                    <!--</label>-->
                             </div>
                             <div class="usrs">
                                 <i class="fa fa-table" aria-hidden="true"></i>
@@ -193,6 +207,15 @@
                 <div class="table">
                     <div class="databs tble">
                         <span>Table Two</span>
+                        <div class="options">
+                                <i class="fa fa-share-alt" aria-hidden="true"></i>
+                                <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                <i class="fa fa-download" aria-hidden="true"></i>
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                <!--<label for="file">-->
+                                <i class="fa fa-upload" aria-hidden="true"></i>
+                                <!--</label>-->
+                            </div>
                         <div class="usrs">
                             <i class="fa fa-table" aria-hidden="true"></i>
                             <span>17</span>
@@ -227,6 +250,7 @@
             <!--.......................................Share Page...........................................-->
             
             <div class="share">
+                <i class="fa fa-times-circle rghtCls" aria-hidden="true"></i>
             <div class="shr_fld">
                 <h3>Share Organization</h3>
                 <div class="field">
@@ -236,6 +260,10 @@
                         <p class="con_p">Co-Owner</p>
                         <p>Can-Write</p>
                     </div>   
+                    <!--<div class="dropdown">-->
+                    <!--    <li>Co-Owner</li>-->
+                    <!--    <li>Can-Write</li>-->
+                    <!--</div>-->
                     <div>
                         <button class="shr">Share</button>
                         <button class="shr">Cancel</button>
@@ -279,6 +307,10 @@
                         <p class="con_p">Co-Owner</p>
                         <p>Can-Write</p>
                     </div> 
+                    <!--<div class="dropdown">-->
+                    <!--    <li>Co-Owner</li>-->
+                    <!--    <li>Can-Write</li>-->
+                    <!--</div>-->
                     <i class="fa fa-times shr_close" aria-hidden="true"></i>
                 </div>
                 
@@ -297,8 +329,48 @@
         <!--.........................................Org alert Popups..........................................-->
         
         <div class="org_popup">
-                <h1>Are You Sure to delete?</h1>
-                <h3>Organization</h3>
+                <h1 class="TpH1">Are You Sure to delete?</h1>
+                <h3 class="titH3">Organization</h3>
+                <input type="file">
+                <ul class="PopUsr">
+                    <li><span class="s_no">1</span><span class="popNm">Ponkumar</span></li>
+                    <li><span class="s_no">1</span><span class="popNm">Obeth</span></li>
+                    <li><span class="s_no">1</span><span class="popNm">Samuel</span></li>
+                    <li><span class="s_no">1</span><span class="popNm">Praveen</span></li>
+                    <li><span class="s_no">1</span><span class="popNm">Santhi</span></li>
+                    <li><span class="s_no">1</span><span class="popNm">Miraculine</span></li>
+                    <li><span class="s_no">1</span><span class="popNm">Ponkumar</span></li>
+                    <li><span class="s_no">1</span><span class="popNm">Obeth</span></li>
+                    <li><span class="s_no">1</span><span class="popNm">Samuel</span></li>
+                    <li><span class="s_no">1</span><span class="popNm">Praveen</span></li>
+                    <li><span class="s_no">1</span><span class="popNm">Santhi</span></li>
+                    <li><span class="s_no">1</span><span class="popNm">Miraculine</span></li>
+                    <li><span class="s_no">1</span><span class="popNm">Ponkumar</span></li>
+                    <li><span class="s_no">1</span><span class="popNm">Obeth</span></li>
+                    <li><span class="s_no">1</span><span class="popNm">Samuel</span></li>
+                    <li><span class="s_no">1</span><span class="popNm">Praveen</span></li>
+                    <li><span class="s_no">1</span><span class="popNm">Santhi</span></li>
+                    <li><span class="s_no">1</span><span class="popNm">Miraculine</span></li>
+                    <li><span class="s_no">1</span><span class="popNm">Ponkumar</span></li>
+                    <li><span class="s_no">1</span><span class="popNm">Obeth</span></li>
+                    <li><span class="s_no">1</span><span class="popNm">Samuel</span></li>
+                    <li><span class="s_no">1</span><span class="popNm">Praveen</span></li>
+                    <li><span class="s_no">1</span><span class="popNm">Santhi</span></li>
+                    <li><span class="s_no">1</span><span class="popNm">Miraculine</span></li>
+                    <li><span class="s_no">1</span><span class="popNm">Ponkumar</span></li>
+                    <li><span class="s_no">1</span><span class="popNm">Obeth</span></li>
+                    <li><span class="s_no">1</span><span class="popNm">Samuel</span></li>
+                    <li><span class="s_no">1</span><span class="popNm">Praveen</span></li>
+                    <li><span class="s_no">1</span><span class="popNm">Santhi</span></li>
+                    <li><span class="s_no">1</span><span class="popNm">Miraculine</span></li>
+                    <li><span class="s_no">1</span><span class="popNm">Ponkumar</span></li>
+                    <li><span class="s_no">1</span><span class="popNm">Obeth</span></li>
+                    <li><span class="s_no">1</span><span class="popNm">Samuel</span></li>
+                    <li><span class="s_no">1</span><span class="popNm">Praveen</span></li>
+                    <li><span class="s_no">1</span><span class="popNm">Santhi</span></li>
+                    <li><span class="s_no">1</span><span class="popNm">Miraculine</span></li>
+                    
+                </ul>
                 <button class="del_but">Delete</button>
                 <button class="decline">Cancel</button>
                 
@@ -314,14 +386,22 @@
                 <section class="prf_part">
                     <img src="https://www.atomix.com.au/media/2015/06/atomix_user31.png">
                     <label>
-                        <i class="fa fa-camera-retro" aria-hidden="true"></i>
+                        <i class="fa fa-pencil" aria-hidden="true"></i>
                         <input type="file">
                     </label>
                     <ul class="prf_info">
-                        <li title="Obeth Samuel.M"><span>Obeth Samuel.M</span></li>
-                        <li title="obeth@zohouniv.com"><span>obeth@zohouniv.com</span></li>
-                        <li><span>0987654321</span></li>
-                        <li><span>India</span></li>
+                        <li title="Obeth Samuel.M">
+                            <i class="fa fa-pencil pf_ed" aria-hidden="true"></i>
+                            <span>Obeth Samuel.M</span></li>
+                        <li title="obeth@zohouniv.com">
+                            <i class="fa fa-pencil pf_ed" aria-hidden="true"></i>
+                            <span>obeth@zohouniv.com</span></li>
+                        <li>
+                            <i class="fa fa-pencil pf_ed" aria-hidden="true"></i>
+                            <span>0987654321</span></li>
+                        <li>
+                            <i class="fa fa-pencil pf_ed" aria-hidden="true"></i>
+                            <span>India</span></li>
                     </ul>
                 </section>
             </div>
@@ -371,108 +451,99 @@
             <div class="cm_tb">
                 <table>
                 <thead>
-                    <tr><th>IP ADDRESS</th>
+                    <tr>
+                        <th><input type="checkbox" id="tick">
+                        <label for="tick"></label></th>
+                        <th>IP ADDRESS</th>
                     <th>SIGNIN TIME</th>
                     <th>DURATION</th></tr>
                 </thead>
-                <tbody>
-                    <tr><td>123:000:123:000</td>
+               <tbody>
+                   <tr>
+                        <td><input type="checkbox" id="tick">
+                        <label for="tick"></label>
+                        </td>
+                        <td>123:000:123:000</td>
                     <td>21:00</td>
                     <td>10 mins</td></tr>
-                     <tr><td>123:000:123:000</td>
+                    <tr>
+                        <td><input type="checkbox" id="tick">
+                        <label for="tick"></label>
+                        </td>
+                        <td>123:000:123:000</td>
                     <td>21:00</td>
                     <td>10 mins</td></tr>
-                     <tr><td>123:000:123:000</td>
+                    <tr>
+                        <td><input type="checkbox" id="tick">
+                        <label for="tick"></label>
+                        </td>
+                        <td>123:000:123:000</td>
                     <td>21:00</td>
                     <td>10 mins</td></tr>
-                     <tr><td>123:000:123:000</td>
-                    <td>21:00</td>
-                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
-                    <td>21:00</td>
-                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
-                    <td>21:00</td>
-                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
-                    <td>21:00</td>
-                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
-                    <td>21:00</td>
-                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
-                    <td>21:00</td>
-                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
-                    <td>21:00</td>
-                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
-                    <td>21:00</td>
-                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
-                    <td>21:00</td>
-                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
-                    <td>21:00</td>
-                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
-                    <td>21:00</td>
-                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
-                    <td>21:00</td>
-                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
-                    <td>21:00</td>
-                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
-                    <td>21:00</td>
-                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
-                    <td>21:00</td>
-                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
-                    <td>21:00</td>
-                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
-                    <td>21:00</td>
-                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
-                    <td>21:00</td>
-                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
-                    <td>21:00</td>
-                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
-                    <td>21:00</td>
-                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
-                    <td>21:00</td>
-                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
-                    <td>21:00</td>
-                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
-                    <td>21:00</td>
-                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
-                    <td>21:00</td>
-                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
-                    <td>21:00</td>
-                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
-                    <td>21:00</td>
-                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
-                    <td>21:00</td>
-                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
-                    <td>21:00</td>
-                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
-                    <td>21:00</td>
-                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
-                    <td>21:00</td>
-                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
-                    <td>21:00</td>
-                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
-                    <td>21:00</td>
-                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
-                    <td>21:00</td>
-                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
-                    <td>21:00</td>
-                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
-                    <td>21:00</td>
-                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
-                    <td>21:00</td>
-                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
-                    <td>21:00</td>
-                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
-                    <td>21:00</td>
-                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
-                    <td>21:00</td>
-                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
-                    <td>21:00</td>
-                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
-                    <td>21:00</td>
-                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
-                    <td>21:00</td>
-                    <td>10 mins</td></tr> <tr><td>123:000:123:000</td>
+                    <tr>
+                        <td><input type="checkbox" id="tick">
+                        <label for="tick"></label>
+                        </td>
+                        <td>123:000:123:000</td>
                     <td>21:00</td>
                     <td>10 mins</td></tr>
-                </tbody>
+                    <tr>
+                        <td><input type="checkbox" id="tick">
+                        <label for="tick"></label>
+                        </td>
+                        <td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr>
+                    <tr>
+                        <td><input type="checkbox" id="tick">
+                        <label for="tick"></label>
+                        </td>
+                        <td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr>
+                    <tr>
+                        <td><input type="checkbox" id="tick">
+                        <label for="tick"></label>
+                        </td>
+                        <td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr>
+                    <tr>
+                        <td><input type="checkbox" id="tick">
+                        <label for="tick"></label>
+                        </td>
+                        <td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr>
+                    <tr>
+                        <td><input type="checkbox" id="tick">
+                        <label for="tick"></label>
+                        </td>
+                        <td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr>
+                    <tr>
+                        <td><input type="checkbox" id="tick">
+                        <label for="tick"></label>
+                        </td>
+                        <td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr>
+                    <tr>
+                        <td><input type="checkbox" id="tick">
+                        <label for="tick"></label>
+                        </td>
+                        <td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr>
+                    <tr>
+                        <td><input type="checkbox" id="tick">
+                        <label for="tick"></label>
+                        </td>
+                        <td>123:000:123:000</td>
+                    <td>21:00</td>
+                    <td>10 mins</td></tr>
+               </tbody>
             </table>
             </div>
         </div>
@@ -480,65 +551,155 @@
         <!--.............................Main Table......................................-->
         
         <div class="main_tab">
-            <div class="tbl_srch">
-                <div class="tbl_srh_box">
-                    <!--<select>-->
-                    <!--    <option>Column</option>-->
-                    <!--    <option>jnlklklk</option>-->
-                    <!--</select>-->
-                    <div class="dropdown src_drop">
-                        <i class="fa fa-caret-down" aria-hidden="true"></i>
-                        <ul class="row_data">
-                            <li>kjevnvjk kjrnjker</li>
-                            <li>kjevnvjk </li>
-                            <li>kjevnvjk kjrnjker</li>
-                            <li>kjevnvjk kjrnjker</li>
-                            <li>kjevnvjk kjrnjker</li>
-                            <li>kjevnvjk kjrnjker</li>
-                        </ul>
+            
+            
+                <div class="tbl_srch">
+                    
+            <!--<div class="srch_edit">-->
+            <!--    <div class="tbl_srh_box">-->
+                    <!--<div class="dropdown src_drop">-->
+                    <!--    <li>Co-Owner</li>-->
+                    <!--    <li>Can-Write</li>-->
+                    <!--    <li>Can-jgb</li>-->
+                    <!--    <li>Can-Wrikjgjiuguite</li>-->
+                    <!--</div>-->
+                    
+            <!--        <div class="dropdown src_drop">-->
+            <!--          <ul>-->
+            <!--            <li>Co-Owner</li>-->
+            <!--            <li>Can-Write</li>-->
+            <!--            <li>Can-jgb</li>-->
+            <!--            <li>Can-Wrikjgjiuguite</li>-->
+            <!--        </ul>-->
+            <!--        </div>-->
+                    
+            <!--        <div class="dropdown src_drop opr">-->
+            <!--        <ul>-->
+            <!--            <li>Co-Owner</li>-->
+            <!--            <li>Can-Write</li>-->
+            <!--            <li>Can-jgb</li>-->
+            <!--            <li>Can-Wrikjgjiuguite</li>-->
+            <!--        </ul>-->
+            <!--        </div>-->
+                    
+                    
+            <!--        <input placeholder="enter the value...">-->
+            <!--    </div>-->
+            <!--    <div class="tbl_srh_box">-->
+            <!--        <div class="dropdown src_drop ">-->
+            <!--        <ul>-->
+            <!--            <li>Co-Owner</li>-->
+            <!--            <li>Can-Write</li>-->
+            <!--            <li>Can-jgb</li>-->
+            <!--            <li>Can-Wrikjgjiuguite</li>-->
+            <!--        </ul>-->
+            <!--        </div>-->
+            <!--        <div class="dropdown src_drop opr">-->
+            <!--        <ul>-->
+            <!--            <li>Co-Owner</li>-->
+            <!--            <li>Can-Write</li>-->
+            <!--            <li>Can-jgb</li>-->
+            <!--            <li>Can-Wrikjgjiuguite</li>-->
+            <!--        </ul>-->
+            <!--        </div>-->
+                    
+            <!--        <input placeholder="enter the value...">-->
+            <!--    </div>-->
+            <!--    <div class="tbl_con">-->
+            <!--        <span class="cond">AND</span>-->
+            <!--        <i class="fa fa-plus-square-o" aria-hidden="true"></i>-->
+            <!--    </div>-->
+            <!--</div>-->
+                
+                <div class ="filter_box srch_edit">
+                    <div class ="filter_search">
+                        <div class="tbl_srh_box">
+                            <!--<select>-->
+                            <!--    <option>Column</option>-->
+                            <!--    <option>jnlklklk</option>-->
+                            <!--</select>-->
+                            <div class="dropdown src_drop">
+                                <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                <ul class="row_data">
+                                    <li>kjevnvjk kjrnjker</li>
+                                    <li>kjevnvjk </li>
+                                    <li>kjevnvjk kjrnjker</li>
+                                    <li>kjevnvjk kjrnjker</li>
+                                    <li>kjevnvjk kjrnjker</li>
+                                    <li>kjevnvjk kjrnjker</li>
+                                </ul>
+                            </div>
+                            <!--</div>-->
+                            <!--<select class="dropdown src_drop">-->
+                            <!--    <option>Co-Owner</option>-->
+                            <!--    <option>Can-Write</option>-->
+                            <!--    <option>Can-jgb</option>-->
+                            <!--    <option>Can-Wrikjgjiuguite</option>-->
+                            <!--</select>-->
+                            
+                            <div class="dropdown src_drop opr">
+                                <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                <p class="con_p">Co-Owner</p>
+                                <p>Can-Write</p>
+                            </div>
+                            <!--<select class="dropdown src_drop opr">-->
+                            <!--    <option>Co-Owner</option>-->
+                            <!--    <option>Can-Write</option>-->
+                            <!--    <option>Can-jgb</option>-->
+                            <!--    <option>Can-Wrikjgjiuguite</option>-->
+                            <!--</select>-->
+                            
+                            <!--<select>-->
+                            <!--    <option>Operators</option>-->
+                            <!--    <option>AND</option>-->
+                            <!--</select>-->
+                            
+                            <input placeholder="enter the value...">
+                        </div>
+                        <div class="tbl_srh_box">
+                            <!--<select>-->
+                            <!--    <option>Column</option>-->
+                            <!--    <option>jnlklklk</option>-->
+                            <!--</select>-->
+                            <div class="dropdown src_drop">
+                                <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                <p class="con_p">Co-Owner</p>
+                                <p>Can-Write</p>
+                            </div>
+                            
+                            <!--<select class="dropdown src_drop ">-->
+                            <!--    <option>Co-Owner</option>-->
+                            <!--    <option>Can-Write</option>-->
+                            <!--    <option>Can-jgb</option>-->
+                            <!--    <option>Can-Wrikjgjiuguite</option>-->
+                            <!--</select>-->
+                            <div class="dropdown src_drop opr">
+                                <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                <p class="con_p">Co-Owner</p>
+                                <p>Can-Write</p>
+                            </div>
+                            <!--<select class="dropdown src_drop opr">-->
+                            <!--    <option>Co-Owner</option>-->
+                            <!--    <option>Can-Write</option>-->
+                            <!--    <option>Can-jgb</option>-->
+                            <!--    <option>Can-Wrikjgjiuguite</option>-->
+                            <!--</select>-->
+                            
+                            <!--<select>-->
+                            <!--    <option>Operators</option>-->
+                            <!--    <option>AND</option>-->
+                            <!--</select>-->
+                            
+                            <input placeholder="enter the value...">
+                        </div>
                     </div>
-                    
-                    <div class="dropdown src_drop opr">
-                        <i class="fa fa-caret-down" aria-hidden="true"></i>
-                        <p class="con_p">Co-Owner</p>
-                        <p>Can-Write</p>
+                    <div class="tbl_con">
+                        <span class="cond">AND</span>
+                        <i class="fa fa-plus-square-o" aria-hidden="true"></i>
                     </div>
-                    
-                    <!--<select>-->
-                    <!--    <option>Operators</option>-->
-                    <!--    <option>AND</option>-->
-                    <!--</select>-->
-                    
-                    <input placeholder="enter the value...">
                 </div>
-                <div class="tbl_srh_box">
-                    <!--<select>-->
-                    <!--    <option>Column</option>-->
-                    <!--    <option>jnlklklk</option>-->
-                    <!--</select>-->
-                    <div class="dropdown src_drop">
-                        <i class="fa fa-caret-down" aria-hidden="true"></i>
-                        <p class="con_p">Co-Owner</p>
-                        <p>Can-Write</p>
-                    </div>
-                    
-                    <div class="dropdown src_drop opr">
-                        <i class="fa fa-caret-down" aria-hidden="true"></i>
-                        <p class="con_p">Co-Owner</p>
-                        <p>Can-Write</p>
-                    </div>
-                    
-                    <!--<select>-->
-                    <!--    <option>Operators</option>-->
-                    <!--    <option>AND</option>-->
-                    <!--</select>-->
-                    
-                    <input placeholder="enter the value...">
-                </div>
-                <div class="tbl_con">
-                    <span class="cond">AND</span>
-                    <i class="fa fa-plus-square-o" aria-hidden="true"></i>
-                </div>
+                
+                
                 <ul class="row_edit">
                     <li>
                         <label >
@@ -581,8 +742,8 @@
                 </div>
             </div>
             <div class="hdr">
-                <button class="col_but"><i class="fa fa-plus" aria-hidden="true"></i> Column</button>
-                <button class="del_col"><i class="fa fa-trash-o" aria-hidden="true"></i> Column</button>
+                <button class="col_but"><i class="fa fa-plus" aria-hidden="true"></i> C<span class="mbSrc">olumn</span></button>
+                <button class="srch_col"><i class="fa fa-search" aria-hidden="true"></i>S<span class="mbSrc"> earch</span></button>
                 <p class="clr"></p>
                 <span contenteditable="true" class="tbl_name">Untitled</span>
                 <button class="row_but"><i class="fa fa-plus" aria-hidden="true"></i> Row</button>
@@ -593,26 +754,45 @@
             <table>
                 <thead>
                     <tr>
-                        <th>IP ADDRESS
-                        <i class="fa fa-sort" aria-hidden="true"></i>
-                        <div class="sort_box">
-                            <i class="fa fa-sort-alpha-asc" aria-hidden="true"></i>
-                            <i class="fa fa-sort-alpha-desc" aria-hidden="true"></i>
-                            <i class="fa fa-search" aria-hidden="true"></i>
-                        </div>
+                        <th> <input type="checkbox"> 
                         </th>
                         <th>SIGNIN TIME
-                        <i class="fa fa-sort" aria-hidden="true"></i>
+                        <span class="tb_op">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                            <i class="fa fa-sort" aria-hidden="true"></i>
+                        </span>
+                        
                         <div class="sort_box">
                             <i class="fa fa-sort-alpha-asc" aria-hidden="true"></i>
                             <i class="fa fa-sort-alpha-desc" aria-hidden="true"></i>
-                            <i class="fa fa-search" aria-hidden="true"></i>
+                            <!--<i class="fa fa-search" aria-hidden="true"></i>-->
+                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                            
                         </div>
                         </th>
-                        <th>DURATION<i class="fa fa-sort" aria-hidden="true"></i></th>
-                        <th>DURATION irugieruhiuhuh8uu34 rui34iug34 rugb4uir3 hubf<i class="fa fa-sort" aria-hidden="true"></i></th>
-                        <th>IP ADDRESS<i class="fa fa-sort" aria-hidden="true"></i></th>
-                        <th>SIGNIN TIME<i class="fa fa-sort" aria-hidden="true"></i></th>
+                        <th>DURATION 
+                        <span class="tb_op">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                            <i class="fa fa-sort" aria-hidden="true"></i>
+                        </span></th>
+                        <th>DURATION irugieruhiuhuh8uu34 rui34iug34 rugb4uir3 hubf
+                         <span class="tb_op">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                            <i class="fa fa-sort" aria-hidden="true"></i>
+                        </span>
+                        </th>
+                        <th>IP ADDRESS
+                         <span class="tb_op">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                            <i class="fa fa-sort" aria-hidden="true"></i>
+                        </span>
+                        </th>
+                        <th>SIGNIN TIME
+                         <span class="tb_op">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                            <i class="fa fa-sort" aria-hidden="true"></i>
+                        </span>
+                        </th>
                         <th>DURATION<i class="fa fa-sort" aria-hidden="true"></i></th>
                         <th>DURATION irugieruhiuhuh8uu34 rui34iug34 rugb4uir3 hubf<i class="fa fa-sort" aria-hidden="true"></i></th>
                         <th>IP ADDRESS<i class="fa fa-sort" aria-hidden="true"></i></th>
@@ -624,7 +804,7 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>123:000:123:000</td>
+                        <td> <input type="checkbox"> </td>
                         <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
                         <td>1ijenkjwfenfewijnew</td>
                         <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
@@ -638,75 +818,7 @@
                         <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
                     </tr>
                     <tr>
-                        <td>123:000:123:000</td>
-                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
-                        <td>1ijenkjwfenfewijnew</td>
-                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
-                        <td>123:000:123:000</td>
-                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
-                        <td>1ijenkjwfenfewijnew</td>
-                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
-                        <td>123:000:123:000</td>
-                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
-                        <td>1ijenkjwfenfewijnew</td>
-                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
-                    </tr>
-                    <tr>
-                        <td>123:000:123:000</td>
-                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
-                        <td>1ijenkjwfenfewijnew</td>
-                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
-                        <td>123:000:123:000</td>
-                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
-                        <td>1ijenkjwfenfewijnew</td>
-                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
-                        <td>123:000:123:000</td>
-                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
-                        <td>1ijenkjwfenfewijnew</td>
-                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
-                    </tr>
-                    <tr>
-                        <td>123:000:123:000</td>
-                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
-                        <td>1ijenkjwfenfewijnew</td>
-                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
-                        <td>123:000:123:000</td>
-                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
-                        <td>1ijenkjwfenfewijnew</td>
-                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
-                        <td>123:000:123:000</td>
-                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
-                        <td>1ijenkjwfenfewijnew</td>
-                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
-                    </tr><tr>
-                        <td>123:000:123:000</td>
-                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
-                        <td>1ijenkjwfenfewijnew</td>
-                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
-                        <td>123:000:123:000</td>
-                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
-                        <td>1ijenkjwfenfewijnew</td>
-                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
-                        <td>123:000:123:000</td>
-                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
-                        <td>1ijenkjwfenfewijnew</td>
-                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
-                    </tr>
-                    <tr>
-                        <td>123:000:123:000</td>
-                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
-                        <td>1ijenkjwfenfewijnew</td>
-                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
-                        <td>123:000:123:000</td>
-                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
-                        <td>1ijenkjwfenfewijnew</td>
-                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
-                        <td>123:000:123:000</td>
-                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
-                        <td>1ijenkjwfenfewijnew</td>
-                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
-                    </tr><tr>
-                        <td>123:000:123:000</td>
+                        <td> <input type="checkbox"> </td>
                         <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
                         <td>1ijenkjwfenfewijnew</td>
                         <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
@@ -721,119 +833,7 @@
                     </tr>
                     
                     <tr>
-                        <td>123:000:123:000</td>
-                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
-                        <td>1ijenkjwfenfewijnew</td>
-                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
-                        <td>123:000:123:000</td>
-                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
-                        <td>1ijenkjwfenfewijnew</td>
-                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
-                        <td>123:000:123:000</td>
-                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
-                        <td>1ijenkjwfenfewijnew</td>
-                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
-                    </tr>
-                    <tr>
-                        <td>123:000:123:000</td>
-                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
-                        <td>1ijenkjwfenfewijnew</td>
-                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
-                        <td>123:000:123:000</td>
-                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
-                        <td>1ijenkjwfenfewijnew</td>
-                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
-                        <td>123:000:123:000</td>
-                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
-                        <td>1ijenkjwfenfewijnew</td>
-                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
-                    </tr>
-                    <tr>
-                        <td>123:000:123:000</td>
-                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
-                        <td>1ijenkjwfenfewijnew</td>
-                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
-                        <td>123:000:123:000</td>
-                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
-                        <td>1ijenkjwfenfewijnew</td>
-                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
-                        <td>123:000:123:000</td>
-                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
-                        <td>1ijenkjwfenfewijnew</td>
-                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
-                    </tr>
-                    <tr>
-                        <td>123:000:123:000</td>
-                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
-                        <td>1ijenkjwfenfewijnew</td>
-                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
-                        <td>123:000:123:000</td>
-                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
-                        <td>1ijenkjwfenfewijnew</td>
-                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
-                        <td>123:000:123:000</td>
-                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
-                        <td>1ijenkjwfenfewijnew</td>
-                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
-                    </tr>
-                    <tr>
-                        <td>123:000:123:000</td>
-                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
-                        <td>1ijenkjwfenfewijnew</td>
-                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
-                        <td>123:000:123:000</td>
-                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
-                        <td>1ijenkjwfenfewijnew</td>
-                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
-                        <td>123:000:123:000</td>
-                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
-                        <td>1ijenkjwfenfewijnew</td>
-                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
-                    </tr>
-                    <tr>
-                        <td>123:000:123:000</td>
-                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
-                        <td>1ijenkjwfenfewijnew</td>
-                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
-                        <td>123:000:123:000</td>
-                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
-                        <td>1ijenkjwfenfewijnew</td>
-                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
-                        <td>123:000:123:000</td>
-                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
-                        <td>1ijenkjwfenfewijnew</td>
-                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
-                    </tr>
-                    <tr>
-                        <td>123:000:123:000</td>
-                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
-                        <td>1ijenkjwfenfewijnew</td>
-                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
-                        <td>123:000:123:000</td>
-                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
-                        <td>1ijenkjwfenfewijnew</td>
-                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
-                        <td>123:000:123:000</td>
-                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
-                        <td>1ijenkjwfenfewijnew</td>
-                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
-                    </tr>
-                    <tr>
-                        <td>123:000:123:000</td>
-                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
-                        <td>1ijenkjwfenfewijnew</td>
-                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
-                        <td>123:000:123:000</td>
-                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
-                        <td>1ijenkjwfenfewijnew</td>
-                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
-                        <td>123:000:123:000</td>
-                        <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
-                        <td>1ijenkjwfenfewijnew</td>
-                        <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
-                    </tr>
-                    <tr>
-                        <td>123:000:123:000</td>
+                       <td> <input type="checkbox"> </td>
                         <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
                         <td>1ijenkjwfenfewijnew</td>
                         <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
@@ -848,7 +848,7 @@
                     </tr>
                     
                     <tr>
-                        <td>123:000:123:000</td>
+                       <td> <input type="checkbox"> </td>
                         <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
                         <td>1ijenkjwfenfewijnew</td>
                         <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
@@ -863,7 +863,7 @@
                     </tr>
                     
                     <tr>
-                        <td>123:000:123:000</td>
+                       <td> <input type="checkbox"> </td>
                         <td>kjbnwekjnfiowenfiunbweifuberu ff ueruberuhj erhjbb erh0</td>
                         <td>1ijenkjwfenfewijnew</td>
                         <td>iuewhfijjweriufhiuh fiubruihf8erh8gfe rhgbiuerhgiubr</td>
@@ -886,7 +886,7 @@
         <!--..............................Main Table Popup...............................................-->
         
         <div class="whole_popup">
-                <div class="add_col"></div>
+                <div class="add_col" style="opacity: 1;"><div class="col"><ul><li><i class="fa fa-times-circle sel_col_del" aria-hidden="true"></i><label>Column:</label><input></li><li><label>Type</label><select><option selected="">--select--</option><option>Text</option><option>Integer</option><option>Boolean</option><option>Float</option><option>Date</option><option>Time</option><option>Time stamp</option></select><input><label>Charc</label></li><li><label>Default Value:</label><input></li><li><input type="checkbox"><label>Mandatory</label></li></ul></div></div>
                 <button class="l add">Add Column</button>
                 <button class="l del">Delete All</button>
                 <button class="l cancel">Cancel</button>
@@ -899,17 +899,17 @@
             
             <div class="adm_hdr">
                 <span>Welcome Ponkumar.S</span>
-                <span>Organization</span>
+                <span class="share_org">Organization</span>
                 <span><i class="fa fa-users" aria-hidden="true"></i> 22</span>
             </div>
             
             <!--<div class="add_usr">-->
                 <div class="add_fld">
-                    <input placeholder="username" >
-                    <input placeholder="E-mail id" class="add_em">
+                    <input id="inv_name" placeholder="username" >
+                    <input id="inv_mail" placeholder="E-mail id" class="add_em">
                     <label class="add_mail">@orgdat.com</label>
-                    <input placeholder="Password" type="password">
-                    <button>Create</button>
+                    <input id="inv_password" placeholder="Password" type="password">
+                    <button id ="add_mem">Create</button>
                     <!--<i class="fa fa-trash-o" aria-hidden="true"></i>-->
                     <!--<i class="fa fa-plus" aria-hidden="true"></i>-->
                 </div>
@@ -917,194 +917,196 @@
             <div class="usr_list">
                 <div class="add_fld list">
                     <span class="s_no">1</span>
-                    <input placeholder="username" disabled="true">
-                    <input placeholder="E-mail id" class="add_em" disabled="true">
-                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                </div>
-                <div class="add_fld list">
-                    <span class="s_no">1</span>
-                    <input placeholder="username" disabled="true">
-                    <input placeholder="E-mail id" class="add_em" disabled="true">
-                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    <span class="list_span">Username</span>
+                    <span class="list_span">ponkumar.s@zohouniv.com</span>
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
                 </div>
                 <div class="add_fld list">
                     <span class="s_no">2</span>
-                    <input placeholder="username" >
-                    <input placeholder="E-mail id" class="add_em">
-                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    <span class="list_span">Username</span>
+                    <span class="list_span">ponkumar.s@zohouniv.com</span>
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
                 </div>
                 <div class="add_fld list">
                     <span class="s_no">3</span>
-                    <input placeholder="username" >
-                    <input placeholder="E-mail id" class="add_em">
-                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    <span class="list_span">Username</span>
+                    <span class="list_span">ponkumar.s@zohouniv.com</span>
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
                 </div>
                 <div class="add_fld list">
                     <span class="s_no">4</span>
-                    <input placeholder="username" >
-                    <input placeholder="E-mail id" class="add_em">
-                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    <span class="list_span">Username</span>
+                    <span class="list_span">ponkumar.s@zohouniv.com</span>
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
                 </div>
                 <div class="add_fld list">
                     <span class="s_no">5</span>
-                    <input placeholder="username" >
-                    <input placeholder="E-mail id" class="add_em">
-                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    <span class="list_span">Username</span>
+                    <span class="list_span">ponkumar.s@zohouniv.com</span>
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
                 </div>
-                
+                <div class="add_fld list">
+                    <span class="s_no">6</span>
+                    <span class="list_span">Username</span>
+                    <span class="list_span">ponkumar.s@zohouniv.com</span>
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                </div>
+                <div class="add_fld list">
+                    <span class="s_no">7</span>
+                    <span class="list_span">Username</span>
+                    <span class="list_span">ponkumar.s@zohouniv.com</span>
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                </div>
+                <div class="add_fld list">
+                    <span class="s_no">8</span>
+                    <span class="list_span">Username</span>
+                    <span class="list_span">ponkumar.s@zohouniv.com</span>
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                </div>
+                <div class="add_fld list">
+                    <span class="s_no">9</span>
+                    <span class="list_span">Username</span>
+                    <span class="list_span">ponkumar.s@zohouniv.com</span>
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                </div>
+                <div class="add_fld list">
+                    <span class="s_no">10</span>
+                    <span class="list_span">Username</span>
+                    <span class="list_span">ponkumar.s@zohouniv.com</span>
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                </div>
             </div>
         </div>    
             
         <!--..........................................LOg file.....................................-->    
             
         <div class="log">
-            <h2>Log Files</h2>
+            <h2 class="log_det">Log Files</h2>
             <ul class="log_list">
                 <li>
-                    <input type="checkbox">
-                    <span>log file 1</span>
+                    <input type="checkbox" id="chk1">
+                    <label for="chk1" class="logChk">log file 1</label>
                     <i class="fa fa-trash-o" aria-hidden="true"></i>
                     <date>Created on:12/10/17</date>
                 </li>
                 <li>
-                    <input type="checkbox">
-                    <span>log file 1</span>
+                    <input type="checkbox" id="chk2">
+                    <label for="chk2" class="logChk">log file 2</label>
                     <i class="fa fa-trash-o" aria-hidden="true"></i>
                     <date>Created on:12/10/17</date>
                 </li>
-                <li>
-                    <input type="checkbox">
-                    <span>log file 1</span>
-                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-                    <date>Created on:12/10/17</date>
-                </li>
-                <li>
-                    <input type="checkbox">
-                    <span>log file 1</span>
-                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-                    <date>Created on:12/10/17</date>
-                </li>
-                <li>
-                    <input type="checkbox">
-                    <span>log file 1</span>
-                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-                    <date>Created on:12/10/17</date>
-                </li>
-                <li>
-                    <input type="checkbox">
-                    <span>log file 1</span>
-                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-                    <date>Created on:12/10/17</date>
-                </li>
-                <li>
-                    <input type="checkbox">
-                    <span>log file 1</span>
-                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-                    <date>Created on:12/10/17</date>
-                </li>
-                <li>
-                    <input type="checkbox">
-                    <span>log file 1</span>
-                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-                    <date>Created on:12/10/17</date>
-                </li>
-                <li>
-                    <input type="checkbox">
-                    <span>log file 1</span>
-                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-                    <date>Created on:12/10/17</date>
-                </li>
-                <li>
-                    <input type="checkbox">
-                    <span>log file 1</span>
-                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-                    <date>Created on:12/10/17</date>
-                </li>
-                <li>
-                    <input type="checkbox">
-                    <span>log file 1</span>
-                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-                    <date>Created on:12/10/17</date>
-                </li>
-                <li>
-                    <input type="checkbox">
-                    <span>log file 1</span>
-                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-                    <date>Created on:12/10/17</date>
-                </li>
-                <li>
-                    <input type="checkbox">
-                    <span>log file 1</span>
-                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-                    <date>Created on:12/10/17</date>
-                </li>
-                <li>
-                    <input type="checkbox">
-                    <span>log file 1</span>
-                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-                    <date>Created on:12/10/17</date>
-                </li>
-                <li>
-                    <input type="checkbox">
-                    <span>log file 1</span>
-                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-                    <date>Created on:12/10/17</date>
-                </li>
-                <li>
-                    <input type="checkbox">
-                    <span>log file 1</span>
-                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-                    <date>Created on:12/10/17</date>
-                </li>
-                <li>
-                    <input type="checkbox">
-                    <span>log file 1</span>
-                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-                    <date>Created on:12/10/17</date>
-                </li>
-                <li>
-                    <input type="checkbox">
-                    <span>log file 1</span>
-                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-                    <date>Created on:12/10/17</date>
-                </li>
-                <li>
-                    <input type="checkbox">
-                    <span>log file 1</span>
-                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-                    <date>Created on:12/10/17</date>
-                </li>
-                <li>
-                    <input type="checkbox">
-                    <span>log file 1</span>
-                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-                    <date>Created on:12/10/17</date>
-                </li>
-                <li>
-                    <input type="checkbox">
-                    <span>log file 1</span>
-                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-                    <date>Created on:12/10/17</date>
-                </li>
-                <li>
-                    <input type="checkbox">
-                    <span>log file 1</span>
-                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-                    <date>Created on:12/10/17</date>
-                </li>
-                <li>
-                    <input type="checkbox">
-                    <span>log file 1</span>
-                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-                    <date>Created on:12/10/17</date>
-                </li>
+            
             </ul>
+            
+            <ol class="log_show">
+                <li>pandikutty@orgdat.com - - 192.168.33.16 - - [15/Dec/2017:22:59:49 +0530] "GET /readRecord HTTP/1.1" 200 8192</li>
+                <li>pandikutty@orgdat.com - - 192.168.33.16 - - [15/Dec/2017:22:59:49 +0530] "GET /readRecord HTTP/1.1" 200 8192</li>
+                <li>pandikutty@orgdat.com - - 192.168.33.16 - - [15/Dec/2017:22:59:49 +0530] "GET /readRecord HTTP/1.1" 200 8192 kjregkjregnr oigeregerjig grejrgijer gjierjg erg g ej ie</li>
+                <li>pandikutty@orgdat.com - - 192.168.33.16 - - [15/Dec/2017:22:59:49 +0530] "GET /readRecord HTTP/1.1" 200 8192</li>
+                <li>pandikutty@orgdat.com - - 192.168.33.16 - - [15/Dec/2017:22:59:49 +0530] "GET /readRecord HTTP/1.1" 200 8192 pandikutty@orgdat.com - - 192.168.33.16 - - [15/Dec/2017:22:59:49 +0530] "GET /readRecord HTTP/1.1" 200 8192</li>
+                                <li>pandikutty@orgdat.com - - 192.168.33.16 - - [15/Dec/2017:22:59:49 +0530] "GET /readRecord HTTP/1.1" 200 8192</li>
+                <li>pandikutty@orgdat.com - - 192.168.33.16 - - [15/Dec/2017:22:59:49 +0530] "GET /readRecord HTTP/1.1" 200 8192</li>
+                <li>pandikutty@orgdat.com - - 192.168.33.16 - - [15/Dec/2017:22:59:49 +0530] "GET /readRecord HTTP/1.1" 200 8192</li>
+                <li>pandikutty@orgdat.com - - 192.168.33.16 - - [15/Dec/2017:22:59:49 +0530] "GET /readRecord HTTP/1.1" 200 8192</li>
+                <li>pandikutty@orgdat.com - - 192.168.33.16 - - [15/Dec/2017:22:59:49 +0530] "GET /readRecord HTTP/1.1" 200 8192 pandikutty@orgdat.com - - 192.168.33.16 - - [15/Dec/2017:22:59:49 +0530] "GET /readRecord HTTP/1.1" 200 8192</li>
+                                <li>pandikutty@orgdat.com - - 192.168.33.16 - - [15/Dec/2017:22:59:49 +0530] "GET /readRecord HTTP/1.1" 200 8192</li>
+                <li>pandikutty@orgdat.com - - 192.168.33.16 - - [15/Dec/2017:22:59:49 +0530] "GET /readRecord HTTP/1.1" 200 8192</li>
+                <li>pandikutty@orgdat.com - - 192.168.33.16 - - [15/Dec/2017:22:59:49 +0530] "GET /readRecord HTTP/1.1" 200 8192 kjregkjregnr oigeregerjig grejrgijer gjierjg erg g ej ie</li>
+                <li>pandikutty@orgdat.com - - 192.168.33.16 - - [15/Dec/2017:22:59:49 +0530] "GET /readRecord HTTP/1.1" 200 8192</li>
+                <li>pandikutty@orgdat.com - - 192.168.33.16 - - [15/Dec/2017:22:59:49 +0530] "GET /readRecord HTTP/1.1" 200 8192 pandikutty@orgdat.com - - 192.168.33.16 - - [15/Dec/2017:22:59:49 +0530] "GET /readRecord HTTP/1.1" 200 8192</li>
+                                <li>pandikutty@orgdat.com - - 192.168.33.16 - - [15/Dec/2017:22:59:49 +0530] "GET /readRecord HTTP/1.1" 200 8192</li>
+                <li>pandikutty@orgdat.com - - 192.168.33.16 - - [15/Dec/2017:22:59:49 +0530] "GET /readRecord HTTP/1.1" 200 8192</li>
+                <li>pandikutty@orgdat.com - - 192.168.33.16 - - [15/Dec/2017:22:59:49 +0530] "GET /readRecord HTTP/1.1" 200 8192</li>
+                <li>pandikutty@orgdat.com - - 192.168.33.16 - - [15/Dec/2017:22:59:49 +0530] "GET /readRecord HTTP/1.1" 200 8192</li>
+                <li>pandikutty@orgdat.com - - 192.168.33.16 - - [15/Dec/2017:22:59:49 +0530] "GET /readRecord HTTP/1.1" 200 8192 pandikutty@orgdat.com - - 192.168.33.16 - - [15/Dec/2017:22:59:49 +0530] "GET /readRecord HTTP/1.1" 200 8192</li>
+                                <li>pandikutty@orgdat.com - - 192.168.33.16 - - [15/Dec/2017:22:59:49 +0530] "GET /readRecord HTTP/1.1" 200 8192</li>
+                <li>pandikutty@orgdat.com - - 192.168.33.16 - - [15/Dec/2017:22:59:49 +0530] "GET /readRecord HTTP/1.1" 200 8192</li>
+                <li>pandikutty@orgdat.com - - 192.168.33.16 - - [15/Dec/2017:22:59:49 +0530] "GET /readRecord HTTP/1.1" 200 8192</li>
+                <li>pandikutty@orgdat.com - - 192.168.33.16 - - [15/Dec/2017:22:59:49 +0530] "GET /readRecord HTTP/1.1" 200 8192</li>
+                <li>pandikutty@orgdat.com - - 192.168.33.16 - - [15/Dec/2017:22:59:49 +0530] "GET /readRecord HTTP/1.1" 200 8192 pandikutty@orgdat.com - - 192.168.33.16 - - [15/Dec/2017:22:59:49 +0530] "GET /readRecord HTTP/1.1" 200 8192</li>
+                                <li>pandikutty@orgdat.com - - 192.168.33.16 - - [15/Dec/2017:22:59:49 +0530] "GET /readRecord HTTP/1.1" 200 8192</li>
+                <li>pandikutty@orgdat.com - - 192.168.33.16 - - [15/Dec/2017:22:59:49 +0530] "GET /readRecord HTTP/1.1" 200 8192 kjregkjregnr oigeregerjig grejrgijer gjierjg erg g ej ie</li>
+                <li>pandikutty@orgdat.com - - 192.168.33.16 - - [15/Dec/2017:22:59:49 +0530] "GET /readRecord HTTP/1.1" 200 8192</li>
+                <li>pandikutty@orgdat.com - - 192.168.33.16 - - [15/Dec/2017:22:59:49 +0530] "GET /readRecord HTTP/1.1" 200 8192</li>
+                <li>pandikutty@orgdat.com - - 192.168.33.16 - - [15/Dec/2017:22:59:49 +0530] "GET /readRecord HTTP/1.1" 200 8192 pandikutty@orgdat.com - - 192.168.33.16 - - [15/Dec/2017:22:59:49 +0530] "GET /readRecord HTTP/1.1" 200 8192</li>
+            </ol>
         </div>
             
             
         <!--...................................Dashboard view.........................................-->
         
         <div class="dsh_brd">
+            <div class="tbl_srch setGrph">
+                    
+            <div class="srch_edit">
+                
+                <div class="tbl_srh_box">
+                    <div class="dropdown src_drop ">
+                    <ul>
+                        <li>Bar Chart</li>
+                        <li>Pie Chart</li>
+                        <li>Buble Chart</li>
+                        <li>Chart</li>
+                    </ul>
+                    </div>
+                </div>
+            </div>
+                
+                
+                
+                <ul class="row_e">
+                    <li>
+                        <input type="checkbox" id="chk_one">
+                        <label for="chk_one">Column one:</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="chk_one">
+                        <label for="chk_one">Column one:</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="chk_one">
+                        <label for="chk_one">Column one:</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="chk_one">
+                        <label for="chk_one">Column one:</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="chk_one">
+                        <label for="chk_one">Column one:</label>
+                    </li><li>
+                        <input type="checkbox" id="chk_one">
+                        <label for="chk_one">Column one:</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="chk_one">
+                        <label for="chk_one">Column one:</label>
+                    </li><li>
+                        <input type="checkbox" id="chk_one">
+                        <label for="chk_one">Column one:</label>
+                    </li><li>
+                        <input type="checkbox" id="chk_one">
+                        <label for="chk_one">Column one:</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="chk_one">
+                        <label for="chk_one">Column one:</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="chk_one">
+                        <label for="chk_one">Column one:</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="chk_one">
+                        <label for="chk_one">Column one:</label>
+                    </li>
+                </ul>
+                
+                <div class="sub_can">
+                    <span class="sub b">Submit</span>
+                    <span class="can b">Cancel</span>
+                </div>
+            </div>
             <div class="box">
                 <div class="dsh_org">
                     
@@ -1116,9 +1118,9 @@
                         <span>21</span>
                     </div>
                     
-                    <footer>
+                    <div class="ovrView">
                         <span>Over View</span>
-                    </footer>
+                    </div>
                 </div>
                 <div class="dsh_org">
                     <p>1 Databases</p>
@@ -1128,10 +1130,9 @@
                         <i class="fa fa-users" aria-hidden="true"></i>
                         <span>08</span>
                     </div>
-                     <footer>
+                     <div class="ovrView">
                         <span>Over View</span>
-                         
-                    </footer>
+                    </div>
                 </div>
                 <div class="dsh_org">
                     <p>2 Databases</p>
@@ -1141,10 +1142,9 @@
                         <i class="fa fa-users" aria-hidden="true"></i>
                         <span>15</span>
                     </div>
-                     <footer>
+                     <div class="ovrView">
                         <span>Over View</span>
-                         
-                    </footer>
+                    </div>
                 </div>
             </div>
             
@@ -1152,7 +1152,10 @@
         
         <div class="dsh_ovr">
             <h1>
-                <span>Organization One</span>
+                <span>
+                    <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+                    <span>Organization One</span>
+                    </span>
                 <i class="fa fa-users" aria-hidden="true">12</i>
             </h1>
             <ul class="dtb">
@@ -1287,6 +1290,7 @@
          <!--...................................Tabel Chart view..................................................-->
             
         <div class="chart">
+            <i class="fa fa-times-circle rghtCls" aria-hidden="true"></i>
             <div class="cht_view"></div>
         </div>
             
@@ -1308,17 +1312,18 @@
                 <div class="options">
                     <i class="fa fa-share-alt" aria-hidden="true"></i>
                     <i class="fa fa-trash-o" aria-hidden="true"></i>
-                    <i class="fa fa-download" aria-hidden="true"></i>
-                    
-                    <label for="file"><i class="fa fa-upload" aria-hidden="true"></i></label>
+                    <!--<label for="file">-->
+                        <i class="fa fa-upload" aria-hidden="true"></i>
+                        <!--</label>-->
                     <i class="fa fa-users" aria-hidden="true"></i>
+                    <i class="fa fa-file-text-o" aria-hidden="true" title="Log Files"></i>
                 </div>
                 <div class="usrs">
                     <i class="fa fa-database" aria-hidden="true"></i>
                     <span>{{count}}</span>
                   </div>
             </div>
-        </script>
+        </script> 
         <script id='dat_template' type="text/x-handlebars-template" >
             <div class="databs">
                 <span>{{name}}</span>
@@ -1338,9 +1343,9 @@
             <div class="databs tble">
                 <span>{{name}}</span>
                 <div class="options">
-                    <i class="fa fa-share-alt" aria-hidden="true"></i>
-                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-                    <i class="fa fa-download" aria-hidden="true"></i>
+                    <i class="fa fa-share-alt" aria-hidden="true" table-name="{{name}}"></i>
+                    <i class="fa fa-trash-o" aria-hidden="true"  table-name="{{name}}"></i>
+                    <i class="fa fa-download" aria-hidden="true"  table-name="{{name}}"></i>
                     <label for="file"><i class="fa fa-upload" aria-hidden="true"></i></label>
                 </div>
                 <div class="usrs">
@@ -1348,12 +1353,12 @@
                     <span>{{count}}</span>
                 </div>
             </div>
-        </script> 
+        </script>  
         <script id='create_template' type="text/x-handlebars-template" >
              <div class="{{cla1}} {{cla2}}">
                 <span class="crt_org">Create {{purpose}}</span>
                 <i class="fa fa-plus-circle crt_pls" aria-hidden="true" ></i>
-                 <div class="input">
+                 <div class="input" style="transform: scale(0);" >
                      <span class="cls_but">X</span>
                      <input type="text"  placeholder="{{purpose}} Name" id="Name">
                      <button type="submit" purpose="{{purpose}}" >Submit</button>
@@ -1365,26 +1370,32 @@
         <table>
             <thead>
                 <tr>
-                    {{#each headers}}
-                        <th class='th' >
-                            {{key}}
+                <th><input type='checkbox' /></th>
+                    {{#each headers}}<th class='th' type='{{type}}' defaulf="{{defalt}}" isNull="{{isNull}}">{{key}}
+                        <span class="tb_op">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
                             <i class="fa fa-sort" aria-hidden="true"></i>
-                            <div class="sort_box">
-                                <i class="fa fa-sort-alpha-asc" aria-hidden="true"></i>
-                                <i class="fa fa-sort-alpha-desc" aria-hidden="true"></i>
-                                <i class="fa fa-search" aria-hidden="true"></i>
-                            </div>
+                        </span>
+                        
+                        <div class="sort_box">
+                            <i class="fa fa-sort-alpha-asc" aria-hidden="true"></i>
+                            <i class="fa fa-sort-alpha-desc" aria-hidden="true"></i>
+                            <!--<i class="fa fa-search" aria-hidden="true"></i>-->
+                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                            
+                        </div>
                         </th>
                     {{/each}}
                 </tr>
             </thead>
             <tbody>
-                {{#each abcd}}
+                {{#each values}}
                     <tr>
+                     <td><input type="checkbox" class="check" /></td>
                         {{#each value}}
                             <td>
                                 {{values}}
-                            </td>
+                             </td>
                         {{/each}}
                     </tr>
                 {{/each}}
@@ -1395,14 +1406,13 @@
             <div class='col'>
                 <ul>
                     <li>
-                        <i class='fa fa-times-circle sel_col_del' aria-hidden='true'></i>
+                        <i class='fa fa-times-circle sel_col_del add-column-x' aria-hidden='true'></i>
                         <label>Column:</label>
                         <input class='columnName'>
                     </li>
                     <li>
                         <label>Type</label>
                         <select class='type'>
-                            <option>bigserial</option>
                             <option>bigint</option>
                             <option>text</option>
                             <option>numeric</option>
@@ -1423,5 +1433,58 @@
             </div>
     
         </script>
+        <script id="addrow-template" type="text/x-handlebars-template">
+            {{#each list }}
+            <li>
+                <label>
+                    {{columnName}}:<br>
+                    <input class="row_inp" value="{{value}}" >
+                </label>
+            </li>
+            {{/each }}
+         </script>
+         <script  id="filter-template" type="text/x-handlebars-template">
+         
+            <div class="tbl_srh_box">
+                <div class="dropdown src_drop ">
+                    <ul>
+                <li type="bigint" class="column_name" >roll_no</li>
+                    {{#each list }}
+                        <li type="{{type}}" class='columnName'>{{columnName}}</li>
+                    {{/each}}
+                </ul>
+                </div>
+                    <div class="dropdown src_drop opr">
+                    <ul>
+                    <li class="opertor">=</li>
+                    {{#each condition }}
+                        <li >{{opareter}}</li>
+                    {{/each}}
+                </ul>
+                </div>
+                <input class="update" placeholder="enter the value...">
+            </div>
+         </script>
+                <!--<div class="tbl_srh_box">-->
+                <!--    <div class="dropdown src_drop ">-->
+                <!--    <ul>-->
+                <!--        <li>Co-Owner</li>-->
+                <!--        <li>Can-Write</li>-->
+                <!--        <li>Can-jgb</li>-->
+                <!--        <li>Can-Wrikjgjiuguite</li>-->
+                <!--    </ul>-->
+                <!--    </div>-->
+                <!--    <div class="dropdown src_drop opr">-->
+                <!--    <ul>-->
+                <!--        <li>Co-Owner</li>-->
+                <!--        <li>Can-Write</li>-->
+                <!--        <li>Can-jgb</li>-->
+                <!--        <li>Can-Wrikjgjiuguite</li>-->
+                <!--    </ul>-->
+                <!--    </div>-->
+                    
+                <!--    <input placeholder="enter the value...">-->
+                <!--</div>-->
     </body>
 </html>
+

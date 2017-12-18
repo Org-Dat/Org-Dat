@@ -18,7 +18,7 @@ public class LogInFilter implements Filter {
 			Cookie[] cookies = request.getCookies();
 			for (Cookie c : cookies) {
 			    if (c.getName().equals("iambdt")){
-			        response.sendRedirect("arg0");
+			        response.sendRedirect("v1");
 			        return;
 			    }
 			}

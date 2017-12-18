@@ -38,9 +38,7 @@ public class OrganizationFilter extends HttpServlet implements Filter {
 		try {
 			String requri = request.getRequestURI().substring(1);
 			long user_id;
-			System.out.println(requri);
 			if (requri.startsWith("api/") == true) {
-			    System.out.println("start");
 				String authtoken = request.getHeader("Authorization");
 				user_id = roleFinder.getUserId(authtoken);
 			}else {
@@ -50,7 +48,6 @@ public class OrganizationFilter extends HttpServlet implements Filter {
 			if (user_id == -1) {
 				throw new Exception();
 			}
-			System.out.println(" org filter user_id : "+user_id);
 			dc = new DatabaseConnection("postgres", "postgres", "");
 
 			String org_name = request.getParameter("org_name");
@@ -66,8 +63,11 @@ public class OrganizationFilter extends HttpServlet implements Filter {
 // 			}
 		} catch (Exception e) {
 		    
-		    System.out.println(" organi filter : " +e);
 		    out.write("{'status':403 ,'message':'Forbidden'}");
+		} finally {
+		    if (dc != null ){
+		        dc.close();
+		    }
 		}
 
 	}

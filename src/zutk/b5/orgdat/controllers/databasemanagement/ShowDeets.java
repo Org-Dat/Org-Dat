@@ -2,7 +2,7 @@ package zutk.b5.orgdat.controllers.databasemanagement;
 
 import java.io.PrintWriter;
 import javax.servlet.http.*;
-import zutk.b5.orgdat.model.databasemanagement.ShowDetails;
+import zutk.b5.orgdat.model.databasemanagement.*;
 import java.util.ArrayList;
 import zutk.b5.orgdat.controllers.filters.RoleChecker;
 
@@ -35,6 +35,7 @@ public class ShowDeets extends HttpServlet {
 			String db_name = request.getParameter("db_name");
 			long user_id = 0;
 			RoleChecker rc = new RoleChecker(request);
+			DashboardView dv = new DashboardView(request);
 			if (requri.startsWith("/api/")) {
 				String authtoken = request.getHeader("Authorization");
 				if (authtoken == null) {
@@ -46,21 +47,27 @@ public class ShowDeets extends HttpServlet {
 				user_id = rc.getUserId(request.getCookies());
 			}
 			ShowDetails sd = new ShowDetails();
+			
 			ArrayList<String> detailList = new ArrayList<String>();
             System.out.println("usererrer : "+user_id);
             System.out.println(requri +"   ___ "+ org_name);
+			String role = "";
 			switch (requri) {
 			case "/getOrgName":
 				detailList = sd.getOrganization(user_id);
-				System.out.println("Werfwe"+detailList.toString());
+				
 				break;
 			case "/getDBName":
-
+                System.out.print("org _ "+org_name+"\n");
 				if (org_name == null
 						|| org_name.matches("^[a-z][a-z0-9]{3,30}") == false) {
+						    
+                System.out.print("org _ errerre "+org_name+"\n");
 					throw new Exception();
 				}
-				detailList = sd.getDatabase(org_name);
+				role = dv.getRole(org_name, user_id);
+				System.out.println(role);
+				detailList = sd.getDatabase(org_name,user_id,role);
 				break;
 			case "/getTableName":
 
@@ -70,12 +77,14 @@ public class ShowDeets extends HttpServlet {
 						|| db_name.matches("^[a-z][a-z0-9]{3,30}") == false) {
 					throw new Exception();
 				}
-				detailList = sd.getTables(org_name, db_name);
+			    role = dv.getRole(org_name, db_name, user_id);
+			    System.out.println(role);
+				detailList = sd.getTables(org_name, db_name,user_id,role);
 
 				break;
 			}
+			System.out.println("Werfwe"+detailList.toString());
 			String answer = "";
-			System.out.println(detailList.toString());
 			if (detailList.size() == 0) {
 				answer = "[]";
 			} else {
@@ -88,7 +97,8 @@ public class ShowDeets extends HttpServlet {
 			System.out.println("Answer   : " + answer);
 			out.write("{ \"status\" : 200, \"message\" : \"Get "+requri.substring(1)+"  Successfully !...\", \"Records\" : "+answer+" } ");
 		} catch (Exception e) {
-			System.out.println(e);
+		    e.printStackTrace();
+			System.out.println(e); 
 			out.write("{\"status\":404 , \"message\" : \"Not Found\"}");
 			return;
 		}

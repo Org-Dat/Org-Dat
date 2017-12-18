@@ -66,6 +66,8 @@ public class SetAndChangeSecurity extends HttpServlet {
 					throw new Exception();
 				}
 				sm.updateSecurity(password, question, answer, user_id);
+			}else if(requri.endsWith("getUserDetail")){
+			     
 			}
 			out.write("{'status':200,'message':'update successfully'}");
 

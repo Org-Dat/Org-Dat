@@ -79,6 +79,7 @@ public class DatabaseFilter extends DownloadFilter implements Filter {
     				chain.doFilter(req, res);
     				dc.conn.close();
     			} else if(role.equals("can/write")){
+    			     request.setAttribute("role", "db_"+role);
     			    if(request.getRequestURI().endsWith("renameDB")){
     			        chain.doFilter(req,res);
     			    }else{

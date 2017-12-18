@@ -64,9 +64,9 @@ public class ManageRecords extends HttpServlet {
 			} else {
 				conditionArray = null;
 			}
-            System.out.println(parser);
-            System.out.println(request.getParameter("records"));
-            System.out.println(request.getQueryString());
+            // System.out.println(parser);
+            // System.out.println(request.getParameter("records"));
+            // System.out.println(request.getQueryString());
 			switch (reqURI) {
 			case "addRecord":
 				JsonObject records = parser.parse(request.getParameter("records")).getAsJsonObject();
@@ -81,9 +81,13 @@ public class ManageRecords extends HttpServlet {
 				} else {
 					columnArray = null;
 				} 
+                // System.out.println(request.getParameter("records"));
 				writer.write(databaseProcess.selectRecord(org_name,db_name,table_name, columnArray,conditionArray, request.getParameter("andOr")));
 				break;
 			case "deleteRecord": 
+			    
+                System.out.println("conditionArray = "+request.getParameter("conditionArray"));
+                System.out.println("andOr = " +request.getParameter("andOr"));
 			    writer.write(databaseProcess.deleteRecord(org_name,db_name,table_name, conditionArray,request.getParameter("andOr")));
 				break;
 			case "updateRecord":

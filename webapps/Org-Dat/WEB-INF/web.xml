@@ -224,6 +224,7 @@
         <servlet-name>ManageMember</servlet-name>
         <url-pattern>/createMember</url-pattern>
         <url-pattern>/deleteMember</url-pattern>
+        <url-pattern>/getMember</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
@@ -336,13 +337,14 @@
     
      <servlet> 
         <servlet-name>OtherVice</servlet-name>
-        <jsp-file>/HTML/org_dat.html</jsp-file>
+        <jsp-file>/HTML/homepage.html</jsp-file>
     </servlet>
      
     <servlet-mapping> 
         <servlet-name>OtherVice</servlet-name>
         <url-pattern>/v1/*</url-pattern>
     </servlet-mapping>
+    
     
   
 </web-app>

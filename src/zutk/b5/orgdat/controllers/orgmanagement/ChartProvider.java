@@ -63,7 +63,7 @@ public class ChartProvider extends HttpServlet {
 			switch (chart) {
 			case "pieChart":
 				String is3D = request.getParameter("is3D");
-				out.write(cp.pieChartWriter(table_name, is3D, detailArray));
+				out.write("{\"\""+cp.pieChartWriter(table_name, is3D, detailArray));
 				break;
 			case "columnChart":
 				String subTitle = request.getParameter("subtitle");
