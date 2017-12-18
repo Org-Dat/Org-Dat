@@ -90,7 +90,7 @@ $(document).ready(function(){
     })
 
     
-    $(".add").click(function() {
+    $(document).on("click",".add",function() {
         // $(".whole_popup").css("background", "none");
         console.log("add");
         var theTemplateScript, theTemplate, theCompiledHtml;
@@ -102,7 +102,33 @@ $(document).ready(function(){
         // $(".add_col").append("<div class='col'><ul><li><i class='fa fa-times-circle sel_col_del' aria-hidden='true'></i><label>Column:</label><input></li><li><label>Type</label><select><option selected>--select--</option><option>Text</option><option>Integer</option><option>Boolean</option><option>Float</option><option>Date</option><option>Time</option><option>Time stamp</option></select><input><label>Charc</label></li><li><label>Default Value:</label><input></li><li><input type='checkbox'><label>Mandatory</label></li></ul></div>")
     })
 
+$(document).on("click","#config",function(){
+        var purpose = $(this).attr("purpose");
+        if (purpose == "delete"){
+             var url = "";
+            var name = $("#rawMaterial").text().trim();
+            var data = delTable(name);
+            console.log(data);
+           if (data.table_name !== undefined) {
+                url = "/deleteTable";
+            } else if (data.db_name !== undefined) {
+                url = "/deleteDB";
+            } else {
+                url = "/deleteOrg";
+            }
+            sendPostRequest(url, data, niceURL);
+            $(".org_popup").css("top", "-300%");
+            $(".whole_org").css("filter", "blur(0px)");
+        }
+    });
 
+
+    $(document).on("click",".options .fa-trash-o",function(){
+        var name = $(this).parent().siblings("span").text();
+        $("#config").attr("purpose","delete");
+        $("#rawMaterial").text(name);
+    });
+    
     $(document).on("click", ".submit", function() {
         console.log("submiting");
         var data = {};
@@ -121,6 +147,18 @@ $(document).ready(function(){
         // $(".col").css("display","none")
         $(".whole_popup").css("background", "url(https://assets.materialup.com/uploads/77a5d214-0a8a-4444-a523-db0c4e97b9c0/preview.jpg) center/cover");
 
+    });
+    
+    $(document).on("click",".sort_box .fa-trash-o",function(){
+        var name = $(this).parent().siblings(".keys").text();
+        alert(name +"-->"+name.length);
+        var data = getData();
+        var tem ={};
+        tem.column = name;
+        data.query = JSON.stringify([tem]);
+        data.wanted = "deleteColumn";
+        sendPostRequest("/alterTable",data,niceURL);
+        alert("hurry");
     });
     
     $(document).on("click",".row_but",function(){
@@ -172,7 +210,48 @@ $(document).ready(function(){
         data.conditionArray = JSON.stringify(getValue("check"));
         sendPostRequest("/deleteRecord", data, showTable);
      });
-     
+    
+
+    $(document).on("click" ,".share",function() {
+        var name = $("#share").parent().attr("name");
+        var data = shareConfig(name);
+        var url = "";
+        if (data.table_name != undefined) {
+            url = "/shareTable";
+        } else if (data.db_name != undefined) {
+            url = "/shareDB";
+        } else {
+            url = "/shareOrg";
+        }
+        sendPostRequest(url, data, hideShare());
+    });
+
+    function hideShare() {
+        $(".shr_fld").hide();
+    }
+
+    $(document).on("click" ,".rename_org",function() {
+        var name = $(this).parent().siblings("span").text();
+        var data = rename(name);
+        sendPostRequest("/renameOrg", data, hideShare());
+    });
+
+    $(document).on("click" ,".rename_db",function() {
+        var name = $(this).parent().siblings("span").text();
+        var data = rename(name);
+        sendPostRequest("/renameDB", data, hideShare());
+    });
+
+    $(document).on("click" ,".rename_table ",function() {
+        var name = $(this).parent().siblings("span").text();
+        var data = rename(name);
+        sendPostRequest("/renameTable", data, hideShare());
+    });
+    
+    $(document).on("click",".addmember",function(){
+        var data = getMemberDetail();
+        sendPostRequest("/createMember",data , addMember(data));
+    });
     $(document).on("click", ".org_box>span,.databs>span", function() {
         console.log($(this).parent().attr("class"));
         var forPath = ["org_box", "databs", "databs tble"];
@@ -193,7 +272,7 @@ $(document).ready(function(){
         $(".tbl_srch").css({
             "transform": "translate(0px)"
         });
-        $(".srch_edit").html(""); 
+        $(".filter_box").html(""); 
         var theTemplate, theTemplateScript, context, theCompiledHtml;
         theTemplateScript = $("#filter-template").html();
         theTemplate = Handlebars.compile(theTemplateScript);
@@ -207,6 +286,8 @@ $(document).ready(function(){
                 "opareter": "contains"
             }, {
                 "opareter": "equals"
+            }, {
+                "opareter": "="
             },  {
                 "opareter": ">"
             }, {
@@ -215,8 +296,8 @@ $(document).ready(function(){
                 "opareter": "!="
             }]
         });
-        $('.srch_edit').html(theCompiledHtml);
-        $('.srch_edit').append('<div class="tbl_con"><span class="cond">OR</span><i class="fa fa-plus-square-o" aria-hidden="true"></i> </div>');
+        $('.filter_box').html(theCompiledHtml);
+        $('.filter_box').append('<div class="tbl_con"><span class="cond">OR</span><i class="fa fa-plus-square-o" aria-hidden="true"></i> </div>');
         $(".sub_can").attr("purpose", "filter");
 
     })
@@ -236,7 +317,7 @@ $(document).ready(function(){
 function showAllOrg(orgNames){
     var array = JSON.parse(orgNames);
     if (array.status != 200){
-        alert(array.message);
+        alert("status = "+array.message);
         return;
     }
      array = array.Records;
@@ -269,7 +350,7 @@ function showAllOrg(orgNames){
 function showAllDB(dbNames){
     var array = JSON.parse(dbNames); 
     if (array.status != 200){
-        alert(array.message);
+       alert("status = "+array.message);
         return;
     }
      array = array.Records;
@@ -299,7 +380,7 @@ function showAllDB(dbNames){
 function showAlltable(tableNames){
     var array = JSON.parse(tableNames);
     if (array.status != 200){
-        alert(array.message);
+        alert("status = "+array.message);
         return;
     }
      array = array.Records;
@@ -331,10 +412,9 @@ function showAlltable(tableNames){
 function showTable(resoponse){
     var array = JSON.parse(resoponse);
     if (array.status != 200){
-        alert(array.message);
+        alert("status = "+array.message);
         return; 
     } 
-    alert( array["TableTable"]); 
     $(".tbl_name").text( array["TableTable"]);
      array = array.Records;
     var theTemplate,theTemplateScript,theCompiledHtml;
@@ -376,6 +456,15 @@ function showHide(colType){
         document.getElementBy("").setAttribute("style","visiblitity :hidden");
     }
 }
-$(document).ready(function(){
-    niceURL();
-})
+    function delTable(name) {
+        var nameEle = document.createElement("p");
+        nameEle.innerText = name;
+        var tmpObj = getPathConfig(nameEle);
+        return tmpObj;
+    }
+
+    function removeEle(element) {
+        element.parentNode.removeChild(element);
+    }
+
+niceURL();

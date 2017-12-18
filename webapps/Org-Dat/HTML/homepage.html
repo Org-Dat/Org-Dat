@@ -330,7 +330,7 @@
         
         <div class="org_popup">
                 <h1 class="TpH1">Are You Sure to delete?</h1>
-                <h3 class="titH3">Organization</h3>
+                <h3 id="rawMaterial" class="titH3">Organization</h3>
                 <input type="file">
                 <ul class="PopUsr">
                     <li><span class="s_no">1</span><span class="popNm">Ponkumar</span></li>
@@ -371,7 +371,7 @@
                     <li><span class="s_no">1</span><span class="popNm">Miraculine</span></li>
                     
                 </ul>
-                <button class="del_but">Delete</button>
+                <button id="config" class="del_but">Delete</button>
                 <button class="decline">Cancel</button>
                 
             </div>
@@ -742,13 +742,22 @@
                 </div>
             </div>
             <div class="hdr">
+                <i class="fa fa-hand-o-left Tb_back" aria-hidden="true"></i>
                 <button class="col_but"><i class="fa fa-plus" aria-hidden="true"></i> C<span class="mbSrc">olumn</span></button>
                 <button class="srch_col"><i class="fa fa-search" aria-hidden="true"></i>S<span class="mbSrc"> earch</span></button>
                 <p class="clr"></p>
-                <span contenteditable="true" class="tbl_name">Untitled</span>
+                <span  class="tbl_name">Untitled</span>
                 <button class="row_but"><i class="fa fa-plus" aria-hidden="true"></i> Row</button>
                 <button class="del_row"><i class="fa fa-trash-o" aria-hidden="true"></i> Row</button>
             </div>
+            <!--<div class="hdr">-->
+            <!--    <button class="col_but"><i class="fa fa-plus" aria-hidden="true"></i> C<span class="mbSrc">olumn</span></button>-->
+            <!--    <button class="srch_col"><i class="fa fa-search" aria-hidden="true"></i>S<span class="mbSrc"> earch</span></button>-->
+            <!--    <p class="clr"></p>-->
+            <!--    <span  class="tbl_name">Untitled</span>-->
+            <!--    <button class="row_but"><i class="fa fa-plus" aria-hidden="true"></i> Row</button>-->
+            <!--    <button class="del_row"><i class="fa fa-trash-o" aria-hidden="true"></i> Row</button>-->
+            <!--</div>-->
             
         <div class="mn_tb">    
             <table>
@@ -886,7 +895,36 @@
         <!--..............................Main Table Popup...............................................-->
         
         <div class="whole_popup">
-                <div class="add_col" style="opacity: 1;"><div class="col"><ul><li><i class="fa fa-times-circle sel_col_del" aria-hidden="true"></i><label>Column:</label><input></li><li><label>Type</label><select><option selected="">--select--</option><option>Text</option><option>Integer</option><option>Boolean</option><option>Float</option><option>Date</option><option>Time</option><option>Time stamp</option></select><input><label>Charc</label></li><li><label>Default Value:</label><input></li><li><input type="checkbox"><label>Mandatory</label></li></ul></div></div>
+                <div class="add_col" style="opacity: 1;">
+                    <div class="col">
+                        <ul>
+                            <li>
+                                <i class="fa fa-times-circle sel_col_del add-column-x" aria-hidden="true"></i>
+                                <label>Column:</label>
+                                <input class="columnName">
+                            </li>
+                            <li>
+                                <label>Type</label>
+                                <select class="type">
+                                    <option>bigint</option>
+                                    <option>text</option>
+                                    <option>numeric</option>
+                                    <option>time</option>
+                                    <option>date</option>
+                                    <option>timestamp</option>
+                                </select>
+                            </li>
+                            <li>
+                                <label>Default Value:</label>
+                                <input class="defaultValue">
+                            </li>
+                            <li>
+                                <input type="checkbox" class="isNull">
+                                <label>Mandatory</label>
+                            </li>
+                        </ul> 
+                    </div>
+                </div>
                 <button class="l add">Add Column</button>
                 <button class="l del">Delete All</button>
                 <button class="l cancel">Cancel</button>
@@ -1371,7 +1409,7 @@
             <thead>
                 <tr>
                 <th><input type='checkbox' /></th>
-                    {{#each headers}}<th class='th' type='{{type}}' defaulf="{{defalt}}" isNull="{{isNull}}">{{key}}
+                    {{#each headers}}<th class='th' type='{{type}}' defaulf="{{defalt}}" isNull="{{isNull}}"><span class="keys">{{key}}</span>
                         <span class="tb_op">
                             <i class="fa fa-pencil" aria-hidden="true"></i>
                             <i class="fa fa-sort" aria-hidden="true"></i>
@@ -1448,7 +1486,7 @@
             <div class="tbl_srh_box">
                 <div class="dropdown src_drop ">
                     <ul>
-                <li type="bigint" class="column_name" >roll_no</li>
+                <li type="bigint" class="column_name1" >roll_no</li>
                     {{#each list }}
                         <li type="{{type}}" class='columnName'>{{columnName}}</li>
                     {{/each}}
@@ -1456,7 +1494,7 @@
                 </div>
                     <div class="dropdown src_drop opr">
                     <ul>
-                    <li class="opertor">=</li>
+                    <li class="opertor1">=</li>
                     {{#each condition }}
                         <li >{{opareter}}</li>
                     {{/each}}

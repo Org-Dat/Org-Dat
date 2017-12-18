@@ -163,7 +163,6 @@ $(document).ready(function() {
         $("#config").attr("purpose","delete");
         $("#rawMaterial").text(name);
     });
-    
     $(document).on("click", ".options .fa-trash-o,.fa-users", function() {
         if (nu % 2 == 0) {
             document.getElementById("demo").click();

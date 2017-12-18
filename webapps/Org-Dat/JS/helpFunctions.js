@@ -98,16 +98,16 @@ function getColumnName(){
 }
  
 function getFilter(){
-    var column_name = document.getElementsByClassName("column_name");
-    var opertor = document.getElementsByClassName("opertor");
+    var column_name = document.getElementsByClassName("column_name1");
+    var opertor = document.getElementsByClassName("opertor1");
     var values = document.getElementsByClassName("update");
     let i = 0;
     var valList = [];
     while(i < column_name.length){
-       valList.push({"column" :column_name[i].value , "condition" : opertor[i].value , "value" : values[i].value});
+       valList.push({"column" :column_name[i].innerText , "condition" : opertor[i].innerText , "value" : values[i].value});
        i++;
     }
-  var list = [];
+//   var list = [];
 //   list.push({"andOr" :document.getElementsByClassName("tbl_con")[0].innerText.trim()});
 //   list.push(valList);
   return valList;

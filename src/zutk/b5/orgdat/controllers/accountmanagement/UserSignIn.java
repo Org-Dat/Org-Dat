@@ -61,7 +61,8 @@ public class UserSignIn extends HttpServlet {
 						cookie.setPath("/");
 						cookie.setHttpOnly(true);
 						response.addCookie(cookie);
-						response.sendRedirect("http://orgdat.zcodeusers.com/HTML/homepage.html");
+						out.write("success");
+						//response.sendRedirect("http://orgdat.zcodeusers.com/HTML/homepage.html");
 					} else {
 						out.write("User Name Or Password is incorrect");
 					}

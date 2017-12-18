@@ -49,7 +49,7 @@ public class UserSignUp extends HttpServlet {
 			String email = request.getParameter("email");
 			String phoneNumber = request.getParameter("phone_number");
 			String password = request.getParameter("password");
-			if (name.matches("^[a-z][a-zA-Z0-9]{3,255}$")) {
+			if (name.matches("^[a-zA-Z][a-zA-Z0-9]{3,255}$")) {
 				if (email.matches("^[a-z][a-z0-9]{5,30}@orgdat.com$")) {
 					if (phoneNumber == null
 							|| phoneNumber.matches("^[+]?[0-9]{10,30}$")) {
@@ -77,7 +77,8 @@ public class UserSignUp extends HttpServlet {
 									cookie.setPath("/");
 									cookie.setHttpOnly(true);
 									response.addCookie(cookie);
-									response.sendRedirect("http://orgdat.zcodeusers.com/v1");
+								//	response.sendRedirect("http://orgdat.zcodeusers.com/v1");
+								out.write("success");
 									/** which file redirect ? **/
 								} else {
 									out.write("Invaild Inputs");

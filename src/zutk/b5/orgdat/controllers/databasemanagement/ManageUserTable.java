@@ -105,6 +105,7 @@ public class ManageUserTable extends HttpServlet {
 			}
 			/***************************** Delete Table ********************************************/
 			else if (reqURI.endsWith("deleteTable") == true) {
+			    System.out.println("deleteTable");
 				writer.write(templateTable.deleteTable(org_name, db_name, table_name) );
 				dc.close();
 				return;

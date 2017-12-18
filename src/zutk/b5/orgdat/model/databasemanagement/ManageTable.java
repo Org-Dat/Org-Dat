@@ -61,6 +61,8 @@ public class ManageTable {
 
 				columnObj = eachElement.getAsJsonObject();
 				String columnName = columnObj.get("column").getAsString();
+				System.out.println("???????????????????????????????????????");
+				System.out.println(wanted);
 				if (wanted.equals("addColumn") == false
 						&& mr.columnNames.contains(columnName) == false) {
 					return "E{ 'status' : 406, 'message' : 'Your Column Name is incorrect' }";
@@ -265,13 +267,17 @@ public class ManageTable {
 	public String deleteTable(String org_name, String db_name, String table_name) {
 		try {
 			dc = new DatabaseConnection("postgres", "postgres", "");
-			String sqlQuery = "delete from table_management where org_name=? and db_name=? and table_name=?";
+			long org_id = dc.getOrgId(org_name);
+			long db_id = dc.getDBId(org_id,org_name+"_"+ db_name);
+			long table_id = dc.getTableId(org_id, db_id, table_name);
+			String sqlQuery = "delete from table_details where org_id=? and db_id=? and table_id=?";
 			stmt = dc.conn.prepareStatement(sqlQuery);
-			stmt.setString(1, org_name);
-			stmt.setString(2, org_name + "_" + db_name);
-			stmt.setString(3, table_name);
+			stmt.setLong(1, org_id);
+			stmt.setLong(2, db_id);
+			stmt.setLong(3, table_id);
 			stmt.executeUpdate();
 			dc.close();
+			System.out.println(" ");
 			dc = new DatabaseConnection(org_name + "_" + db_name, org_name, "");
 			// dc.dbConnection(org_name + "_" + db_name, org_name, "");
 			sqlQuery = "drop table " + table_name;
@@ -285,6 +291,7 @@ public class ManageTable {
 					+ db_name
 					+ "',  'Table Name' : '" + table_name + "' } ";
 		} catch (Exception e) {
+		    e.printStackTrace();
 			System.out.println(e);
 			if (dc != null) {
 				dc.close();
@@ -305,12 +312,15 @@ public class ManageTable {
 			String table_oldname, String table_newname) {
 		try {
 			dc = new DatabaseConnection("postgres", "postgres", "");
-			String sqlQuery = "update table_management set table_name=? where org_name=? and db_name=? and table_name=?";
+			long org_id = dc.getOrgId(org_name);
+			long db_id = dc.getDBId(org_id,org_name+"_"+ db_name);
+			long table_id = dc.getTableId(org_id, db_id, table_oldname);
+			String sqlQuery = "update table_management set table_name=? where org_id=? and db_id=? and table_id=?";
 			stmt = dc.conn.prepareStatement(sqlQuery);
 			stmt.setString(1, table_newname);
-			stmt.setString(2, org_name);
-			stmt.setString(3, org_name + "_" + db_name);
-			stmt.setString(4, table_oldname);
+			stmt.setLong(2, org_id);
+			stmt.setLong(3, db_id);
+			stmt.setLong(4, table_id);
 			stmt.executeUpdate();
 			dc.dbConnection(org_name + "_" + db_name, org_name, "");
 			sqlQuery = "alter table " + table_oldname + " rename to "
@@ -465,20 +475,21 @@ public class ManageTable {
 			init();
 			dc = new DatabaseConnection("postgres", "postgres", "");
 			String sql = "";
+			long org_id = dc.getOrgId(org_name);
+			long db_id = dc.getDBId(org_id,org_name+"_"+ db_name);
+			long table_id = dc.getTableId(org_id, db_id, table_name);
 			if (query.equals("createRole")) {
-				sql = "insert into table_management (role,user_id,org_name,db_name,table_name)values(?,?,?,?,?)";
+				sql = "insert into table_management (role,user_id,table_id)values(?,?,?)";
 			} else if (query.equals("editRole")) {
-				sql = "update table_management set role= ? where user_id=? and org_name=? and db_name=? and table_name=?";
+				sql = "update table_management set role= ? where user_id=? and table_id=?";
 			} else {
-				sql = "delete from table_management where role=? and user_id=? and org_name=? and db_name=? and table_name=?";
+				sql = "delete from table_management where role=? and user_id=? and table_id=?";
 			}
 			dc = new DatabaseConnection(org_name + "_" + db_name, org_name, "");
 			dc.stmt = dc.conn.prepareStatement(sql);
 			dc.stmt.setString(1, role);
 			dc.stmt.setLong(2, user_id);
-			dc.stmt.setString(3, org_name);
-			dc.stmt.setString(4, db_name);
-			dc.stmt.setString(5, table_name);
+			dc.stmt.setLong(3, table_id);
 			dc.stmt.executeUpdate();
 			dc.close();
 			return true;
