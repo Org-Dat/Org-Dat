@@ -6,6 +6,7 @@ import org.json.simple.JSONArray;
 import java.util.ArrayList;
 import java.sql.ResultSet;
 import zutk.b5.orgdat.controllers.filters.*;
+import zutk.b5.orgdat.controllers.orgmanagement.ManageMember;
 import zutk.b5.orgdat.controllers.databasemanagement.DashboardView;
 public class ShowDetails {
 	DatabaseConnection dc;
@@ -141,14 +142,14 @@ public class ShowDetails {
 			dc.stmt.setLong(2, db_id);
 			ResultSet rs = dc.stmt.executeQuery();
 			System.out.println("org_id = "+org_id+" db_id = "+db_id);
-			System.out.println(rs.getFetchSize());
+// 			System.out.println(rs.getFetchSize());
 			while (rs.next()) {
-			    System.out.println(" --- -- -- "); 
+			 //   System.out.println(" --- -- -- "); 
 			    
 				tables.add(rs.getString(1));
 			}
 		//	dc.close();
-		System.out.println("tables = "+tables);
+    		System.out.println("tables = "+tables);
 			return tables;
 		} catch (Exception e) {
 		    e.printStackTrace();
@@ -219,24 +220,25 @@ public class ShowDetails {
      public JSONObject getDashboardViewObject(String org_name , long user_id){
         DashboardView  dv = new DashboardView();  
         JSONObject json = new JSONObject();
-        ArrayList<String> tableArray;
+        ArrayList<String> tableArray = new ArrayList<String>();
         String role;
         long org_id = dc.getOrgId(org_name);
         long db_id  = 0l;
         try {
             for (String db_name : getAllDatabase(org_id)) {
                 db_id = dc. getDBId(org_id, org_name+"_"+db_name);
-                tableArray = new ArrayList<String>();
+                tableArray .clear();
                 ArrayList<String> tem = getAllTable(org_id, db_id);
+                // System.out.println("tem  == "+tem);
                 for (String table_name : tem) {
                     role = dv.getRole( org_name, db_name, table_name, user_id);
-                    System.out.println("role = " +role);
+                    // System.out.println("role = " +role);
                     if (role != null && role.endsWith("null")==false) { 
                         tableArray.add(table_name);
                     }
                 }
                 if (tableArray.size() > 0 || tem.size() == 0) {
-                    json.put(db_name, tableArray);
+                    json.put(db_name, tableArray.clone());
                 }
             }
             return json;
@@ -246,5 +248,85 @@ public class ShowDetails {
         }
         
      }
+     
+     public JSONArray getUserDashboardView( long user_id){
+         JSONArray responseObject = new JSONArray();
+         JSONObject orgDetails = new JSONObject();
+         try{
+             ManageMember mm = new ManageMember();
+             ArrayList<String> orgs = getOrganization( user_id);
+             System.out.println("orgs = "+orgs);
+             for (String org_name : orgs) {
+                 orgDetails.put("org_name", org_name);
+                 orgDetails.put("orgDetails", getDashboardViewObjectWithSize(org_name, user_id));
+                 orgDetails.put("Member",mm.getMemberList(org_name));
+                 responseObject.add( orgDetails.clone());
+                 orgDetails.clear();
+             }
+             return responseObject;
+         } catch(Exception e){
+             e.printStackTrace();
+             return new JSONArray();
+         }
+     }
+     
+     public JSONObject getDashboardViewObjectWithSize(String org_name , long user_id){
+        DashboardView  dv = new DashboardView();  
+        JSONObject json = new JSONObject();  
+        JSONObject json1 = new JSONObject();
+        String role;
+        ArrayList<String> tem ;
+        long org_id = dc.getOrgId(org_name);
+        long db_id  = 0l;
+        try {
+            for (String db_name : getAllDatabase(org_id)) {
+                // System.out.println("db _ name == "+db_name);
+                //  dc  = new DatabaseConnection("postgres", "potgres", "");
+                db_id = dc.getDBId(org_id, org_name+"_"+db_name);
+                tem = getAllTable(org_id, db_id);
+                for (String table_name : tem) {
+                    role = dv.getRole( org_name, db_name, table_name, user_id);
+                    System.out.println("role = " +role);
+                    if (role != null && role.endsWith("null")==false) { 
+                        // json1.put("table_name",table_name);
+                        // json1.put("table_size",getTableSize(org_name, db_name, table_name));
+                        json1.put(table_name,getTableSize(org_name, db_name, table_name));
+                        // tableArray.add(json1.clone());
+                        // json1.clear();
+                    }
+                }
+                role = dv.getRole( org_name, db_name, user_id);
+                if (json1.size() > 0 || (tem.size() == 0 && role != null && role.endsWith("null")==false)) {
+                    json.put(db_name, json1.clone());
+                    json1.clear();
+                }
+            }
+            return json;
+        } catch (Exception e) {
+            System.out.println("dash borad view object Error : "+e.getMessage());
+            return new JSONObject();
+        }
+        
+     }
+     
+    public String getTableSize(String org_name,String db_name ,String table_name ) {
+        System.out.println(org_name+", "+db_name+", "+table_name);
+        DatabaseConnection dc1 = new DatabaseConnection(org_name+"_"+db_name,org_name,"");
+        try {
+            dc1.stmt = dc1.conn.prepareStatement("SELECT pg_size_pretty( pg_total_relation_size(?) );");
+            dc1.stmt.setString(1, table_name);
+            ResultSet rs = dc1.stmt.executeQuery();
+            String s =  null;
+            if(rs.next()){
+                s = rs.getString(1);
+            } 
+            dc1.close();
+            return s;
+        } catch (Exception e ){
+            System.out.println(e);
+            dc1.close();
+            return null;
+        }
+    }
     
 }

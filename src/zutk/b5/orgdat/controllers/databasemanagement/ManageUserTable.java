@@ -141,8 +141,9 @@ public class ManageUserTable extends HttpServlet {
 				return;
 			}/***************************** edit Column ********************************************/
 			else if (reqURI.endsWith("editColumn") == true) {
+			    
 				String columnNameArray = request.getParameter("query");
-				System.out.println("columnNameArray = "+columnNameArray);
+				System.out.println("columnNameArray = "+columnNameArray +" for edit column ");
 				JsonObject columnArray ;
 				if (columnNameArray == null){
 				     columnArray = null;

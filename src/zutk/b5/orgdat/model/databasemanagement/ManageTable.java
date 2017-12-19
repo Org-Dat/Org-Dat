@@ -4,7 +4,7 @@ import java.sql.*;
 import com.google.gson.*;
 import java.util.*;
 import zutk.b5.orgdat.controllers.filters.DatabaseConnection;
- 
+
 public class ManageTable {
 	Set<String> types;
 	PreparedStatement stmt = null;
@@ -40,7 +40,7 @@ public class ManageTable {
 	/**
 	 * This private methos used to bulidAlterQuery for alter table query
 	 * 
-	 * @Params : JsonArray columnArray , String wanted 
+	 * @Params : JsonArray columnArray , String wanted
 	 * 
 	 * @Return : This private methos returned bulid alter query String
 	 */
@@ -180,20 +180,22 @@ public class ManageTable {
 	}
 
 	public String editColumn(String org_name, String db_name,
-			String table_name, JsonObject columnArray) {
+			String table_name, JsonObject columnObject) {
 		try {
+		    System.out.println(" edit column enter = "+columnObject);
 			mr = new ManageRecord(dc);
-			String columnName = columnArray.get("columnName").getAsString();
-			String new_name = columnArray.get("new_name").getAsString();
-			String type = columnArray.get("type").getAsString();
-			String defaul = columnArray.get("default").getAsString();
-			boolean isNull = columnArray.get("isNull").getAsBoolean();
+			String columnName = columnObject.get("columnName").getAsString();
+			String new_name = columnObject.get("new_name").getAsString();
+			String type = columnObject.get("type").getAsString();
+			String defaul = columnObject.get("default").getAsString();
+			boolean isNull = columnObject.get("isNull").getAsBoolean();
 			String query = "";
+			mr.defineColumnAndType(org_name, db_name, table_name);
 			if (types.contains(type.toLowerCase())) {
 				query = query + ", ALTER COLUMN  " + columnName + " TYPE "
 						+ type + " ";
 			}
-			if (defaul != null) {
+			if (defaul != null && defaul.equals("") == false ) {
 				query = query + ", ALTER COLUMN  " + columnName
 						+ " SET DEFAULT ";
 				if (mr.types.get(mr.columnNames.indexOf(columnName)).matches(
@@ -215,10 +217,11 @@ public class ManageTable {
 				query = query + ";ALTER TABLE " + table_name + " RENAME  "
 						+ columnName + " TO " + new_name + "; ";
 			}
-			mr.dc.stmt = mr.dc.conn.prepareStatement("ALTER TABLE "
+			System.out.println("query = "+query);
+			mr.dc.stmt = mr.dc.conn.prepareStatement("ALTER TABLE "+table_name
 					+ query.substring(1));
 			mr.dc.stmt.executeUpdate();
-
+            System.out.println("pfeecly finsihed edit columne");
 			mr.dc.close();
 			return "{ \"status\" : 200, \"message\" : \" Column edit  sucess fully \" ,  \"Organization Name\" :\""
 					+ org_name
@@ -227,6 +230,7 @@ public class ManageTable {
 					+ "\", \"Table Name\" : \"" + table_name + "\" } ";// [[int,null,unique],[],[],[]]
 
 		} catch (Exception e) {
+		    e.printStackTrace();
 			if (mr.dc != null) {
 				mr.dc.close();
 			}
@@ -268,7 +272,7 @@ public class ManageTable {
 		try {
 			dc = new DatabaseConnection("postgres", "postgres", "");
 			long org_id = dc.getOrgId(org_name);
-			long db_id = dc.getDBId(org_id,org_name+"_"+ db_name);
+			long db_id = dc.getDBId(org_id, org_name + "_" + db_name);
 			long table_id = dc.getTableId(org_id, db_id, table_name);
 			String sqlQuery = "delete from table_details where org_id=? and db_id=? and table_id=?";
 			stmt = dc.conn.prepareStatement(sqlQuery);
@@ -291,7 +295,7 @@ public class ManageTable {
 					+ db_name
 					+ "',  'Table Name' : '" + table_name + "' } ";
 		} catch (Exception e) {
-		    e.printStackTrace();
+			e.printStackTrace();
 			System.out.println(e);
 			if (dc != null) {
 				dc.close();
@@ -313,7 +317,7 @@ public class ManageTable {
 		try {
 			dc = new DatabaseConnection("postgres", "postgres", "");
 			long org_id = dc.getOrgId(org_name);
-			long db_id = dc.getDBId(org_id,org_name+"_"+ db_name);
+			long db_id = dc.getDBId(org_id, org_name + "_" + db_name);
 			long table_id = dc.getTableId(org_id, db_id, table_oldname);
 			String sqlQuery = "update table_management set table_name=? where org_id=? and db_id=? and table_id=?";
 			stmt = dc.conn.prepareStatement(sqlQuery);
@@ -368,10 +372,10 @@ public class ManageTable {
 			}
 			String sqlQuery = "insert into table_details ( org_id , db_id ,table_name) values(?,?,?)";
 			stmt = dc.conn.prepareStatement(sqlQuery);
-            stmt.setString(3, table_name);
-            stmt.setLong(2, db_id);
-            stmt.setLong(1, org_id);
-            stmt.executeUpdate();
+			stmt.setString(3, table_name);
+			stmt.setLong(2, db_id);
+			stmt.setLong(1, org_id);
+			stmt.executeUpdate();
 			long table_id = dc.getTableId(org_id, db_id, table_name);
 			sqlQuery = "insert into table_management (role,table_id,user_id) values(?,?,?)";
 			stmt = dc.conn.prepareStatement(sqlQuery);
@@ -435,7 +439,7 @@ public class ManageTable {
 	 * This public method used to alter table in database.
 	 * 
 	 * @Params : String table_name , JsonArray columnArray , String wanted
-	 *  
+	 * 
 	 * @Return : if table successfully alter return true, else false;
 	 */
 
@@ -443,7 +447,7 @@ public class ManageTable {
 			String table_name, JsonArray columnArray, String wanted) {
 		try {
 			mr = new ManageRecord(dc);
-			mr.defineColumnAndType(org_name,db_name,table_name);
+			mr.defineColumnAndType(org_name, db_name, table_name);
 			String sql = bulidAlterQuery(columnArray, wanted);
 			if (sql.charAt(0) == 'E') {
 				return " {'status':406 , 'message': 'Your Column "
@@ -476,7 +480,7 @@ public class ManageTable {
 			dc = new DatabaseConnection("postgres", "postgres", "");
 			String sql = "";
 			long org_id = dc.getOrgId(org_name);
-			long db_id = dc.getDBId(org_id,org_name+"_"+ db_name);
+			long db_id = dc.getDBId(org_id, org_name + "_" + db_name);
 			long table_id = dc.getTableId(org_id, db_id, table_name);
 			if (query.equals("createRole")) {
 				sql = "insert into table_management (role,user_id,table_id)values(?,?,?)";

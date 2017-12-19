@@ -11,12 +11,12 @@ $(document).ready(function(){
     
     $(document).on("click",".shr,.del_but,.add_fld button,.input>button",function(){
         var msg=$(this).text();
-        $(".altMsg").text(msg+"d Organization One")
-        $(".alertPop").css("transform","translateY(0px)")
+        $(".altMsg").text(msg+"d Organization One");
+        $(".alertPop").css("transform","translateY(0px)");
         setTimeout(function(){
-            $(".alertPop").css("transform","translateY(-45px)")
-        },1000)
-    })
+            $(".alertPop").css("transform","translateY(-45px)");
+        },1000);
+    });
     
     
     
@@ -26,7 +26,7 @@ $(document).ready(function(){
         // $(".whole_database").css("transform","translate(0%)")
         setTimeout(function(){
             $(".whole_org_box").hide();
-        },700)
+        },700);
 		$(".whole_database").css("display","flex");
 	});
 	$(document).on("click",".databs>span",function(){
@@ -424,7 +424,7 @@ $(".security_whole .slide_button div").click(function(){
          document.getElementById("demo").click();   
         }
         
-        $(".cmn_tab").css("display","block")
+        $(".cmn_tab").css("display","block");
         $(".org_box,.security_whole,.org_name,.whole_org,.admin,.log,.main_tab,.dsh_brd").hide();
         $(".cmn_tab>h2").text("History")
         $(".cm_tb table th:first-child,.cm_tb table td:first-child").hide();
@@ -507,7 +507,7 @@ $(document).on("click",".fa-sort",function(){
         $(".whole_popup").css({
             "transform":"translateY(50px) scale(0.2)"
         })
-        
+        $(".del,.add").show();
         
         $(".main_tab").css("filter","blur(3px)")
             

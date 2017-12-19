@@ -111,9 +111,14 @@ public class RoleChecker extends HttpServlet {
       */
       
 	public long getUserId(Cookie[] cookies) {
+	    
 		for (Cookie cookie : cookies) {
 			if (cookie.getName().equals("iambdt")) {
-				return ((long) ((ServletRequest) request).getAttribute(cookie.getValue()));
+			    System.out.println("iambdt" + cookie.getValue());
+			    System.out.println(request);
+			    long user_id = (long) ((ServletRequest) request).getAttribute(cookie.getValue());
+			    System.out.println(user_id);
+				return user_id;
 			}
 		}
 		return -1;

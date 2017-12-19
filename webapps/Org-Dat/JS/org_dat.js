@@ -699,13 +699,13 @@ $(document).ready(function() {
         $(".add_col").html();
         alert(getColumnDetail())
         data.query = JSON.stringify(getColumnDetail());
-
-        data.wanted = "addColumn";
         var path = location.pathname.substring(4).split("/");
         data.org_name = path[0];
         data.db_name = path[1];
         data.table_name = path[2];
         console.log("asdads\"asd = " + data);
+        
+        data.wanted = "addColumn";
         sendPostRequest("/alterTable", data, niceURL);
         console.log("submiting");
         // $(".col").css("display","none")

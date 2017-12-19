@@ -19,6 +19,12 @@ $(document).ready(function(){
         }
     });
     
+    $(document).on("click", ".main_tab th:nth-child(1) > input[type='checkbox']", function() {
+        $(".del_row").css("visibility","visible");
+        $(".del_col").css("visibility","hidden");
+        $(".mn_tb td:nth-child(1) > input[type='checkbox']").attr("checked",$(this).prop('checked'));
+    });
+    
     $(document).on("click", ".sub", function() {
         //$(this).attr("contenteditable","true")
         var purpose = $(this).parent().attr("purpose");
@@ -47,19 +53,83 @@ $(document).ready(function(){
             data.andOr = document.getElementsByClassName("tbl_con")[0].innerText.trim();
             sendPostRequest("/readRecord", data, showTable);
         }
+    }); 
+    
+    $(document).on("click",".col_but",function(){
+        $(".submit").attr("purpose","add");
+        
     });
-
-
+    $(document).on("click",".tb_op .fa-pencil",function(){
+        alert($(this).parents(".th").text().trim());
+        if ($(this).parents(".th").text().trim() != "roll_no"){
+            $(".submit").attr("purpose","edit");
+            $(".submit").attr("column",$(this).parents(".th").text().trim());
+            $(".add_col").html("");
+            var arr = ["int8","text","numeric","time","date","timestamp"];
+            var theTemplate, theTemplateScript, context, theCompiledHtml;
+            theTemplateScript = $("#addcolumn").html();
+            theTemplate = Handlebars.compile(theTemplateScript);
+            $(".add_col").html("");
+            var data ={};
+            data.columnName = $(this).parents(".th").text().trim();
+            var type = $(this).parents(".th").attr("type");
+            if (type == "int8"){type="bigint";}
+            var s =$(this).parents(".th").attr("defaulf");
+            if (data.type == "int8"){
+                data.defaultvalue = s;
+            } else {
+                data.defaultvalue = s.substring(0,s.lastIndexOf("::"));
+            }
+             $(".whole_popup").css({
+                "transform":"translateY(50px) scale(0.2)"
+            })
+            
+            
+            $(".main_tab").css("filter","blur(3px)")
+                
+            setTimeout(function(){
+                $(".whole_popup").css({
+                    "transform":"translateY(50px) scale(1)",
+                    "border-radius":"10px",
+                    "width":"650px",
+                    "left":"50%",
+                    "top":"50%",
+                    "margin":"-300px 0 0 -325px",
+                    "color":"black",
+                    "box-shadow":"0px 0px 10px 2px rgba(0, 0, 0, 0.32)",
+                    "text-shadow":"0px 0px 1px rgba(255, 255, 255, 0.68), 0px 0px 2px rgba(255, 255, 255, 0.71)",
+                    "color": "rgba(0, 0, 0, 0.87)"
+                })
+                
+                $(".whole_popup>div,.whole_popup button").css("opacity","1") },500) 
+            if ($(this).parents(".th").attr("checked") == "0"){
+                data.checked = "";
+            } else {
+                data.checked = "checked";
+            }
+            $(".del,.add").hide();
+            theCompiledHtml = theTemplate(data);
+            $('.add_col').html(theCompiledHtml);
+            console.log(document.getElementsByClassName("type")[0]);
+            document.getElementsByClassName("type")[0].value = type;
+        }
+    });
+    
+    $(document).on("click",".Tb_back", function() {
+        rearrangeURL(3);
+    });
+    
     $(document).on("click", ".can,.sub", function() {
         //$(this).attr("contenteditable","true")
         $(".tbl_srch").css({
             "transform": "translate(-350px)"
-        })
+        });
 
-    })
+    });
 
     $(document).on("click", ".main_tab td", function() {
-         console.log($(this).index())
+         console.log($(this).index());
+         $(".del,.add").show();
          if (Number($(this).index()) == 0){
             $(".del_row").css(  "visibility", "visible");var data = {};
             
@@ -83,11 +153,11 @@ $(document).ready(function(){
             //var  we = this.parentElement.querySelector("td : nth-child(2)").innerText;
             var  we = this.parentElement.querySelectorAll("td")[1].innerText;
             // console.log(jh);
-            console.log(we)
+            console.log(we);
             $(".sub_can").attr("roll_no", we); 
             $(".filter_box").css("display", "none");
         }//this.parentElement.querySelector("td : nth-child(2)").innerText);
-    })
+    });
 
     
     $(document).on("click",".add",function() {
@@ -100,7 +170,7 @@ $(document).ready(function(){
         //  $('.whole_org_box').append(theCompiledHtml);
         $(".add_col").append(theCompiledHtml);
         // $(".add_col").append("<div class='col'><ul><li><i class='fa fa-times-circle sel_col_del' aria-hidden='true'></i><label>Column:</label><input></li><li><label>Type</label><select><option selected>--select--</option><option>Text</option><option>Integer</option><option>Boolean</option><option>Float</option><option>Date</option><option>Time</option><option>Time stamp</option></select><input><label>Charc</label></li><li><label>Default Value:</label><input></li><li><input type='checkbox'><label>Mandatory</label></li></ul></div>")
-    })
+    });
 
 $(document).on("click","#config",function(){
         var purpose = $(this).attr("purpose");
@@ -130,20 +200,32 @@ $(document).on("click","#config",function(){
     });
     
     $(document).on("click", ".submit", function() {
+        
         console.log("submiting");
+        
         var data = {};
-        alert(getColumnDetail())
-        data.query = JSON.stringify(getColumnDetail());
+        alert(getColumnDetail());
+        var query = getColumnDetail();
 
-        data.wanted = "addColumn";
         var path = location.pathname.substring(4).split("/");
         data.org_name = path[0];
         data.db_name = path[1];
         data.table_name = path[2];
         console.log("asdads\"asd = " + data);
         $(".add_col").html("");
-        sendPostRequest("/alterTable", data, niceURL);
-        console.log("submiting");
+        var purpose = $(this).attr("purpose");
+        if (purpose == "add"){
+        data.table_name = path[2];
+            data.wanted = "addColumn";
+        data.query = JSON.stringify(query);
+            sendPostRequest("/alterTable", data, niceURL);
+            console.log("submiting");
+        } else if (purpose == "edit") {
+            query[0].new_name = query[0].column;
+            query[0].columnName = $(this).attr("column");
+            data.query = JSON.stringify(query[0]);
+            sendPostRequest("/editColumn", data,function(wer){ alert(wer);niceURL()});
+        }
         // $(".col").css("display","none")
         $(".whole_popup").css("background", "url(https://assets.materialup.com/uploads/77a5d214-0a8a-4444-a523-db0c4e97b9c0/preview.jpg) center/cover");
 
@@ -174,7 +256,7 @@ $(document).on("click","#config",function(){
         $('.row_edit').html(theCompiledHtml);
         $(".sub_can").attr("purpose","add");
     });
-    $(document).on("click","#addMember",function(){
+    $(document).on("click","#add_mem",function(){
         alert(" add member wa clicked ");
         sendPostRequest("/createMember",getMemberDetail(),alert);
     })
@@ -187,15 +269,16 @@ $(document).on("click","#config",function(){
         $(".col").remove();
     });
     $(document).on("click",".sidebar ul li:last-child",function(){
-        var org = location.pathname.substring(4);
-        $(".add_mail").text("@"+org.substring(0,org.indexOf("/"))+".com");
-        $(".share_org").text(org.substring(0,org.indexOf("/")));
+        var org = location.pathname.substring(4).split("/");
+        $(".add_mail").text("@"+org[0]+".com");
+        $(".share_org").text(org[0]);
     })
     
-    $(document).on("click","#add_mem",function(){
-       var data = getMemberDetail();
-       
-    });
+    // $(document).on("click","#add_mem",function(){
+    //   var data = getMemberDetail();
+    //   data.org_name = $(".share_org").text().trim
+    //   alert(data);
+    // });
     
     
      $(document).on("click", ".del_row", function() {
@@ -248,10 +331,10 @@ $(document).on("click","#config",function(){
         sendPostRequest("/renameTable", data, hideShare());
     });
     
-    $(document).on("click",".addmember",function(){
-        var data = getMemberDetail();
-        sendPostRequest("/createMember",data , addMember(data));
-    });
+    // $(document).on("click","#add_mem",function(){
+    //     var data = getMemberDetail();
+    //     sendPostRequest("/createMember",data , addMember(data));
+    // });
     $(document).on("click", ".org_box>span,.databs>span", function() {
         console.log($(this).parent().attr("class"));
         var forPath = ["org_box", "databs", "databs tble"];
@@ -301,7 +384,6 @@ $(document).on("click","#config",function(){
         $(".sub_can").attr("purpose", "filter");
 
     })
-    
     // $(document).on("click", ".row_but",function(){
     //     $(".row_edit").html("");
     //     var theTemplateScript, theTemplate, theCompiledHtml;
@@ -451,11 +533,21 @@ function showTable(resoponse){
 // });
 
 
-function showHide(colType){
-    if(colType == "bigserial"){
-        document.getElementBy("").setAttribute("style","visiblitity :hidden");
+    function showHide(colType){
+        if(colType == "bigserial"){
+            document.getElementBy("").setAttribute("style","visiblitity :hidden");
+        }
     }
-}
+    function rearrangeURL(num){
+        var path = location.pathname.split("/");
+        var str = "";
+        for (var i = 0;i <= num;i++){
+            str+=path[i]+"/";
+        }
+        history.pushState(null,null,str);
+        console.log("url change");
+        niceURL();
+    }
     function delTable(name) {
         var nameEle = document.createElement("p");
         nameEle.innerText = name;

@@ -1,5 +1,8 @@
 package zutk.b5.orgdat.controllers.databasemanagement;
 
+
+
+import org.json.simple.*;
 import java.io.PrintWriter;
 import javax.servlet.http.*;
 import zutk.b5.orgdat.model.databasemanagement.*;
@@ -30,6 +33,7 @@ public class ShowDeets extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) {
 		try {
+		    JSONObject detailLis;
 			String requri = request.getRequestURI();
 			String org_name = request.getParameter("org_name");
 			String db_name = request.getParameter("db_name");
@@ -55,7 +59,6 @@ public class ShowDeets extends HttpServlet {
 			switch (requri) {
 			case "/getOrgName":
 				detailList = sd.getOrganization(user_id);
-				
 				break;
 			case "/getDBName":
                 System.out.print("org _ "+org_name+"\n");
@@ -80,20 +83,25 @@ public class ShowDeets extends HttpServlet {
 			    role = dv.getRole(org_name, db_name, user_id);
 			    System.out.println(role);
 				detailList = sd.getTables(org_name, db_name,user_id,role);
-
-				break;
+                break;
+            case "/getDashBoard":
+			    role = dv.getRole(org_name, db_name, user_id); 
+			    System.out.println(role);
+				detailLis = sd.getDashboardViewObject(org_name,user_id);
+				System.out.println(detailLis.toJSONString());
+				System.out.println(detailLis.toString());
+				out.write("{ \"status\" : 200, \"message\" : \"Get "+requri.substring(1)+"  Successfully !...\", \"Records\" : "+JSONObject.toJSONString(detailLis)+" } ");
+				return;
+			case "/getDashBoardWithSize":
+			    role = dv.getRole(org_name, db_name, user_id); 
+			    System.out.println(role+"\n--------------------------------------------------------------");
+				detailList = sd.getUserDashboardView(user_id);
+				System.out.println("\n--------------------------------------------------------------");
+			 //   System.out.println(detailLis.toJSONString());
+				// out.write("{ \"status\" : 200, \"message\" : \"Get "+requri.substring(1)+"  Successfully !...\", \"Records\" : "+JSONObject.toJSONString(detailLis)+" } ");
+				break; 
 			}
-			System.out.println("Werfwe"+detailList.toString());
-			String answer = "";
-			if (detailList.size() == 0) {
-				answer = "[]";
-			} else {
-				for (String s : detailList) {
-					answer += "," + "\"" + s + "\"";
-				}
-				answer = "[" + answer.substring(1) + "]";
-			}
-
+			String answer = JSONArray.toJSONString(detailList);
 			System.out.println("Answer   : " + answer);
 			out.write("{ \"status\" : 200, \"message\" : \"Get "+requri.substring(1)+"  Successfully !...\", \"Records\" : "+answer+" } ");
 		} catch (Exception e) {

@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import zutk.b5.orgdat.controllers.filters.RoleChecker;
 import zutk.b5.orgdat.controllers.orgmanagement.ManageMember;
 import zutk.b5.orgdat.model.databasemanagement.*;
+import zutk.b5.orgdat.controllers.filters.DatabaseConnection;
 import com.google.gson.*;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
@@ -58,7 +59,7 @@ public class DashboardView extends HttpServlet{
     }
     
     public String getRole(String org_name,String db_name,String table_name,long user_id){
-        System.out.println(rc);
+        // System.out.println(rc);
         String role = rc.tableRole(org_name, db_name, table_name, user_id);
         if(role == null){
             role = getRole(org_name, db_name, user_id);
@@ -115,12 +116,13 @@ public class DashboardView extends HttpServlet{
     
     public String getTableSize(String org_name,String db_name ,String table_name ) {
         try {
-            rc.dc = new zutk.b5.orgdat.controllers.filters.DatabaseConnection(org_name+"_"+db_name,org_name,"");
+            rc.dc = new DatabaseConnection(org_name+"_"+db_name,org_name,"");
             rc.dc.stmt = rc.dc.conn.prepareStatement("SELECT pg_size_pretty( pg_total_relation_size(?) );");
             rc.dc.stmt.setString(1, table_name);
             ResultSet rs = rc.dc.stmt.executeQuery();
+            String s = rs.getString(1);
             rc.dc.close();
-            return rs.getString(1);
+            return s;
         } catch (Exception e ){
             rc.dc.close();
             return null;

@@ -43,22 +43,58 @@ public class ForgetPassword extends HttpServlet {
 			HttpServletResponse response) {
 		try {
 			out = response.getWriter();
-			String email = request.getParameter("email");
-			if (email != null
-					&& email.matches("^[a-z][a-z0-9]{5,30}@[a-z][a-z0-9]{3,25}.com$")) {
-				String question = request.getParameter("question");
-				String answer = request.getParameter("answer");
-				ForgetPass fg = new ForgetPass();
-				if (question != null && answer != null
-						&& fg.isAnswer(question, answer, email) != -1l) {
-					out.write("{'status':200,'message':'answer is correct'}");
+			ForgetPass fg = new ForgetPass();
+			if (request.getRequestURI().endsWith("setPassword")) {
+				String password = request.getParameter("password");
+				if(password.matches("^.{6,255}$") == false){
+				     out.write("Invalid Password");
+				     return;
+				}
+				HttpSession session = request.getSession();
+				String email = (String) session.getAttribute("email");
+				System.out.println("EMAIL == " +email) ;
+				if(fg.setPassWord(email, password)){
+				    out.write("success");
+				    return;
+				}else{
+				    out.write("Invalid Password");
+				    return;
+				}
+			} else {
+				String email = request.getParameter("email");
+				if (email != null
+						&& email.matches("^[a-z][a-z0-9]{5,30}@[a-z][a-z0-9]{3,25}.com$")) {
+					
+					if (request.getRequestURI().endsWith("getQuestion")) {
+						long user_id = fg.getUserId(email);
+						String question = fg.getQuestion(user_id);
+						System.out.println(question + " =  Question ");
+						if (question == null) {
+							out.write("Invalid Email Address}");
+							return;
+						} else {
+							out.write(question);
+							return;
+						}
+					} else {
+						String question = request.getParameter("question");
+						String answer = request.getParameter("answer");
+						if (question != null && answer != null
+								&& fg.isAnswer(question, answer, email) != -1) {
+							HttpSession session = request.getSession();
+							session.setAttribute("email",email);
+							out.write("success");
+							// out.write("{'status':200,'message':'answer is correct'}");
+						} else {
+							throw new Exception();
+						}
+					}
 				} else {
 					throw new Exception();
 				}
-			} else {
-				throw new Exception();
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			out.write(" {'status':400,'message':'invaild answer'} ");
 		}
 	}

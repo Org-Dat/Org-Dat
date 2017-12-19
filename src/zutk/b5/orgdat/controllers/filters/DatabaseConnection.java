@@ -79,11 +79,11 @@ public class DatabaseConnection {
 					.prepareStatement("select db_id from db_details where db_name=? and org_id=?");
 			stmt.setString(1, db_name);
 			stmt.setLong(2, org_id);
-		
 			ResultSet rs = stmt.executeQuery();
 			long db_id = -1;
 			while (rs.next()) {
 				db_id =  rs.getLong(1);
+				break;
 			}
 			//stmt.close();
 				System.out.println("ORG ID = "+org_id + "DB NAME = "+ db_name +" === DB ID  +==="+db_id);

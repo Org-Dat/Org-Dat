@@ -4,7 +4,7 @@ $(document).ready(function(){
     $("input").focus(function(){
         $("input").css("border-bottom", "1px solid black");
         //$("label").css("color","black");
-        $(this).next().css("left","18%");
+       // $(this).next().css("left","1%");
     });
     
     $("h2").click(function(){

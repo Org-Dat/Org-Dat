@@ -11,6 +11,7 @@ import java.util.*;
 import javax.servlet.http.*;
 import javax.servlet.*;
 import java.io.*;
+import org.json.simple.JSONArray;
 import zutk.b5.orgdat.controllers.filters.*; 
 import zutk.b5.orgdat.model.accountmanagement.*;
 import java.sql.*;
@@ -51,9 +52,29 @@ public class ManageMember extends HttpServlet {
 			String org_name = request.getParameter("org_name");
 			if (requri.endsWith("createMember")) {
 				String name = request.getParameter("name");
+				if (name.matches("^[a-zA-Z]{6,255}$") == false){
+				    out.write("User Name is Incorrect");
+				    // out.write("{\"status\" :, \"message\" : \"get list successfully \" , \"data\" : "+JSONArray.toJSONString(getMemberList(org_name))+"}");
+                    return;
+				}
 				String email = request.getParameter("email");
+				if (email.matches("^[a-z][a-z0-9]{5,30}@"+org_name+".com$") == false){
+				    out.write("User email is Incorrect");
+				    // out.write("{\"status\" :, \"message\" : \"get list successfully \" , \"data\" : "+JSONArray.toJSONString(getMemberList(org_name))+"}");
+                    return;
+				}
 				String phoneNumber = request.getParameter("phone_number");
+				if (phoneNumber != null && phoneNumber.matches("^[+]?[0-9]{10,30}$") == false){
+				    out.write("User phone is Incorrect");
+				    // out.write("{\"status\" :, \"message\" : \"get list successfully \" , \"data\" : "+JSONArray.toJSONString(getMemberList(org_name))+"}");
+                    return;
+				}
 				String password = request.getParameter("password");
+				if (password.matches("^.{6,255}$") == false){
+				    out.write("Password is Incorrect");
+				    // out.write("{\"status\" :, \"message\" : \"get list successfully \" , \"data\" : "+JSONArray.toJSONString(getMemberList(org_name))+"}");
+                    return;
+				}
 				String[] details = new String[5];
 				if (email.endsWith("@" + org_name + ".com") == false) {
 					throw new Exception("email address invaild ");
@@ -68,7 +89,7 @@ public class ManageMember extends HttpServlet {
 				isWork = addMember(details);
 
 			} else if (requri.endsWith("getMemeber")) {
-                 out.write("{\"status\" :, \"message\" : \"get list successfully \" , \"data\" : "+getMemberList(org_name)+"}");
+                 out.write("{\"status\" :, \"message\" : \"get list successfully \" , \"data\" : "+JSONArray.toJSONString(getMemberList(org_name))+"}");
                  return;
                 
 			} else if (requri.endsWith("deleteMember")) {
@@ -80,7 +101,7 @@ public class ManageMember extends HttpServlet {
 			}
 			if (isWork == true) {
 				out.write("{\"status\" : 200 ,\"message\" : \"member detail  managed successfully\" , \"data\" : "
-						+ getMemberList(org_name).toString() + "}");
+						+ JSONArray.toJSONString(getMemberList(org_name)) + "}");
 				return;
 			} else {
 				throw new Exception(" some error occred");
@@ -165,31 +186,29 @@ public class ManageMember extends HttpServlet {
 			return -1;
 		}
 	}
-
-	public ArrayList<ArrayList<String>> getMemberList(String org_name) {
+    public ArrayList<ArrayList<String>> getMemberList(String org_name) {
 		DatabaseConnection dc = null;
 		System.out.println("GET MEMBER LIST ! >...");
 		try {
 			ArrayList<ArrayList<String>> memberList = new ArrayList<ArrayList<String>>();
 			dc = new DatabaseConnection("postgres", "postgres", "");
-			String sql = "select user_name,user_email from signup_detail where user_email like '%@"
-					+ org_name + ".com';";
+			String sql = "select user_name,user_email from signup_detail where user_email like ?;";
 			ArrayList<String> names = new ArrayList<String>();
 			ArrayList<String> emails = new ArrayList<String>();
 			dc.stmt = dc.conn.prepareStatement(sql);
-			dc.stmt.setString(1, org_name);
+			dc.stmt.setString(1, "%@"+ org_name + ".com");
 			ResultSet rs = dc.stmt.executeQuery();
 			while (rs.next()) {
-				names.add("\""+rs.getString(1)+"\"");
-				emails.add("\""+rs.getString(2)+"\"");
+				names.add(rs.getString(1));
+				emails.add(rs.getString(2));
 			}
 			dc.stmt.close();
-			dc.stmt = dc.conn.prepareStatement("select user_name,user_email from signup_detail where user_id=(select user_id from org_management where org_name=?);");
+			dc.stmt = dc.conn.prepareStatement("select user_name,user_email from signup_detail where user_id=(select owner_id from org_details where org_name=?);");
 			dc.stmt.setString(1, org_name);
 			rs = dc.stmt.executeQuery();
 			while (rs.next()) {
-				names.add("\""+rs.getString(1)+"\"");
-				emails.add("\""+rs.getString(2)+"\"");
+				names.add(rs.getString(1));
+				emails.add(rs.getString(2));
 			}
 			memberList.add(names);
 			memberList.add(emails);
@@ -197,10 +216,49 @@ public class ManageMember extends HttpServlet {
 			System.out.println(memberList.toString());
 			return memberList;
 		} catch (Exception e) {
+		    e.printStackTrace();
 			if (dc != null) {
 				dc.close();
 			}
 			return new ArrayList<ArrayList<String>>();
 		}
 	}
+	/*public ArrayList<ArrayList<String>> getMemberList(String org_name) {
+		DatabaseConnection dc = null;
+		System.out.println("GET MEMBER LIST ! >...");
+		try {
+			ArrayList<ArrayList<String>> memberList = new ArrayList<ArrayList<String>>();
+			dc = new DatabaseConnection("postgres", "postgres", "");
+			String sql = "select user_name,user_email from signup_detail where user_id in (select user_id from org_management where org_id in (select org_id from org_details where org_name=?));";
+			ArrayList<String> names = new ArrayList<String>();
+			ArrayList<String> emails = new ArrayList<String>();
+			dc.stmt = dc.conn.prepareStatement(sql);
+			dc.stmt.setString(1, org_name);
+			ResultSet rs = dc.stmt.executeQuery();
+			while (rs.next()) {
+			    System.out.println("one");
+				names.add(rs.getString(1));
+				emails.add(rs.getString(2));
+			}
+// 			dc.stmt.close();
+// 			dc.stmt = dc.conn.prepareStatement("select user_name,user_email from signup_detail where user_id=(select user_id from org_management where org_name=?);");
+// 			dc.stmt.setString(1, org_name);
+// 			rs = dc.stmt.executeQuery();
+// 			while (rs.next()) {
+// 				names.add("\""+rs.getString(1)+"\"");
+// 				emails.add("\""+rs.getString(2)+"\"");
+// 			}
+			memberList.add(names);
+			memberList.add(emails);
+			dc.close();
+			System.out.println(memberList.toString());
+			return memberList;
+		} catch (Exception e) {
+		    e.printStackTrace();
+			if (dc != null) {
+				dc.close();
+			}
+			return new ArrayList<ArrayList<String>>();
+		}
+	}*/
 }

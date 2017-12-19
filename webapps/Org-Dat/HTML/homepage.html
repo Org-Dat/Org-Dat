@@ -6,9 +6,6 @@
         <link rel="stylesheet" href="http://orgdat.zcodeusers.com/CSS/homepage.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.js"></script>
-        <script src="http://orgdat.zcodeusers.com/JS/helpFunctions.js"></script>
-        <script src="http://orgdat.zcodeusers.com/JS/render.js"></script>
-        <script src="http://orgdat.zcodeusers.com/JS/homepage.js"></script>
         <link rel="icon" href="http://www.freepngimg.com/download/database/2-2-database-png-picture.png">
         <link href="https://fonts.googleapis.com/css?family=Lato:300,400" rel="stylesheet">
     </head>
@@ -75,7 +72,7 @@
                 </ul>
                 <div class="logout">
                     <p><i class="fa fa-question-circle" aria-hidden="true" title="Help"></i> Help</p>
-                    <p><i class="fa fa-sign-out" aria-hidden="true" title="Logout"></i>Logout</p>
+                    <p onclick="logout()"><i class="fa fa-sign-out" aria-hidden="true" title="Logout"></i>Logout</p>
                 </div>
             </div>
          
@@ -1369,7 +1366,10 @@
                     <i class="fa fa-share-alt" aria-hidden="true"></i>
                     <i class="fa fa-trash-o" aria-hidden="true"></i>
                     <i class="fa fa-download" aria-hidden="true"></i>
-                    <label for="file"><i class="fa fa-upload" aria-hidden="true"></i></label>
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    <!--<label for="file">-->
+                        <i class="fa fa-upload" aria-hidden="true"></i>
+                        <!--</label>-->
                 </div>
                 <div class="usrs">
                     <i class="fa fa-table" aria-hidden="true"></i>
@@ -1381,11 +1381,14 @@
             <div class="databs tble">
                 <span>{{name}}</span>
                 <div class="options">
-                    <i class="fa fa-share-alt" aria-hidden="true" table-name="{{name}}"></i>
-                    <i class="fa fa-trash-o" aria-hidden="true"  table-name="{{name}}"></i>
-                    <i class="fa fa-download" aria-hidden="true"  table-name="{{name}}"></i>
-                    <label for="file"><i class="fa fa-upload" aria-hidden="true"></i></label>
-                </div>
+                        <i class="fa fa-share-alt" aria-hidden="true" ></i>
+                        <i class="fa fa-trash-o" aria-hidden="true" ></i>
+                        <i class="fa fa-download" aria-hidden="true" ></i>
+                        <i class="fa fa-pencil-square-o" aria-hidden="true" ></i>
+                        <!--<label for="file">-->
+                        <i class="fa fa-upload" aria-hidden="true"></i>
+                        <!--</label>-->
+                    </div>
                 <div class="usrs">
                     <i class="fa fa-table" aria-hidden="true"></i>
                     <span>{{count}}</span>
@@ -1416,8 +1419,8 @@
                         </span>
                         
                         <div class="sort_box">
-                            <i class="fa fa-sort-alpha-asc" aria-hidden="true"></i>
-                            <i class="fa fa-sort-alpha-desc" aria-hidden="true"></i>
+                            <i class="fa fa-sort-alpha-asc" aria-hidden="true" onclick = "sorting(true)"></i>
+                            <i class="fa fa-sort-alpha-desc" aria-hidden="true" onclick = "sorting(false)"></i>
                             <!--<i class="fa fa-search" aria-hidden="true"></i>-->
                             <i class="fa fa-trash-o" aria-hidden="true"></i>
                             
@@ -1446,7 +1449,7 @@
                     <li>
                         <i class='fa fa-times-circle sel_col_del add-column-x' aria-hidden='true'></i>
                         <label>Column:</label>
-                        <input class='columnName'>
+                        <input class='columnName' value="{{columnName}}">
                     </li>
                     <li>
                         <label>Type</label>
@@ -1461,10 +1464,10 @@
                     </li>
                     <li>
                         <label>Default Value:</label>
-                        <input class='defaultValue'>
+                        <input class='defaultValue'  value="{{defaultvalue}}">
                     </li>
                     <li>
-                        <input type='checkbox' class='isNull' >
+                        <input type='checkbox' class='isNull' {{checked}} >
                         <label>Mandatory</label>
                     </li>
                 </ul>
@@ -1503,26 +1506,64 @@
                 <input class="update" placeholder="enter the value...">
             </div>
          </script>
-                <!--<div class="tbl_srh_box">-->
-                <!--    <div class="dropdown src_drop ">-->
-                <!--    <ul>-->
-                <!--        <li>Co-Owner</li>-->
-                <!--        <li>Can-Write</li>-->
-                <!--        <li>Can-jgb</li>-->
-                <!--        <li>Can-Wrikjgjiuguite</li>-->
-                <!--    </ul>-->
-                <!--    </div>-->
-                <!--    <div class="dropdown src_drop opr">-->
-                <!--    <ul>-->
-                <!--        <li>Co-Owner</li>-->
-                <!--        <li>Can-Write</li>-->
-                <!--        <li>Can-jgb</li>-->
-                <!--        <li>Can-Wrikjgjiuguite</li>-->
-                <!--    </ul>-->
-                <!--    </div>-->
-                    
-                <!--    <input placeholder="enter the value...">-->
-                <!--</div>-->
+        <script id="dsh_org-template" type="text/x-handlebars-template">
+            <div class="dsh_org">
+                <p>{{db_count}} Databases</p>
+                <p>{{table_count}} Tables</p>
+                <h4>{{org_name}}</h4>
+                <div class="usrs">
+                    <i class="fa fa-users" aria-hidden="true"></i>
+                    <span>{{mme_count}}</span>
+                </div>
+                 <div class="ovrView">
+                    <span>Over View</span>
+                </div>
+            </div>
+        </script>
+        <script id="dsh_org-template" type="text/x-handlebars-template">
+            <div class="dsh_ovr" style="display: block;">
+                <h1>
+                    <span>
+                        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+                        <span>{{org_name}}</span>
+                        </span>
+                    <i class="fa fa-users" aria-hidden="true">{{mem-count}}</i>
+                </h1>
+                <ul class="dtb">
+                    {{#each  databasedetails }} 
+                    <li>
+                        <i class="fa fa-caret-right" aria-hidden="true" style="transform: rotate(90deg);"></i>
+                        <span>{{db_name}}</span>
+                        <span class="tbl_count">{{table_count}} tables</span>
+                        <ul class="tbl" style="display: block;">
+                        {{#each tabledetails}}
+                            <li>
+                                <span>{{table_name}}</span>
+                                <span class="tbl_size"><i class="fa fa-line-chart" aria-hidden="true"></i>{{table_size}}</span>
+                            </li>
+                        {{/each}}
+                            <li>
+                                <span>Table One</span>
+                                <span class="tbl_size"><i class="fa fa-line-chart" aria-hidden="true"></i>8 mb</span>
+                            </li>
+                            <li>
+                                <span>Table One</span>
+                                <span class="tbl_size"><i class="fa fa-line-chart" aria-hidden="true"></i>2 mb</span>
+                            </li>
+                            <li>
+                                <span>Table One</span>
+                                <span class="tbl_size"><i class="fa fa-line-chart" aria-hidden="true"></i>4 mb</span>
+                            </li>
+                        </ul>
+                    </li>
+                    {{/each}}
+                </ul>
+            </div>
+        </script>
+
+        <script src="http://orgdat.zcodeusers.com/JS/helpFunctions.js"></script>
+        <script src="http://orgdat.zcodeusers.com/JS/render.js"></script>
+        <script src="http://orgdat.zcodeusers.com/JS/homepage.js"></script>
     </body>
 </html>
 

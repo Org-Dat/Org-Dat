@@ -75,10 +75,12 @@ public class CookieManage {
 			String user_agent) {
 		String sql = "delete from cookie_management where iambdt_cookie=?";
 		try {
+		    System.out.println("iambdt == " +iambdt +"USER_ID  +=== "+user_id +"  ; ip_address == " + ip_address+" =  user_agent" +user_agent);
 			dc = new DatabaseConnection("postgres", "postgres", "");
 			dc.stmt = (dc.conn).prepareStatement(sql);
 			dc.stmt.setString(1, iambdt);
 			dc.stmt.executeUpdate();
+			System.out.println("ASDFGHJKLQWERTYUIOPZXCVBNM ==== cookie_management");
 			Date now = new Date();
 			dc.stmt = (dc.conn)
 					.prepareStatement("update  history set signout_time=?  where user_id=? and ip_address = ? and user_agent = ? and signout_time='login' ");
@@ -90,8 +92,10 @@ public class CookieManage {
 			if (dc != null) {
 				dc.close();
 			}
+				System.out.println("ASDFGHJKLQWERTYUIOPZXCVBNM ==== history ");
 			return true;
 		} catch (Exception e) {
+		    e.printStackTrace();
 			if (dc != null) {
 				dc.close();
 			}

@@ -202,6 +202,7 @@
         <url-pattern>/renameTable</url-pattern>
         <url-pattern>/shareTable</url-pattern>
         <url-pattern>/deleteTable</url-pattern>
+        <url-pattern>/editColumn</url-pattern>
         <url-pattern>/alterTable</url-pattern>
         <url-pattern>/api/createTable</url-pattern>
         <url-pattern>/api/renameTable</url-pattern>
@@ -231,6 +232,8 @@
         <servlet-name>ShowDetail</servlet-name>
         <url-pattern>/getOrgName</url-pattern>
         <url-pattern>/api/getOrgName</url-pattern>
+        <url-pattern>/api/getDashBoard</url-pattern>
+        <url-pattern>/api/getDashBoardWithSize</url-pattern>
         <url-pattern>/getDBName</url-pattern>
         <url-pattern>/api/getDBName</url-pattern>
         <url-pattern>/getTableName</url-pattern>
@@ -333,18 +336,33 @@
         <servlet-name>EditProfile</servlet-name>
         <url-pattern>/editProFile</url-pattern>
     </servlet-mapping>
-    
+
+    <servlet-mapping>
+        <servlet-name>ForgetPassword</servlet-name>
+        <url-pattern>/forgetpass</url-pattern>
+        <url-pattern>/getQuestion</url-pattern>
+        <url-pattern>/setPassword</url-pattern>
+    </servlet-mapping>    
     
      <servlet> 
         <servlet-name>OtherVice</servlet-name>
         <jsp-file>/HTML/homepage.html</jsp-file>
     </servlet>
+    
+    <servlet> 
+        <servlet-name>Sign</servlet-name>
+        <jsp-file>/JSP/Signup.jsp</jsp-file>
+    </servlet>
+    
+    <servlet-mapping> 
+        <servlet-name>Sign</servlet-name>
+        <url-pattern>/enroll</url-pattern>
+        <url-pattern>/login</url-pattern>
+        <url-pattern>/forgot</url-pattern>
+    </servlet-mapping>
      
     <servlet-mapping> 
         <servlet-name>OtherVice</servlet-name>
         <url-pattern>/v1/*</url-pattern>
     </servlet-mapping>
-    
-    
-  
 </web-app>

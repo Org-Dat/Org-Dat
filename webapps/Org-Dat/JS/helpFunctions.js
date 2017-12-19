@@ -1,3 +1,15 @@
+function logout(){
+    sendGetRequest("/logout",log);
+}
+
+function log(res){
+    if(res == "Logout Successfully"){
+        location.href = "http://orgdat.zcodeusers.com/v1";
+    }else{
+        document.getElementById("alert").innerText = "Please Try Again";
+    }
+}
+
 function listToObject(detailArray){
 	var renderObj = {};
 	var dataList = [];
@@ -14,7 +26,6 @@ function listToObject(detailArray){
 	for(let i = 4;i < detailArray.length;i++){
 		let list  = [];
 		for(let j =0 ;j < detailArray[i].length;j++ ){
-			
 			let tmpObj = {};
 			tmpObj.values = detailArray[i][j];
 			list.push(tmpObj);
@@ -148,7 +159,7 @@ function getColumnDetail(){
 //   return list;
 // } 
 
- function sort(isAsc){
+ function sorting(isAsc){
      if(isAsc == true){
         $("#table").tablesorter(
          { sortForce : [[0,0]]  } 
@@ -322,13 +333,16 @@ function getMemberDetail(){
             a.org_name = org_name.substring(org_name.indexOf("@")+1,org_name.indexOf("."));
              return a;
         }else{
-          document.getElementById("alert").innerText = "Password is incorrect";
+        //   document.getElementById("alert").innerText = "Password is incorrect";
+        alert("Password is incorrect");
        }
      }else{
-         document.getElementById("alert").innerText = "Email is Incorrect"; 
+        //  document.getElementById("alert").innerText = "Email is Incorrect"; 
+        alert("Email is Incorrect");
       }
   }else{
-      document.getElementById("alert").innerText = "User Name is Incorrect";
+    //   document.getElementById("alert").innerText = "User Name is Incorrect";
+    alert("User Name is Incorrect");
   }
 }
 

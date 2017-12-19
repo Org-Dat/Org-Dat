@@ -100,7 +100,7 @@ public class TableFilter extends DownloadFilter {
 				} else if (role.equals("can/write")) {
 			//		request.setAttribute("role", "table_" + role);
 					if (requri.endsWith("/renameTable")
-							|| requri.endsWith("/readRecord")) {
+							|| requri.endsWith("/readRecord") ) {
 						rights = true;
 					}
 				} else if (role.contains("owner")) {
