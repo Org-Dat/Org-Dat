@@ -20,14 +20,16 @@ public class DownloadDeets extends HttpServlet {
 	protected void service(HttpServletRequest request,
 			HttpServletResponse response) {
 		try {
-			out = response.getWriter();
-			if (request.getMethod().toLowerCase().equals("post")) {
+			
+			if (request.getMethod().toLowerCase().equals("get")) {
 				doGet(request, response);
-			} else {
+			} else {out = response.getWriter();
 				out.write("{'status':405,'message':'this get only url'}");
 			}
 		} catch (Exception e) {
-			out.write("{'status':405,'message':'this get only url'}");
+			try {
+			out = response.getWriter();
+			out.write("{'status':405,'message':'this get only url'}");} catch (Exception e1) {}
 		}
 
 	}
@@ -42,6 +44,7 @@ public class DownloadDeets extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		try {
 		String filePath = "";
 		String tem = "";
 		String requri = request.getRequestURI();
@@ -49,13 +52,14 @@ public class DownloadDeets extends HttpServlet {
 		String org_name = request.getParameter("org_name");
 		String db_name = request.getParameter("db_name");
 		String table_name = request.getParameter("table_name");
-		if (requri.equals("downloadDB")) {
-			filePath = " /home/workspace/JavaWepApps/webapps/JavaWepApps/images/"
+		new File("Images").mkdir();
+		if (requri.endsWith("downloadDB")) {
+			filePath = "Images/"
 					+ db_name + ".sql";
-			tem = BackUpRestore.SQLFile(org_name, db_name, filePath, " -b -v ");
-		} else if (requri.equals("downloadTable")) {
-			filePath = " /tmp/" + table_name + ".sql";
-			tem = BackUpRestore.CSVFile(org_name, db_name, table_name,
+			tem = BackUpRestore.SQLFile(org_name,org_name+"_"+ db_name, filePath, " -b -v ");
+		} else if (requri.endsWith("downloadTable")) {
+			filePath = "/tmp/" + table_name + ".csv";
+			tem = BackUpRestore.CSVFile(org_name, org_name+"_"+ db_name, table_name,
 					filePath, " to ", "yes");
 		} else {
 			PrintWriter out = response.getWriter();
@@ -74,7 +78,10 @@ public class DownloadDeets extends HttpServlet {
 
 		System.out.println(filePath);
 		File downloadFile = new File(filePath);
+		System.out.println(downloadFile.exists());
+		System.out.println(downloadFile);
 		FileInputStream inStream = new FileInputStream(downloadFile);
+		System.out.println("File Input Stream ");
 		// if you want to use a relative path to context root:
 		String relativePath = getServletContext().getRealPath("");
 		System.out.println("relativePath = " + relativePath);
@@ -101,11 +108,16 @@ public class DownloadDeets extends HttpServlet {
 		OutputStream outStream = response.getOutputStream();
 		byte[] buffer = new byte[4096];
 		int bytesRead = inStream.read(buffer);
-		while (bytesRead != -1) {
-			outStream.write(buffer, 0, bytesRead);
-			bytesRead = inStream.read(buffer);
+			while (bytesRead != -1) {
+				outStream.write(buffer, 0, bytesRead);
+				bytesRead = inStream.read(buffer);
+			}
+			inStream.close();
+			outStream.close();
+		System.out.println("download finished");
+		} catch (Exception e){
+			
+			e.printStackTrace();
 		}
-		inStream.close();
-		outStream.close();
 	}
 }

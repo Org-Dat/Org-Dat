@@ -7,6 +7,21 @@ body,html,.whole{
     font-family: lato;
     background: #eee
 }
+.but,.butt{
+   float: right;
+    height: 33px;
+    width: 100px;
+    margin: 1.5em 2em 0em 0em;
+    font-size: 15px;
+    font-family: serif;
+    box-shadow: 0px 5px 2px 0px rgba(105, 105, 105, 0.66);
+    display: inline-block;
+}
+
+.but:active ,.butt:active{
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.62);
+    margin-top: 2px;
+}
 *{
     box-sizing:border-box;
     transition:0.4s;
@@ -188,12 +203,13 @@ header .fa-caret-left::after{
 }
 /*-------------------------------------------database----------------------------------*/
 .path{
-    /* height: 49px; */
+    /*height: 50px;*/
     padding: 0 75px;
     line-height: 49px;
     box-shadow: 0px 0px 12px 0px grey;
-    font-size: 16px;
-    letter-spacing: 2px
+    font-size: 20px;
+    letter-spacing: 2px;
+    font-weight: 500;
 }
 .databs{
     height: 250px;
@@ -964,9 +980,9 @@ tbody{
 .cm_tb table th:first-child,.cm_tb table td:first-child{
     width:20px;
 }
-.cm_tb table th:first-child input[type="checkbox"],.cm_tb table td:first-child input[type="checkbox"]{
-    display:none;
-}
+/*.cm_tb table th:first-child input[type="checkbox"],.cm_tb table td:first-child input[type="checkbox"]{*/
+/*    display:none;*/
+/*}*/
 label[for=tick]{
     display: inline-block;
     border-radius: 3px;

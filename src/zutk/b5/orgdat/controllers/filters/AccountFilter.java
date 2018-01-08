@@ -117,7 +117,7 @@ public class AccountFilter extends HttpServlet implements Filter {
 	         return membersList;
 	     } catch (Exception e) {
 	         if (dc != null){
-	             dc.close();
+	             dc.close(); 
 	         }
 	         return new ArrayList<String>();
 	     }

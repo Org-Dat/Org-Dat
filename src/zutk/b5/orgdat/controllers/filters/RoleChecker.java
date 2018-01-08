@@ -1,3 +1,4 @@
+
 /**
  *
  */ 
@@ -84,11 +85,12 @@ public class RoleChecker extends HttpServlet {
 			long user_id) {
 		dc = new DatabaseConnection("postgres", "postgres", "");
 		String role = null;
-		String sqlQuery = "select role from table_management where user_id=? and table_id=?)";
+		String sqlQuery = "select role from table_management where user_id=? and table_id=?";
 		try {
 		    long org_id = dc.getOrgId( org_name );
-		    long db_id = dc.getDBId( org_id , db_name);
+		    long db_id = dc.getDBId( org_id , org_name+"_"+db_name);
 		    long table_id = dc.getTableId( org_id ,db_id, table_name);
+		    System.out.println("ORGID = "+org_id+" :  DBID   = "+db_id +"  : TABLEID  = "+table_id);
 			dc.stmt = dc.conn.prepareStatement(sqlQuery);
 			dc.stmt.setLong(1, user_id);
 			dc.stmt.setLong(2, table_id);
@@ -96,9 +98,11 @@ public class RoleChecker extends HttpServlet {
 			while (roles.next()) {
 				role = roles.getString(1);
 			}
-		    dc.close();
+		       dc.close();
+		       System.out.println("ROLE    :   ="+role);
 			return role;
 		} catch (Exception e) {
+		    e.printStackTrace();
 		    if (dc != null ){
 		        dc.close();
 		    }
@@ -115,7 +119,7 @@ public class RoleChecker extends HttpServlet {
 		for (Cookie cookie : cookies) {
 			if (cookie.getName().equals("iambdt")) {
 			    System.out.println("iambdt" + cookie.getValue());
-			    System.out.println(request);
+			    System.out.println(((ServletRequest) request).getAttribute(cookie.getValue())); 
 			    long user_id = (long) ((ServletRequest) request).getAttribute(cookie.getValue());
 			    System.out.println(user_id);
 				return user_id;

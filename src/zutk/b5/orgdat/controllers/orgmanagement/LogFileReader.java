@@ -19,13 +19,13 @@ public class LogFileReader extends HttpServlet {
 			HttpServletResponse response) {
 		try {
 			out = response.getWriter();
-			if (request.getMethod().toLowerCase().equals("post")) {
+			if (request.getMethod().toLowerCase().equals("get")) {
 				doGet(request, response);
 			} else {
-				out.write("{'status':405,'message':'this get only url'}");
+				out.write("{\"status\":405,\"message\":\"this post only url\"}");
 			}
 		} catch (Exception e) {
-			out.write("{'status':405,'message':'this get only url'}");
+			out.write("{\"status\":405,\"message\":\"this post only url\"}");
 		}
 
 	}
@@ -44,27 +44,33 @@ public class LogFileReader extends HttpServlet {
 		try {
 			String org_name = request.getParameter("org_name");
 			LogFile logFile = new LogFile();
-			String fileContents = "";
+			String fileContents = null;
 			if (org_name == null) {
 				throw new Exception();
 			}
-			if (request.getRequestURI().equals("getLogFile")) {
+			if (request.getRequestURI().equals("/getLogFile")) {
 				String date = request.getParameter("date");
 				if (date == null) {
 					throw new Exception();
 				}
-
 				fileContents = logFile.readFile(org_name, date);
-			} else if (request.getRequestURI().equals("getLogFileNames")) {
+			} else if (request.getRequestURI().equals("/deleteLogFile")) {
+				String date = request.getParameter("date");
+				if (date == null) {
+					throw new Exception();
+				}
+				fileContents = logFile.logFiledelete(org_name, date);
+			} else if (request.getRequestURI().equals("/getLogFileNames")) {
 				fileContents = logFile.getLogFileNames(org_name);
-			} else {
-				throw new Exception();
+			} 
+			if (fileContents == null){
+			    throw new Exception("some errror");
 			}
-
-			out.write("{'status':200,'data':'" + fileContents
-					+ "','message':'read successfully'}");
+			out.write("{\"status\":200,\"data\":" + fileContents
+					+ ",\"message\":\"read successfully\"}");
 		} catch (Exception e) {
-			out.write("{'status':404,'message':'File Not Found'}");
+		  //  e.printStackTrace();
+			out.write("{\"status\":404,\"message\":\"File Not Found\"}");
 		}
 	}
 }

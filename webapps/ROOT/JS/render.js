@@ -1,4 +1,62 @@
-$(document).ready(function(){
+ $(document).ready(function(){
+/** /////////////////////////////////////        do in holyday       //////////////////////////////////////////// */     
+     /**
+      * change a homepage.html 
+      * add purpose attribute for profile edit option and 
+      * homepage.js  in $(".pf_ed").click(function(){ this method was modified
+      * write a method in edit proflie
+      */
+     $(document).on("click",".options .fa-file-text-o",function(){
+        var name = $(this).parent().siblings("span").text();
+        $("h2.log_det").attr("org_name",name);
+        sendGetRequest("/getLogFileNames?org_name="+name,listLogFileName);
+        
+    });
+    function renderPorfile(array){
+        // $(".pf_ed").parent().children("span").remove();
+        var ele = $(".prf_info > li > span");
+        
+        for (var i = 0 ;i < array.length;i++){
+            // var source   = $("#escape_template").html();
+            // var template = Handlebars.compile(source);
+            // var htmlContent  = template({line:array[i]});
+            if (array[i]==null|| array[i]=="null"){
+                array[i]="";
+            }
+            $(ele[i]).text(array[i]);
+        }
+    }
+    $(document).on("click",".prj_name",function(){ rearrangeURL(0)});
+    $(document).on("click",".fa-user",function(){
+        sendPostRequest("/getProFile",{},function(response){
+            if (response[0]=="["){
+                renderPorfile(JSON.parse(response));
+            }
+        });
+    });
+    $(document).on("click",".fa-pencil",function(){
+        sendPostRequest("/editProFile",{name:$(this).attr("purpose"),value:$(this).siblings("span").text().trim()},alert);
+    });
+    
+    $(document).on("click",".logChk",function(){
+        var name = $("h2.log_det").attr("org_name");
+        var filename = $(this).text().trim();
+        console.log(filename.substring(4,filename.lastIndexOf(".")));
+        sendGetRequest("/getLogFile?org_name="+name+"&date="+filename.substring(4,filename.lastIndexOf(".")),listLogFile);
+    })
+    
+    $(document).on("click",".log .fa-trash-o",function(){
+        var name = $("h2.log_det").attr("org_name");
+    	var date = $(this).siblings(".logChk").text().trim().slice(4,-4);
+    	sendGetRequest("/deleteLogFile?org_name="+name+"&date="+date,listLogFileName);
+    	
+    	
+    })
+     
+    
+
+/** /////////////////////////////////////        do in holyday finsh      //////////////////////////////////////////// */     
+     
     $(document).on("click", "#Name+button", function() {
         var name = $(this).prev().val();
         var purpose = $(this).attr("purpose");
@@ -18,7 +76,37 @@ $(document).ready(function(){
             sendPostRequest("/createTable", data, niceURL);
         }
     });
-    
+    $(document).on("click",".options .fa-file-text-o",function(){
+        $(".log_list").html("");
+        
+        $(".log").css("display","block");
+        
+    });
+	
+	    $(document).on("click",".options .fa-download",function(){
+	        var name = $(this).parent().siblings("span").text();
+	        var data = delTable(name);
+	        alert(data);
+	        if (data.table_name == null){
+	                location.href="/downloadDB?org_name="+data.org_name+"&db_name="+data.db_name;
+	        } else {
+	                location.href="/downloadTable?org_name="+data.org_name+"&db_name="+data.db_name+"&table_name="+data.table_name;
+	        }
+	        
+    });
+	
+	$(document).on("click",".ovrView",function(){
+	                var org_name = $(this).attr("org_name");
+	                console.log(org_name);
+	                $("#dash_org").val(org_name);
+	                
+	       sendGetRequest("/getDashBoardWithSize",dashboradView);
+	    		
+    })
+    $(document).on("click",".sidebar li:nth-child(5)",function(){
+            alert("dashborad");
+       sendGetRequest("/getDashBoardWithSize",dashboradBox);
+    })  
     $(document).on("click", ".main_tab th:nth-child(1) > input[type='checkbox']", function() {
         $(".del_row").css("visibility","visible");
         $(".del_col").css("visibility","hidden");
@@ -76,7 +164,7 @@ $(document).ready(function(){
             if (type == "int8"){type="bigint";}
             var s =$(this).parents(".th").attr("defaulf");
             if (data.type == "int8"){
-                data.defaultvalue = s;
+                datalogChk.defaultvalue = s;
             } else {
                 data.defaultvalue = s.substring(0,s.lastIndexOf("::"));
             }
@@ -99,9 +187,9 @@ $(document).ready(function(){
                     "box-shadow":"0px 0px 10px 2px rgba(0, 0, 0, 0.32)",
                     "text-shadow":"0px 0px 1px rgba(255, 255, 255, 0.68), 0px 0px 2px rgba(255, 255, 255, 0.71)",
                     "color": "rgba(0, 0, 0, 0.87)"
-                })
+                });
                 
-                $(".whole_popup>div,.whole_popup button").css("opacity","1") },500) 
+                $(".whole_popup>div,.whole_popup button").css("opacity","1") },500) ;
             if ($(this).parents(".th").attr("checked") == "0"){
                 data.checked = "";
             } else {
@@ -258,7 +346,19 @@ $(document).on("click","#config",function(){
     });
     $(document).on("click","#add_mem",function(){
         alert(" add member wa clicked ");
-        sendPostRequest("/createMember",getMemberDetail(),alert);
+        var data = getMemberDetail()
+        "/getMemeber"
+        if (data == undefined){ 
+            alert("pleace ender correct value");
+        } else {
+            sendPostRequest("/createMember",data,function(response){
+                console.log(response);
+                sendPostRequest("/getMember",{org_name:location.pathname.substring(1).split("/")[1]},listingMember);
+                // "/getMember"
+                
+            });
+        }
+        
     })
 
     $(document).on("click", ".add-column-x", function() { 
@@ -270,10 +370,41 @@ $(document).on("click","#config",function(){
     });
     $(document).on("click",".sidebar ul li:last-child",function(){
         var org = location.pathname.substring(4).split("/");
+        sendPostRequest("/getMember",{org_name:location.pathname.substring(1).split("/")[1]},listingMember);
         $(".add_mail").text("@"+org[0]+".com");
         $(".share_org").text(org[0]);
     })
+    //     =======    Share   ======= 
+    $(document).on("click",".fa-share-alt",function(){
+        //$(".share").css("transform","translateY(0)")
+        $(".share").css("display","flex");
+        var org_name = $(this).parent().siblings("span").text().trim();
+        var data = delTable(org_name);
+        console.log("\"\"\"\"\"\"data\"\"\"\"\"\"");
+        var url = "";
+        var requrl = "";
+        if (data.table_name !== undefined) {
+            url += "table_name="+data.table_name+"&";
+            url += "db_name="+data.db_name;
+            url = "?org_name="+data.org_name+"&"+url;
+            sendGetRequest("/getTableSharedMembers"+url,printSharedMembers);
+        } else if (data.db_name !== undefined) {
+            url += "db_name="+data.db_name;
+            url = "?org_name="+data.org_name+"&"+url;
+            sendGetRequest("/getDBSharedMembers"+url,printSharedMembers);
+        } else {
+            url = "?org_name="+data.org_name;
+            sendGetRequest("/getOrgSharedMembers"+url,printSharedMembers);
+        }
+        
+        // sendGetRequest("/getOrgSharedMembers?org_name="+org_name);
+        $("#path_feild_for_share").text("Share "+org_name);
+        $(".org").css("display","none");
+    })
     
+    $(document).on("click",".admin > .usr_list i ",function(){
+        console.log($(this).siblings(".mail"))
+    });
     // $(document).on("click","#add_mem",function(){
     //   var data = getMemberDetail();
     //   data.org_name = $(".share_org").text().trim
@@ -289,12 +420,12 @@ $(document).on("click","#config",function(){
         data.db_name = path[1];
         data.table_name = path[2];
         data.andOr ="OR";
-        alert(this.parentNode)
+        // alert(this.parentNode)
         data.conditionArray = JSON.stringify(getValue("check"));
         sendPostRequest("/deleteRecord", data, showTable);
      });
     
-
+/*
     $(document).on("click" ,".share",function() {
         var name = $("#share").parent().attr("name");
         var data = shareConfig(name);
@@ -312,7 +443,7 @@ $(document).on("click","#config",function(){
     function hideShare() {
         $(".shr_fld").hide();
     }
-
+*/
     $(document).on("click" ,".rename_org",function() {
         var name = $(this).parent().siblings("span").text();
         var data = rename(name);
@@ -398,19 +529,19 @@ $(document).on("click","#config",function(){
 });
 function showAllOrg(orgNames){
     var array = JSON.parse(orgNames);
+    $('.whole_org_box').html("");
     if (array.status != 200){
         alert("status = "+array.message);
         return;
     }
      array = array.Records;
     var theTemplate,theTemplateScript,context,theCompiledHtml;
-    $('.whole_org_box').html("");
     
     theTemplateScript = $("#org_template").html();
     theTemplate = Handlebars.compile(theTemplateScript);
     $(".whole_org").css("display","block");
     $(".whole_org_box").css("display","flex");
-    $(".whole_database,.whole_table").css("display","none");
+    $(".whole_database,.whole_table,.security_whole").css("display","none");
     for (var name of array){
          context={"count": ""};
           context.name = name;
@@ -431,13 +562,13 @@ function showAllOrg(orgNames){
 
 function showAllDB(dbNames){
     var array = JSON.parse(dbNames); 
+    $('.database').html("");
     if (array.status != 200){
        alert("status = "+array.message);
         return;
     }
      array = array.Records;
     var theTemplate,theTemplateScript,context,theCompiledHtml;
-    $('.database').html("");
     if (array.length < 5) {
         theTemplateScript = $("#create_template").html();
         theTemplate = Handlebars.compile(theTemplateScript);
@@ -461,13 +592,13 @@ function showAllDB(dbNames){
 }
 function showAlltable(tableNames){
     var array = JSON.parse(tableNames);
+    $('.table').html("");
     if (array.status != 200){
         alert("status = "+array.message);
         return;
     }
      array = array.Records;
     var theTemplate,theTemplateScript,context,theCompiledHtml;
-    $('.table').html("");
     if (array.length < 25) {
         theTemplateScript = $("#create_template").html();
         theTemplate = Handlebars.compile(theTemplateScript);
@@ -493,6 +624,7 @@ function showAlltable(tableNames){
 
 function showTable(resoponse){
     var array = JSON.parse(resoponse);
+    $('.mn_tb').html("");
     if (array.status != 200){
         alert("status = "+array.message);
         return; 
@@ -500,7 +632,6 @@ function showTable(resoponse){
     $(".tbl_name").text( array["TableTable"]);
      array = array.Records;
     var theTemplate,theTemplateScript,theCompiledHtml;
-    $('.mn_tb').html("");
     theTemplateScript = $("#table-template").html();
     theTemplate = Handlebars.compile(theTemplateScript);
     $(".whole_org").css("display","none");
@@ -530,8 +661,31 @@ function showTable(resoponse){
 //         alert(" add member wa clicked ");
 //         sendPostRequest("/createMember",getMemberDetail(),alert);
 //     })
-// });
+// }); 
 
+function listingMember(response){
+    var responsedata = JSON.parse(response);
+        $('.usr_list').html("");
+    if (responsedata.status != 200){
+        alert(responsedata.message);
+    } else {
+        var data = responsedata.data;
+        var theTemplate,theTemplateScript,theCompiledHtml;
+        theTemplateScript = $("#mem_list_template").html();
+        theTemplate = Handlebars.compile(theTemplateScript);
+        theCompiledHtml ="" ; 
+        for (var i =0 ;i < data[0].length;i++ ){
+            var s = {};
+            s.row_no = i+1;
+            s.name = data[0][i];
+            s.email = data[1][i];
+            theCompiledHtml += theTemplate(s);
+        }
+        $("#memcount").text(data[0].length);
+        $('.usr_list').html(theCompiledHtml);
+    }
+    
+}
 
     function showHide(colType){
         if(colType == "bigserial"){
@@ -557,6 +711,190 @@ function showTable(resoponse){
 
     function removeEle(element) {
         element.parentNode.removeChild(element);
-    }
+    } 
 
+function printSharedMembers(response){
+    var obj = JSON.parse(response);
+        $(".field.co_field").remove();
+    if (obj.status != 200){
+        alert(obj.message);
+    } else {
+        var objec ={
+            "org":[{role:"Co-Owner"}],
+            "database":[{role:"Co-Owner"},{role:"Can-Write"}],
+            "table":[{role:"Co-Owner"},{role:"Can-Write"},{role:"read-only"}],
+        }
+        var s = '<i class="fa fa-caret-down" aria-hidden="true"></i> <p class="con_p" id ="role">Co-Owner</p>';
+        for (var i= 1;i< objec[obj.message].length;i++){
+            s += "<p>"+objec[obj.message][i].role+"</p>";
+        }
+        $(".shareable").html(s);
+        obj.roles = objec[obj.message]; 
+        var source   = $("#shared_mem_list_icon_template").html();
+        var template = Handlebars.compile(source);
+        var htmlContent  = template(obj);
+        $(".shr_det").html(htmlContent);
+        $(".field.co_field").remove();
+        source   = $("#shared_mem_list_template").html();
+        template = Handlebars.compile(source);
+        htmlContent  = template(obj);
+        $(".shr_fld.co_dev").append(htmlContent);
+    }
+}
+
+function dashboradView(respone) {
+    var data = JSON.parse(respone);
+    if (data.status != 200) {
+        alert(data.message)
+    } else {
+        data = data.Records;
+        var org_name = $("#dash_org").val();
+        for (var i in data) {
+            var arraya = [];
+            if (data[i].org_name == org_name) {
+                var da = data[i].orgDetails;
+                // console.log(da);
+                var templateObject = {}
+                var org_name = $(this).attr("org_name")
+                console.log("---------------------------------------------------");
+                for (var dn in da) {
+                    var array = [];
+                    var ta = da[dn];
+                    for (var tn in ta) {
+                        array.push({
+                            table_name: tn,
+                            table_size: ta[tn]
+                        });
+                    }
+                    arraya.push({
+                        db_name: dn,
+                        tabledetails: array,
+                        table_count: array.length
+                    });
+                }
+                // console.log(JSON.stringify(arraya));
+                templateObject.databasedetails = arraya;
+                templateObject.org_name = org_name;
+                templateObject.mem_count = data[i].Member[0].length;
+                console.log(templateObject);
+                /*templateObject.Member_count = arraya.length;
+                       
+                       
+                       var rawmember = data[i].Member; 
+                       var member = []
+                       for (var i in rawmember[0]){
+                               member.push({member:rawmember[0][i],member_email:rawmember[1][i]});
+                       }
+                       templateObject.Member=member;
+                       templateObject.Member_count = member.length;*/
+                var source = $("#dsh_org-template").html();
+                var template = Handlebars.compile(source);
+                var htmlContent = template(templateObject);
+                $(".dsh_ovr").html(htmlContent);
+            }
+        }
+    }}
+    /*
+function dashboradView(respone){
+    var data  = respone;
+	if(data.status != 200){
+	    alert(data.message)
+	} else {
+		var org_name = $(this).attr("org_name");
+	    for (var i in data){
+    		var arraya =[];
+    		if( data[i].org_name == org_name){
+        		var da = data[i].orgDetails;
+        		// console.log(da);
+        		var org_name = $(this).attr("org_name")
+        		console.log("---------------------------------------------------");
+        		for (var dn in da){
+        			var array = [];
+        			var ta = da[dn];
+        			for (var tn in ta){
+        				array.push({table_name:tn,table_size:ta[tn]});
+        			}
+        			arraya.push({db_name:dn,db_detail:array,table_count:array.length}); 
+    		    }
+        		// console.log(JSON.stringify(arraya));
+        		 data[i].orgDetails = arraya; 
+        		 data[i].Member_count = arraya.length;
+    		}
+    	} 
+	}
+	var rawmember = data.Member;
+	var member = []
+	for (var i in rawmember[0]){
+		member.push({member:rawmember[0][i],member_email:rawmember[1][i]});
+	}
+	data.Member=member;
+	data.Member_count = member.length;
+	var source   = $("#dsh_org-template").html();
+    var template = Handlebars.compile(source);
+    var htmlContent  = template(data);
+    $(".dsh_ovr").html(htmlContent);
+    
+}*/
+function dashboradBox(response){
+    var data = JSON.parse(response);
+    if (data.status != 200){
+        alert(data.message);
+    } else {
+        $(".box").html("");
+         data = data.Records
+         console.log(data)
+        for (var i in data){
+            var table = 0;
+            for(var j in data[i].orgDetails){
+                table+=Object.keys(data[i].orgDetails[j]).length;
+                console.log(data[i].orgDetails[j]);
+            }
+            tmpObj={org_name:data[i].org_name,db_count:Object.keys(data[i].orgDetails).length,table_count:table,mme_count:data[i].Member[0].length};
+            var source   = $("#dsh_org_box-template").html();
+            var template = Handlebars.compile(source);
+            var htmlContent  = template(tmpObj);
+            $(".box").append(htmlContent);
+        }
+    }
+}
+
+function listLogFileName(response){
+    var data = JSON.parse(response);
+    if (data.status != 200){
+        alert(data.message);
+    } else {
+        $(".log_list").html("");
+        for (var i in data.data){
+            tmpObj={name:data.data[i],date:data.data[i].substring(4,data.data[i].lastIndexOf("."))}
+            var source   = $("#log_list-template").html();
+            var template = Handlebars.compile(source);
+            var htmlContent  = template(tmpObj);
+            $(".log_list").append(htmlContent);
+        }
+    }
+}
+
+function listLogFile(response){
+    var data = JSON.parse(response);
+    if (data.status != 200){
+        alert(data.message);
+    } else {
+        $(".log_show").html("");
+        for (var i in data.data){
+            tmpObj={line:data.data[i]}
+            var source   = $("#log_show-template").html();
+            var template = Handlebars.compile(source);
+            var htmlContent  = template(tmpObj);
+            $(".log_show").append(htmlContent);
+        }
+    }
+}
+   function renderAuthTable(res){
+       var tmpObj = {};
+       tmpObj.lists = JSON.parse(res);
+       var source   = $("#auth_table-template").html();
+       var template = Handlebars.compile(source);
+       var htmlContent  = template(tmpObj);
+       $(".cm_tb").html(htmlContent);
+   }
 niceURL();

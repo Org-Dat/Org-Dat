@@ -12,18 +12,21 @@ public class DatabaseConnection {
 
 	public DatabaseConnection(String database_name, String _user,
 			String _password) {
-		dbConnection(database_name, _user, _password);
+		//dbConnection(database_name, _user, _password);
+		dbConnection(database_name, _user, "zohouniversity");
 	}
 
 	public void dbConnection(String db_name, String _user, String _password) {
 		this.url = "jdbc:postgresql://localhost:5432/" + db_name;
 		this.user = _user;
-		this.password = _password;
+		this.password = "zohouniversity";
 		close();
 		try {
 			Class.forName("org.postgresql.Driver");
 			this.conn = DriverManager.getConnection(url, user, password);
+			System.out.println(conn);
 		} catch (Exception sqlEx) {
+			sqlEx.printStackTrace();
 			return;
 		}
 	}

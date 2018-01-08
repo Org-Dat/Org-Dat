@@ -63,6 +63,7 @@ public class UserLogout extends HttpServlet {
 			CookieManage cookie_manage = new CookieManage();
 			long user_id = getUserId(request.getCookies());
 			System.out.println("USER  ID  = "+user_id );
+			removeCheck( user_id);
 			if (cookie_manage.deleteCookie(iambdt,user_id,request.getRemoteAddr(),request.getHeader("User-Agent")) == true) {
 				out.write("Logout Successfully");
 			} else {
@@ -97,4 +98,24 @@ public class UserLogout extends HttpServlet {
 	        return -1;
 	    }
 	}
+	
+	
+	private boolean removeCheck(long user_id) {
+		
+		try {
+			DatabaseConnection dc = new DatabaseConnection("postgres","postgres","");
+			System.out.println("lock ender");
+			dc.stmt = dc.conn
+					.prepareStatement("delete user_id from lock_management where org_id =? ");
+			dc.stmt.setLong(1, user_id);
+			dc.stmt.executeUpdate();
+			dc.close();
+			return true;
+		} catch (Exception e) {
+			
+			return false;
+		}
+	}
+	
+	
 }

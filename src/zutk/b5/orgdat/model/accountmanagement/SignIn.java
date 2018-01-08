@@ -14,7 +14,7 @@ public class SignIn {
 			dc.stmt.setString(1, email);
 			dc.stmt.setString(2, password);
 			ResultSet rs = dc.stmt.executeQuery();
-			long user_id = -1l;
+			long user_id = -1;
 			if (rs.wasNull()) {
 				dc.close();
 				return user_id;
@@ -28,7 +28,7 @@ public class SignIn {
 			if (dc != null) {
 				dc.close();
 			}
-			return -1l;
+			return -1;
 		}
 	}
 }

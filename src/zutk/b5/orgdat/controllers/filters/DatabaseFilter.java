@@ -37,9 +37,8 @@ public class DatabaseFilter extends DownloadFilter implements Filter {
 		    HttpServletRequest request = (HttpServletRequest) req;
     		HttpServletResponse response = (HttpServletResponse) res;
     		roleFinder = new RoleChecker(request);
-    		out = response.getWriter();
+    		
 			String requri = request.getRequestURI().substring(1);
-			
 			long user_id;
 			if (requri.startsWith("api") == true) {
 				String authtoken = request.getHeader("Authorization");
@@ -55,8 +54,10 @@ public class DatabaseFilter extends DownloadFilter implements Filter {
 				throw new Exception();
 			}
 			if (requri.endsWith("downloadDB")) {
+				System.out.println("super.doFilter(");
 			    super.doFilter(req, res, chain);
 			} else {
+			    out = response.getWriter();
     			dc = new DatabaseConnection("postgres", "postgres", "");
     			String org_name =  request.getParameter("org_name");
     			String db_name =  request.getParameter("db_name");
@@ -91,8 +92,9 @@ public class DatabaseFilter extends DownloadFilter implements Filter {
 			}
 
 		} catch (Exception e) {
-		    System.out.println(e);
-			out.write("{'status':403 ,'message':'Forbidden'}");
+			e.printStackTrace();
+	    System.out.println(e);
+			out.write("{\"status\":403 ,\"message\":\"Forbidden\"}");
 		} finally {
 			try {
 				dc.conn.close();

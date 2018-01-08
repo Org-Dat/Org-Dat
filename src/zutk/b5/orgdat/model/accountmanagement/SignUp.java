@@ -10,6 +10,7 @@ public class SignUp {
 		try {
 			dc = new DatabaseConnection("postgres", "postgres", "");
 			String sql = "select user_id from signup_detail where user_email=?";
+	System.out.println("dc.conn  =  "+dc.conn);
 			dc.stmt = dc.conn.prepareStatement(sql);
 			dc.stmt.setString(1, email);
 			ResultSet rs = dc.stmt.executeQuery();
@@ -57,6 +58,7 @@ public class SignUp {
 
 	public boolean setSecurityQuestion(long user_id, String answer) {
 		try {
+			dc = new DatabaseConnection("postgres", "postgres", "");
 			String question = "What is Your Orgdat email-id name ?";
 			String sql = "insert into security_management (user_id,question,answer) values(?,?,?)";
 			dc.stmt = dc.conn.prepareStatement(sql);

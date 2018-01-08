@@ -42,20 +42,25 @@ public class UserSignUp extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) {
-			    System.out.println("werwerwerwerwer");
 		try {
+     			
+			    System.out.println("Signup1");
 			out = response.getWriter();
 			String name = request.getParameter("name");
 			String email = request.getParameter("email");
 			String phoneNumber = request.getParameter("phone_number");
 			String password = request.getParameter("password");
+ System.out.println("Signup2");
 			if (name.matches("^[a-zA-Z][a-zA-Z0-9]{3,255}$")) {
 				if (email.matches("^[a-z][a-z0-9]{5,30}@orgdat.com$")) {
 					if (phoneNumber == null
 							|| phoneNumber.matches("^[+]?[0-9]{10,30}$")) {
 						if (password.matches("^.{6,255}$")) {
 							SignUp su = new SignUp();
-							if (su.isMember(email) == true) {
+							System.out.println("Signup3");
+							boolean correct  = su.isMember(email);
+							System.out.println("Signup3"+correct);
+							if (correct == true) {
 								String[] details = new String[5];
 								details[0] = name;
 								details[1] = email;
@@ -63,23 +68,26 @@ public class UserSignUp extends HttpServlet {
 								details[3] = password;
 								details[4] = "owner";
 								if (su.addMemeber(details)) {
+									System.out.println("Signi 4");
 									SignIn si = new SignIn();
 									long user_id = si.checkUserAccount(email,
 											password);
 									su.setSecurityQuestion(user_id, email);
+									System.out.println("SECURITY");
 									CookieManage cookie_manage = new CookieManage();
 									String ip_address = request.getRemoteAddr();
 									String user_agent = request
 											.getHeader("User-Agent");
 									String iamdbt = cookie_manage.createCookie(
 											user_id, ip_address, user_agent);
+									System.out.println("COOKIE ");
 									Cookie cookie = new Cookie("iambdt", iamdbt);
 									cookie.setPath("/");
 									cookie.setHttpOnly(true);
 									response.addCookie(cookie);
+			    						System.out.println("werwerwerwerwer");
 								//	response.sendRedirect("http://orgdat.zcodeusers.com/v1");
 								out.write("success");
-									/** which file redirect ? **/
 								} else {
 									out.write("Invaild Inputs");
 								}

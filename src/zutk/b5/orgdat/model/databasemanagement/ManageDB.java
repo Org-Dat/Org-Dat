@@ -1,5 +1,5 @@
 package zutk.b5.orgdat.model.databasemanagement;
-
+import org.json.simple.*;
 import java.sql.*;
 import zutk.b5.orgdat.controllers.filters.DatabaseConnection;
 
@@ -147,5 +147,32 @@ public class ManageDB {
 		    System.out.println(e);
 			return "{'status' : 400 , 'message'  : 'Bad Request' }";
 		}
+	}
+	
+	public String getSharedMembers(long db_id) {
+	    try {
+	        JSONArray resp = new JSONArray();
+	        dc = new DatabaseConnection("postgres","postgres","");
+	        
+	       JSONObject arg0 = new JSONObject();
+	        dc.stmt = dc.conn.prepareStatement(" select signup_detail.user_name,signup_detail.user_email,db_management.role from signup_detail inner join db_management on signup_detail.user_id = db_management.user_id and db_management.db_id=? and not signup_detail.user_email like '%@orgdat.com';");
+	        dc.stmt.setLong(1, db_id);
+	        ResultSet rs = dc.stmt.executeQuery();
+	        while (rs.next()){
+	            arg0.put("member",rs.getString(1));
+	            arg0.put("member_email",rs.getString(2));
+	            arg0.put("role",rs.getString(3));
+	            resp.add(arg0.clone());
+	            arg0.clear();
+	        }
+	        dc.close();
+	       // return members;
+	        return "{\"status\":200,\"data\":"+resp.toJSONString()+",\"message\":\"database\"}";
+	    } catch (Exception e){
+	        dc.close();
+	        e.printStackTrace();
+	       // return new ArrayList<String>();
+	       return "{\"status\":404,\"message\":\"not founded some error occured \"}";
+	    }
 	}
 }

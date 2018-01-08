@@ -18,8 +18,14 @@ public class ChartPrivers {
 	public String getDetail(String table_name, String[] column_names) {
 		try {
 			String sql = "select ";
+			int count = 0;
 			for (String column : column_names) {
-				sql = sql + "," + column;
+			    if(count == 0){
+			        sql = sql +" " + column;
+			    }else{
+			        sql = sql + "," + column;
+			    }
+			    count++;
 			}
 			sql = sql + " from " + table_name;
 			dc.stmt = dc.conn.prepareStatement(sql);
@@ -39,7 +45,7 @@ public class ChartPrivers {
 			}
 			return records.toString();
 		} catch (Exception e) {
-			return "";
+			return "invaild input";
 		}
 	}
 
@@ -55,7 +61,7 @@ public class ChartPrivers {
 			pieChart.append("}chart.draw(data, options);</script>");
 			return pieChart.toString();
 		} catch (Exception e) {
-			return "incorrect Data";
+			return "invaild input";
 		}
 	}
 
@@ -80,7 +86,7 @@ public class ChartPrivers {
 					.append("var chart = new google.visualization.BubbleChart(document.getElementById('series_chart_div')); chart.draw(data, options);}</script>");
 			return bubbleChart.toString();
 		} catch (Exception e) {
-			return "incorrect value";
+			return "invaild input";
 		}
 	}
 
@@ -99,7 +105,7 @@ public class ChartPrivers {
 					.append("var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));chart.draw(data, options); } </script>");
 			return lineChart.toString();
 		} catch (Exception e) { 
-			return "invaild  Data";
+			return "invaild input";
 		}
 	}
 
@@ -118,7 +124,7 @@ public class ChartPrivers {
 					.append(" var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));chart.draw(data, options);}</script>");
 			return scatterChart.toString();
 		} catch (Exception e) {
-			return "invaild Data ";
+			return "invaild input";
 		}
 	}
 
@@ -131,14 +137,14 @@ public class ChartPrivers {
 					.append("<script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script><script type='text/javascript'> google.charts.load('current', {'packages':['bar']}); google.charts.setOnLoadCallback(drawChart);function drawChart() {");
 			columnChart
 					.append("var data = google.visualization.arrayToDataTable("
-							+ detailArray + ");var options = { chart: {");
+	  						+ detailArray + ");var options = { chart: {");
 			columnChart.append("title : " + title + ",subtitle :" + subtitle
 					+ "},bars : " + bars + " };");
 			columnChart
 					.append("var chart = new google.charts.Bar(document.getElementById('columnchart_material'));chart.draw(data, google.charts.Bar.convertOptions(options));}</script>");
 			return columnChart.toString();
 		} catch (Exception e) {
-			return "invaild data";
+			return "invaild input";
 		}
 	}
 

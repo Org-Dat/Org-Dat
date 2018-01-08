@@ -16,10 +16,17 @@ public class ShowDetails {
     }
     
 	public ArrayList<String> getOrganization(long user_id) {
-		ArrayList<String> organizations = new ArrayList<String>();
-		String sqlQuery = "select org_name from org_details where owner_id = ? ";
-		dc =  new DatabaseConnection("postgres","postgres","");
+		
 		try {
+		
+		    String email = idToEmail( user_id);
+		    String org_name = email.substring(email.lastIndexOf("@")+1,email.lastIndexOf("."));
+		    if (org_name.equals("orgdat")){
+			
+		    ArrayList<String> organizations = new ArrayList<String>();
+    		String sqlQuery = "select org_name from org_details where owner_id = ? ";
+    		dc =  new DatabaseConnection("postgres","postgres","");
+    		sqlQuery = "select org_name from org_details where owner_id = ? ";
 			dc.stmt = dc.conn.prepareStatement(sqlQuery);
 			dc.stmt.setLong(1, user_id);
 			ResultSet rs = dc.stmt.executeQuery();
@@ -29,6 +36,11 @@ public class ShowDetails {
 			System.out.println("Sample" +organizations.toString());
 		//	dc.close();
 			return organizations;
+			} else {
+				 ArrayList<String> organizations = new ArrayList<String>();
+				 organizations.add(org_name);
+				return organizations;
+			}
 		} catch (Exception e) {
 		    if (dc != null ){
     		    dc.close();
@@ -60,7 +72,7 @@ public class ShowDetails {
     	    System.out.println(whole);
     	    ArrayList<String> retur = new ArrayList<String>();
     	    for (Object s : whole.keySet()){
-    	        retur.add(((String)s).split("_")[1]);
+    	        retur.add(((String)s));
     	        
     	    }
     	    return retur;
@@ -183,12 +195,18 @@ public class ShowDetails {
 	        return getAllTable( org_id,db_id);
 	    } else {
     		JSONObject whole = getDashboardViewObject( org_name ,  user_id);
-    		if (whole.get(org_name+"_"+db_name) == null){
+    		if (whole.get(db_name) == null){
     		  //  dc.close();
     		    return new ArrayList<String>();
     		} 
     // 		dc.close();
-    	    return ((ArrayList<String>) whole.get(org_name+"_"+db_name));
+    	    return ((ArrayList<String>) whole.get(db_name));
+    	    	//if (whole.get(org_name+"_"+db_name) == null){
+    		  //  dc.close();
+    		//    return new ArrayList<String>();
+    		//} 
+    // 		dc.close();
+    	//    return ((ArrayList<String>) whole.get(org_name+"_"+db_name));
 	    }
 // 		String sqlQuery = "select table_name from table_management where org_name=? and db_name=?";
 // 		if(role.endsWith("owner") == false){
@@ -329,4 +347,28 @@ public class ShowDetails {
         }
     }
     
+
+	public String idToEmail(long user_id) {
+		String email = null;
+		try {
+			dc = new DatabaseConnection("postgres", "postgres", "");
+			String sql = "select user_email from signup_detail where user_id = ?";
+			dc.stmt = dc.conn.prepareStatement(sql);
+			dc.stmt.setLong(1, user_id);
+			ResultSet rs = dc.stmt.executeQuery();
+			while (rs.next()) {
+				email = rs.getString(1);
+			}
+			if (dc != null) {
+				dc.close();
+			}
+			return email;
+		} catch (Exception e) {
+
+			if (dc != null) {
+				dc.close();
+			}
+			return null;
+		}
+	}
 }

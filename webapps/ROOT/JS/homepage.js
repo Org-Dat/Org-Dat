@@ -18,8 +18,34 @@ $(document).ready(function(){
         },1000);
     });
     
+    $(document).on("click",".but",function(){
+        sendPostRequest("/createAuth" , null ,renderAuthTable);
+    });
     
+    $(document).on("click",".butt",function(){
+        var auth = document.querySelectorAll(".auth:checked");
+        var authtoken = "";
+        for(authToken of auth){
+            authtoken = authtoken+","+authToken.value;
+        }
+        var data = {
+            "authtoken" : authtoken.substring(1)
+        };
+        sendPostRequest("/deleteAuth" , data ,renderAuthTable);
+    });
     
+
+    $(document).on("click","#but",function(){
+        var auth = document.getElementsByClassName("auth");
+        for(checkBox  of auth){
+            if(document.getElementById("but").checked == true){
+                checkBox.checked = true;
+            }else{
+                 checkBox.checked = false;
+            }
+            
+        }
+    });
 	$(document).on("click",".org_box>span",function(){
 		$(".whole_org_box").hide();
         // $(".whole_org_box").css("transform","translate(-100%)")
@@ -41,7 +67,7 @@ $(document).ready(function(){
 		$(".whole_table").css("display","flex");      
 	    }
 	  
-	});
+	}); 
 	
 	$(document).keypress(function(event){
 	   // alert(event.keyCode)
@@ -186,7 +212,7 @@ $(document).ready(function(){
         if(nu%2==0){
          document.getElementById("demo").click();   
         }
-        $("..org_box").css("display","flex")
+        $(".org_box").css("display","flex")
         $(".dsh_brd,.cmn_tab,.main_tab,.admin,.log").css("display","none")
     })
     //------------------------------------Create Org------------------------------------
@@ -240,6 +266,11 @@ $(document).ready(function(){
             parent.css("display","none");
         }
     });
+    
+    $(document).on("click",".authtoken",function(){
+        sendPostRequest("/getAuth" , null ,renderAuthTable);
+    });
+    
     $(document).on("click",".fa-chevron-circle-left",function(){
         $(this).parent().css("transform","translateX(100%) rotateY(90deg)");
         $(this).parent().next().css("transform","translateX(0) rotateY(0deg)");
@@ -387,18 +418,30 @@ $(".security_whole>div:nth-child(2)>nav").click(function(){
     pf_ed=1;
     $(".pf_ed").click(function(){
         pf_ed++;
-        if(pf_ed%2==0){
-            $(this).removeClass("fa fa-pencil").addClass("fa fa-check")        
+        if($(this).hasClass("fa-check")){
+            $(this).removeClass("fa-check").addClass("fa-pencil") 
+            $(this).siblings("span").attr("contenteditable","false");
+            $(this).siblings("span").css({
+                "cursor":"pointer",
+                "outline":"none",
+                "border-bottom":"1px solid white"
+            });
         }else{
-            $(this).removeClass("fa fa-check").addClass("fa fa-pencil")        
+            $(this).removeClass("fa-pencil").addClass("fa-check");
+            $(this).siblings("span").attr("contenteditable","true");
+            $(this).siblings("span").css({
+                "cursor":"text",
+                "outline":"none",
+                "border-bottom":"1px solid"
+            });
         }
     
-    $(this).parent().children("span").attr("contenteditable","true");
-    $(this).parent().children("span").css({
-        "cursor":"text",
-        "outline":"none",
-        "border-bottom":"1px solid"
-    });
+    // $(this).siblings("span").attr("contenteditable","true");
+    // $(this).siblings("span").css({
+    //     "cursor":"text",
+    //     "outline":"none",
+    //     "border-bottom":"1px solid"
+    // });
     
 });
 
@@ -432,7 +475,7 @@ $(".security_whole .slide_button div").click(function(){
     
     $(document).on("click",".sidebar>ul>li:nth-child(4)",function(){
         $(".cmn_tab>h2").text("Auth Tokens")
-        $(".cm_tb table th:first-child,.cm_tb table td:first-child").show();
+        //$(".cm_tb table th:first-child,.cm_tb table td:first-child").show();
     })
     
 // ----------------------------------Database---------------------------------------------------
@@ -580,8 +623,9 @@ $(document).on("click",".fa-sort",function(){
         if(nu%2==0){
          document.getElementById("demo").click();   
         }
-        $(".admin").css("display","block")
-        $(".whole_org").css("display","none")
+        $(".admin").css("display","block");
+         sendPostRequest("/getMember",{org_name:location.pathname.substring(1).split("/")[1]},listingMember);
+        $(".whole_org").css("display","none");
     })
     
     // $(document).on("click",".add_fld button,.add_fld .fa-trash-o",function(){
@@ -603,13 +647,18 @@ $(document).on("click",".fa-sort",function(){
         $(".log").css("display","block")
         $(".whole_org,.cmn_tab,.dsh_brd,.main_tab,.admin").css("display","none")
     })  
-    $(document).on("click",".log_list li",function(){
+    // $(document).on("click",".log_list li>label",function(){
+    //     $(".log_list").hide();
+    //     $(".log_show").show();
+        
+    //     $(".log_det").text($(this).children("date").text())
+    // })
+    $(document).on("click",".logChk",function(){
         $(".log_list").hide();
         $(".log_show").show();
         
         $(".log_det").text($(this).children("date").text())
     })
-    
     
     // ----------------------------------------Dash board--------------------------------
         

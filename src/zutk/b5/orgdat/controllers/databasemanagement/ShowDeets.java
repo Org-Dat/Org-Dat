@@ -1,7 +1,5 @@
 package zutk.b5.orgdat.controllers.databasemanagement;
 
-
-
 import org.json.simple.*;
 import java.io.PrintWriter;
 import javax.servlet.http.*;
@@ -33,7 +31,7 @@ public class ShowDeets extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) {
 		try {
-		    JSONObject detailLis;
+			JSONObject detailLis;
 			String requri = request.getRequestURI();
 			String org_name = request.getParameter("org_name");
 			String db_name = request.getParameter("db_name");
@@ -41,7 +39,8 @@ public class ShowDeets extends HttpServlet {
 			RoleChecker rc = new RoleChecker(request);
 			DashboardView dv = new DashboardView(request);
 			if (requri.startsWith("/api/")) {
-				String authtoken = request.getHeader("Authorization");
+				String authtoken = request
+						.getHeader("Authorization");
 				if (authtoken == null) {
 					throw new Exception();
 				}
@@ -51,62 +50,79 @@ public class ShowDeets extends HttpServlet {
 				user_id = rc.getUserId(request.getCookies());
 			}
 			ShowDetails sd = new ShowDetails();
-			
+
 			ArrayList<String> detailList = new ArrayList<String>();
-            System.out.println("usererrer : "+user_id);
-            System.out.println(requri +"   ___ "+ org_name);
+			System.out.println("usererrer : " + user_id);
+			System.out.println(requri + "   ___ " + org_name);
 			String role = "";
 			switch (requri) {
-			case "/getOrgName":
-				detailList = sd.getOrganization(user_id);
-				break;
-			case "/getDBName":
-                System.out.print("org _ "+org_name+"\n");
-				if (org_name == null
-						|| org_name.matches("^[a-z][a-z0-9]{3,30}") == false) {
-						    
-                System.out.print("org _ errerre "+org_name+"\n");
-					throw new Exception();
-				}
-				role = dv.getRole(org_name, user_id);
-				System.out.println(role);
-				detailList = sd.getDatabase(org_name,user_id,role);
-				break;
-			case "/getTableName":
+				case "/getOrgName" :
+					detailList = sd.getOrganization(user_id);
+					break;
+				case "/getDBName" :
+					System.out.print("org _ " + org_name
+							+ "\n");
+					if (org_name == null
+							|| org_name.matches("^[a-z][a-z0-9]{3,30}") == false) {
 
-				if (org_name == null
-						|| org_name.matches("^[a-z][a-z0-9]{3,30}") == false
-						|| db_name == null
-						|| db_name.matches("^[a-z][a-z0-9]{3,30}") == false) {
-					throw new Exception();
-				}
-			    role = dv.getRole(org_name, db_name, user_id);
-			    System.out.println(role);
-				detailList = sd.getTables(org_name, db_name,user_id,role);
-                break;
-            case "/getDashBoard":
-			    role = dv.getRole(org_name, db_name, user_id); 
-			    System.out.println(role);
-				detailLis = sd.getDashboardViewObject(org_name,user_id);
-				System.out.println(detailLis.toJSONString());
-				System.out.println(detailLis.toString());
-				out.write("{ \"status\" : 200, \"message\" : \"Get "+requri.substring(1)+"  Successfully !...\", \"Records\" : "+JSONObject.toJSONString(detailLis)+" } ");
-				return;
-			case "/getDashBoardWithSize":
-			    role = dv.getRole(org_name, db_name, user_id); 
-			    System.out.println(role+"\n--------------------------------------------------------------");
-				detailList = sd.getUserDashboardView(user_id);
-				System.out.println("\n--------------------------------------------------------------");
-			 //   System.out.println(detailLis.toJSONString());
-				// out.write("{ \"status\" : 200, \"message\" : \"Get "+requri.substring(1)+"  Successfully !...\", \"Records\" : "+JSONObject.toJSONString(detailLis)+" } ");
-				break; 
+						System.out.print("org _ errerre "
+								+ org_name
+								+ "\n");
+						throw new Exception();
+					}
+					role = dv.getRole(org_name, user_id);
+					System.out.println(role);
+					detailList = sd.getDatabase(org_name,
+							user_id, role);
+					break;
+				case "/getTableName" :
+
+					if (org_name == null
+							|| org_name.matches("^[a-z][a-z0-9]{3,30}") == false
+							|| db_name == null
+							|| db_name.matches("^[a-z][a-z0-9]{3,30}") == false) {
+						throw new Exception();
+					}
+					role = dv.getRole(org_name, db_name,
+							user_id);
+					System.out.println(role);
+					detailList = sd.getTables(org_name,
+							db_name, user_id, role);
+					break;
+				case "/getDashBoard" :
+					role = dv.getRole(org_name, db_name,
+							user_id);
+					System.out.println(role);
+					detailLis = sd.getDashboardViewObject(
+							org_name, user_id);
+					System.out.println(detailLis
+							.toJSONString());
+					System.out.println(detailLis.toString());
+					out.write("{ \"status\" : 200, \"message\" : \"Get "
+							+ requri.substring(1)
+							+ "  Successfully !...\", \"Records\" : "
+							+ JSONObject.toJSONString(detailLis)
+							+ " } ");
+					return;
+				case "/getDashBoardWithSize" :
+					// role = dv.getRole(org_name, db_name,
+					// user_id);
+					// System.out.println(role+"\n--------------------------------------------------------------");
+					detailList = sd.getUserDashboardView(user_id);
+					System.out.println("\n--------------------------------------------------------------");
+					// System.out.println(detailLis.toJSONString());
+					// out.write("{ \"status\" : 200, \"message\" : \"Get "+requri.substring(1)+"  Successfully !...\", \"Records\" : "+JSONObject.toJSONString(detailLis)+" } ");
+					break;
 			}
 			String answer = JSONArray.toJSONString(detailList);
 			System.out.println("Answer   : " + answer);
-			out.write("{ \"status\" : 200, \"message\" : \"Get "+requri.substring(1)+"  Successfully !...\", \"Records\" : "+answer+" } ");
+			out.write("{ \"status\" : 200, \"message\" : \"Get "
+					+ requri.substring(1)
+					+ "  Successfully !...\", \"Records\" : "
+					+ answer + " } ");
 		} catch (Exception e) {
-		    e.printStackTrace();
-			System.out.println(e); 
+			e.printStackTrace();
+			System.out.println(e);
 			out.write("{\"status\":404 , \"message\" : \"Not Found\"}");
 			return;
 		}

@@ -1,7 +1,7 @@
 function tab_change(tab) {
-    var i;
+    var i ; 
     var x = document.getElementsByTagName("aside");
-
+ 
     for (i = 0; i < x.length; i++) {
         x[i].style.display = "none";
     }

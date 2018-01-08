@@ -5,7 +5,7 @@
  * 
  * @version : 1.0
  */
-package zutk.b5.orgdat.controllers.orgmanagement;
+package zutk.b5.orgdat.controllers.orgmanagement ;
 
 import java.util.*;
 import javax.servlet.http.*;
@@ -52,7 +52,7 @@ public class ManageMember extends HttpServlet {
 			String org_name = request.getParameter("org_name");
 			if (requri.endsWith("createMember")) {
 				String name = request.getParameter("name");
-				if (name.matches("^[a-zA-Z]{6,255}$") == false){
+				if (name.matches("^[a-zA-Z][a-zA-Z0-9]{3,255}$") == false){
 				    out.write("User Name is Incorrect");
 				    // out.write("{\"status\" :, \"message\" : \"get list successfully \" , \"data\" : "+JSONArray.toJSONString(getMemberList(org_name))+"}");
                     return;
@@ -88,8 +88,8 @@ public class ManageMember extends HttpServlet {
 						+ Arrays.toString(details));
 				isWork = addMember(details);
 
-			} else if (requri.endsWith("getMemeber")) {
-                 out.write("{\"status\" :, \"message\" : \"get list successfully \" , \"data\" : "+JSONArray.toJSONString(getMemberList(org_name))+"}");
+			} else if (requri.endsWith("getMember")) {
+                 out.write("{\"status\" :200, \"message\" : \"get list successfully \" , \"data\" : "+JSONArray.toJSONString(getMemberList(org_name))+"}");
                  return;
                 
 			} else if (requri.endsWith("deleteMember")) {
@@ -107,6 +107,7 @@ public class ManageMember extends HttpServlet {
 				throw new Exception(" some error occred");
 			}
 		} catch (Exception e) {
+		    e.printStackTrace();
 			out.write("{\"status\" : 406 ,\"message\" : \"member detail  invaild details  un successfully\"}");
 			return;
 		}
@@ -188,7 +189,7 @@ public class ManageMember extends HttpServlet {
 	}
     public ArrayList<ArrayList<String>> getMemberList(String org_name) {
 		DatabaseConnection dc = null;
-		System.out.println("GET MEMBER LIST ! >...");
+		System.out.println("GET MEMBER LIST ! >..."); 
 		try {
 			ArrayList<ArrayList<String>> memberList = new ArrayList<ArrayList<String>>();
 			dc = new DatabaseConnection("postgres", "postgres", "");

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
-    version="2.4">
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+                      http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+  version="3.0"
+  metadata-complete="true">
 
     <display-name>OrgDat</display-name>
     <description>
@@ -48,16 +50,19 @@
     <filter-mapping>  
         <filter-name>CookieFilter</filter-name>  
         <servlet-name>ChartProvider</servlet-name>
+        <servlet-name>AuthToken</servlet-name>
         <servlet-name>ManageRecord</servlet-name>
         <servlet-name>DeleteAccount</servlet-name>
         <servlet-name>ShowDetail</servlet-name>
         <servlet-name>ManageTable</servlet-name>
         <servlet-name>ManageMember</servlet-name>
+        <servlet-name>DownloadDB</servlet-name>
         <servlet-name>ManageDatabase</servlet-name>
         <servlet-name>ManageOrganization</servlet-name>
+        <servlet-name>DownloadTable</servlet-name>
         <servlet-name>UploadDeets</servlet-name>
-        <servlet-name>DownloadDeets</servlet-name>
         <servlet-name>LogFileReader</servlet-name>
+        <servlet-name>EditProfile</servlet-name>
     </filter-mapping> 
     
     <filter-mapping>  
@@ -66,12 +71,13 @@
         <servlet-name>ManageRecord</servlet-name>
         <servlet-name>DeleteAccount</servlet-name>
         <servlet-name>ShowDetail</servlet-name>
+        <servlet-name>DownloadDB</servlet-name>
+        <servlet-name>DownloadTable</servlet-name>
         <servlet-name>ManageTable</servlet-name>
         <servlet-name>ManageMember</servlet-name>
         <servlet-name>ManageDatabase</servlet-name>
         <servlet-name>ManageOrganization</servlet-name>
         <servlet-name>UploadDeets</servlet-name>
-        <servlet-name>DownloadDeets</servlet-name>
         <servlet-name>LogFileReader</servlet-name>
     </filter-mapping>  
     
@@ -83,14 +89,14 @@
     <filter-mapping>  
         <filter-name>DatabaseFilter</filter-name>  
         <servlet-name>UploadDeets</servlet-name>
-        <servlet-name>DownloadDeets</servlet-name>
+        <servlet-name>DownloadDB</servlet-name>
         <servlet-name>ManageDatabase</servlet-name>
     </filter-mapping> 
     
    <filter-mapping>  
         <filter-name>TableFilter</filter-name>  
         <servlet-name>UploadDeets</servlet-name>
-        <servlet-name>DownloadDeets</servlet-name>
+        <servlet-name>DownloadTable</servlet-name>
         <servlet-name>ManageTable</servlet-name>
         <servlet-name>ManageRecord</servlet-name>
     </filter-mapping>  
@@ -136,7 +142,12 @@
     </servlet>
     
     <servlet>
-        <servlet-name>DownloadDeets</servlet-name>
+        <servlet-name>DownloadTable</servlet-name>
+        <servlet-class>zutk.b5.orgdat.controllers.orgmanagement.DownloadDeets</servlet-class>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>DownloadDB</servlet-name>
         <servlet-class>zutk.b5.orgdat.controllers.orgmanagement.DownloadDeets</servlet-class>
     </servlet>
     
@@ -160,6 +171,7 @@
         <servlet-name>LogFileReader</servlet-name>
         <url-pattern>/getLogFileNames</url-pattern>
         <url-pattern>/getLogFile</url-pattern>
+        <url-pattern>/deleteLogFile</url-pattern>
     </servlet-mapping>
     
     <servlet-mapping>
@@ -170,8 +182,11 @@
     
     
     <servlet-mapping>
-        <servlet-name>DownloadDeets</servlet-name>
+        <servlet-name>DownloadDB</servlet-name>
         <url-pattern>/downloadDB</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DownloadTable</servlet-name>
         <url-pattern>/downloadTable</url-pattern>
     </servlet-mapping>
     
@@ -179,6 +194,7 @@
     <servlet-mapping>
         <servlet-name>ManageOrganization</servlet-name>
         <url-pattern>/createOrg</url-pattern>
+        <url-pattern>/getOrgSharedMembers</url-pattern>
         <url-pattern>/shareOrg</url-pattern>
         <url-pattern>/deleteOrg</url-pattern>
         <url-pattern>/api/createOrg</url-pattern>
@@ -191,6 +207,7 @@
         <url-pattern>/shareDB</url-pattern>
         <url-pattern>/renameDB</url-pattern>
         <url-pattern>/deleteDB</url-pattern>
+        <url-pattern>/getDBSharedMembers</url-pattern>
         <url-pattern>/api/createDB</url-pattern>
         <url-pattern>/api/renameDB</url-pattern>
         <url-pattern>/api/deleteDB</url-pattern>
@@ -204,6 +221,7 @@
         <url-pattern>/deleteTable</url-pattern>
         <url-pattern>/editColumn</url-pattern>
         <url-pattern>/alterTable</url-pattern>
+        <url-pattern>/getTableSharedMembers</url-pattern>
         <url-pattern>/api/createTable</url-pattern>
         <url-pattern>/api/renameTable</url-pattern>
         <url-pattern>/api/deleteTable</url-pattern>
@@ -233,7 +251,9 @@
         <url-pattern>/getOrgName</url-pattern>
         <url-pattern>/api/getOrgName</url-pattern>
         <url-pattern>/api/getDashBoard</url-pattern>
+        <url-pattern>/getDashBoard</url-pattern>
         <url-pattern>/api/getDashBoardWithSize</url-pattern>
+        <url-pattern>/getDashBoardWithSize</url-pattern>
         <url-pattern>/getDBName</url-pattern>
         <url-pattern>/api/getDBName</url-pattern>
         <url-pattern>/getTableName</url-pattern>
@@ -335,6 +355,7 @@
     <servlet-mapping>
         <servlet-name>EditProfile</servlet-name>
         <url-pattern>/editProFile</url-pattern>
+        <url-pattern>/getProFile</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>

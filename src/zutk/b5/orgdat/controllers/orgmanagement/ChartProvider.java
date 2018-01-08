@@ -54,11 +54,15 @@ public class ChartProvider extends HttpServlet {
 				throw new Exception();
 			}
 			dc = new DatabaseConnection(db_name, org_name, "");
-			String[] column = request.getParameterValues("column_names");
+			String[] column = (request.getParameter("column_names")).split(","); 
 			if(column.length < 2){
 			    throw new Exception();
 			}
 			String detailArray = cp.getDetail(table_name, column);
+			if(detailArray.equals("")){
+			    out.write("invaild input");
+			    return;
+			}
 			//String[] chartList = request.getParameterValues("chartNames");
 			switch (chart) {
 			case "pieChart":

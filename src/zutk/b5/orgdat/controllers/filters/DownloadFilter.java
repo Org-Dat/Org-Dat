@@ -27,11 +27,10 @@ public class DownloadFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse res,
 			FilterChain chain) throws IOException, ServletException {
+			HttpServletResponse response = (HttpServletResponse) res;
 		try {
 			HttpServletRequest request = (HttpServletRequest) req;
-			HttpServletResponse response = (HttpServletResponse) res;
 			roleFinder = new RoleChecker(request);
-			writer = response.getWriter();
 			long user_id = roleFinder.getUserId(request.getCookies());
 			String db_name = request.getParameter("db_name");
 			String org_name = request.getParameter("org_name");
@@ -41,37 +40,19 @@ public class DownloadFilter implements Filter {
 			if (role.equals("owner") == false) {
 				throw new Exception();
 			}
-			dc.stmt = dc.conn
-					.prepareStatement("select db_name from db_management where org_name =?");
-			dc.stmt.setString(1, org_name);
-			ResultSet rs = dc.stmt.executeQuery();
-			boolean valid = false;
-			// check vaild database are not
-			while (rs.next()) {
-				if (db_name.equals(rs.getString(1))) {
-					valid = true;
-					break;
-				}
-			}
-			if (valid == false) {
+			dc = new DatabaseConnection("postgres", "postgres", "");
+			long org_id = dc.getOrgId(org_name);
+			long db_id = dc.getDBId(org_id, org_name+"_"+db_name);
+			if (db_id <= 0) {
 				throw new Exception();
 			}
-			if (request.getRequestURI().equals("downloadDB")) {
+			if (request.getRequestURI().endsWith("downloadDB")) {
+				System.out.println("downloadDB");
 				chain.doFilter(req, res);
-			} else if (request.getRequestURI().equals("downloadTable")) {
-				dc.stmt = dc.conn
-						.prepareStatement("select table from table_management where org_name =? and db_name=?");
-				dc.stmt.setString(1, org_name);
-				dc.stmt.setString(2, db_name);
-				rs = dc.stmt.executeQuery();
-				valid = false;
-				while (rs.next()) {
-					if (table_name.equals(rs.getString(1))) {
-						valid = true;
-						break;
-					}
-				}
-				if (valid == false) {       
+			} else if (request.getRequestURI().endsWith("downloadTable")) {
+				long table_id = dc.getTableId(org_id, db_id, table_name);
+				
+				if (table_id <= 0) {
 					throw new Exception();
 				}
 				chain.doFilter(req, res);
@@ -80,7 +61,10 @@ public class DownloadFilter implements Filter {
 			}
 			chain.doFilter(req, res);
 		} catch (Exception e) {
-
+			writer = response.getWriter();
+			
+			e.printStackTrace();
+			
 			writer.write("{'status':403,'message':'forbetten'}");
 		} finally {
 		    if (dc != null ){
@@ -95,3 +79,4 @@ public class DownloadFilter implements Filter {
 
 	}
 }
+

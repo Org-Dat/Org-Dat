@@ -50,7 +50,7 @@ public class CookieManage {
 			dc.stmt.setString(3, user_agent);
 			dc.stmt.setString(4, cookie);
 			dc.stmt.executeUpdate();
-			Date now = new Date();
+			/*Date now = new Date();
 			dc.stmt = (dc.conn)
 					.prepareStatement("insert into history (user_id,ip_address,user_agent,signin_time,signout_time) values(?,?,?,?,?)");
 			dc.stmt.setLong(1, user_id);
@@ -58,12 +58,13 @@ public class CookieManage {
 			dc.stmt.setString(3, user_agent);
 			dc.stmt.setString(4, dateFormatter.format(now));
 			dc.stmt.setString(5, "login");
-			dc.stmt.executeUpdate();
+			dc.stmt.executeUpdate();*/
 			if (dc != null) {
 				dc.close();
 			}
 			return cookie;
 		} catch (Exception e) {
+			e.printStackTrace();
 			if (dc != null) {
 				dc.close();
 			}
@@ -81,14 +82,14 @@ public class CookieManage {
 			dc.stmt.setString(1, iambdt);
 			dc.stmt.executeUpdate();
 			System.out.println("ASDFGHJKLQWERTYUIOPZXCVBNM ==== cookie_management");
-			Date now = new Date();
+			/*Date now = new Date();
 			dc.stmt = (dc.conn)
 					.prepareStatement("update  history set signout_time=?  where user_id=? and ip_address = ? and user_agent = ? and signout_time='login' ");
 			dc.stmt.setString(1, dateFormatter.format(now));
 			dc.stmt.setLong(2, user_id);
 			dc.stmt.setString(3, ip_address);
 			dc.stmt.setString(4, user_agent);
-			dc.stmt.executeUpdate();
+			dc.stmt.executeUpdate();*/
 			if (dc != null) {
 				dc.close();
 			}

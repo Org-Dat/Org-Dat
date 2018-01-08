@@ -4,12 +4,33 @@ function logout(){
 
 function log(res){
     if(res == "Logout Successfully"){
-        location.href = "http://orgdat.zcodeusers.com/v1";
+        location.href = "/v1";
     }else{
         document.getElementById("alert").innerText = "Please Try Again";
     }
 }
 
+function getChart(name){
+    var chart = document.getElementById("chart").value;
+    var columnName = "";
+    var columns = document.getElementsByClassName("columnname").querySelectorAll("li > .chk_one:checked");
+    for(let column of columns){
+        columnName = columnName +","+column.value;
+    }
+    columnName = columnName.substring(1);
+    var element  = document.createElement("p");
+    element.innerText = name ;
+    var tmpObj = getPathConfig(element);
+    sendGetRequest("/chartMake?charts="+chart+"&column_names="+columnName +"&table_name="+tmpObj.table_name+"&org_name="+tmpObj+"&db_name="+tmpObj.db_name,viewChart);
+}
+
+function viewChart(res){
+    if(res == "invaild input"){
+        
+    }else{
+        document.getElementById("chart_view").innerHTML = res ;
+    }
+}
 function listToObject(detailArray){
 	var renderObj = {};
 	var dataList = [];
@@ -52,6 +73,15 @@ function niceURL(){
         currentPath = currentPath.substring(0,currentPath.length-1);
     }
     var pathList = currentPath.substring(4).split("/");
+     var setPath = "";
+    if(pathList.length == 2 && pathList[0] != ""){
+         setPath ="<span class = 'organization' style = 'display : inline-block'>"+ pathList[0] +"</span> > <span class = 'db' style = 'display : inline-block'>"+pathList[1]+"</span> > <span> Tables </span>";
+    }else if(pathList.length == 1 && pathList[0] != ""){
+         setPath ="<span class = 'organization' style = 'display : inline-block'>"+ pathList[0] +"</span>"+" >"+" <span class ='db'> Databases </span>";
+    }else if(pathList.length == 1){
+         setPath = "<span class = 'organization'> Organizations </span>";
+    }
+    $(".path").html(setPath);
     // console.log(pathList);
     if (currentPath.startsWith("/v1")){
         if((pathList.length == 1) && pathList[0] != ""){
@@ -275,7 +305,7 @@ function getSetPath(count , names){
 
 function shareConfig(name){
     var email = document.getElementById("email").value;
-    var role = document.getElementById("role").value;
+    var role = document.getElementById("role").innerText;
     var a = document.createElement("p")
     a.innerText = name;
     var tmpObj = getPathConfig(a);
@@ -313,7 +343,7 @@ function  rename(name){
     tmpObj.rename = newName;
     return tmpObj;
 }
-
+ 
 
 function getMemberDetail(){
     var org_name = document.getElementsByClassName("share_org")[0].innerText;
@@ -328,9 +358,9 @@ function getMemberDetail(){
         if(passRxp.test(password)){
             var a = {};
             a.name = name;
-            a.email = email+org_name;
+            a.email = email+"@"+org_name+".com";
             a.password = password;
-            a.org_name = org_name.substring(org_name.indexOf("@")+1,org_name.indexOf("."));
+            a.org_name = org_name;
              return a;
         }else{
         //   document.getElementById("alert").innerText = "Password is incorrect";
@@ -364,3 +394,26 @@ function getQuestion(){
     var answer = document.getElementById("answer").value;
     return {"password" :password , "question" : question, "answer" : answer};
 }
+
+
+function shareDeets(element){
+    var name = (element.querySelector("h3").innerText).split("Share ")[1];
+    var obj = shareConfig(name);
+    if(obj.table_name != undefined){
+        sendPostRequest("/shareTable",obj , shareRender);
+    }else if(obj.db_name != undefined){
+    	sendPostRequest("/shareDB",obj , shareRender);
+    }else if(obj.org_name != undefined){
+    	sendPostRequest("/shareOrg",obj , shareRender);
+    }
+}
+
+function shareRender(res){
+    res = JSON.parse(res);
+    if(res.status == 200){
+       $(".fa-share-alt").click();
+    }else{
+       alert("Please Enter valid mail address");
+    }
+}
+

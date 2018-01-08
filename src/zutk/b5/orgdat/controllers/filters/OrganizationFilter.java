@@ -26,7 +26,7 @@ public class OrganizationFilter extends HttpServlet implements Filter {
      * 
      * @return type : void 
      * 
-     * @return : this method doesn't return any thing
+     * @return : this method doesn\"t return any thing
      */
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse res,
@@ -45,6 +45,7 @@ public class OrganizationFilter extends HttpServlet implements Filter {
 			    Cookie[] cookies = request.getCookies();
 				user_id = roleFinder.getUserId(cookies);
 			}
+			System.out.println(user_id);
 			if (user_id == -1) {
 				throw new Exception();
 			}
@@ -54,16 +55,17 @@ public class OrganizationFilter extends HttpServlet implements Filter {
 			if (org_name == null || org_name.matches("^[a-z][a-z0-9]{3,30}$") == false) {
 				throw new Exception();
 			}
-// 			String role = roleFinder.orgRole(org_name, user_id);
-// 			if (role.equals("owner")) {
+			String role = roleFinder.orgRole(org_name, user_id);
+			System.out.println("role  = "+role);
+			if (role.equals("owner") || request.getRequestURI().endsWith("createOrg")) {
 				chain.doFilter(req, res);
 				dc.conn.close();
-// 			} else {
-// 				throw new Exception();
-// 			}
+			} else {
+				throw new Exception();
+			}
 		} catch (Exception e) {
-		    
-		    out.write("{'status':403 ,'message':'Forbidden'}");
+		    e.printStackTrace();
+		    out.write("{\"status\":403 ,\"message\":\"Forbidden\"}");
 		} finally {
 		    if (dc != null ){
 		        dc.close();

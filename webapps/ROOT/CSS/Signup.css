@@ -1,0 +1,79 @@
+*{
+    transition:all 0.5s;
+    font-family: cursive
+}
+body,html,.whole{
+   font-family:ubuntu;
+   height:100%;
+   width:100%;
+}
+.whole{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 450px;
+    margin: auto
+}
+.Signup_form,.ques,.fgt{
+    display:none
+}
+.Signup_form,.ques,.login_form,.fgt{
+    width:100%;
+}
+.rel{
+    position:relative; 
+}
+input:focus+label{
+    margin-top:0px;
+}
+label{
+    margin-top: 17px;
+    position: absolute;
+    left: 0%;
+    top:0px;    
+    font-size: 15px
+}
+.sgupInp:focus{
+    border-bottom:1px solid silver;
+}
+.frgt{
+    display:none
+}
+.fgtPsw{
+    font-size: 12px;
+    padding-left: 15px;
+    display:none
+}
+.secQues,.secAus{
+    border: 1px solid;
+    word-wrap: break-word;
+    padding: 5px;
+    margin-bottom: 12px
+}
+.signup{
+    width: 20%;
+    border-radius: 31px;
+    padding: 2% 14%;
+    margin: auto;
+    position: relative;
+    box-shadow: 0px 0px 6px 1px black
+}
+button,.sgupInp{
+    margin: 9% 0px 0px 0%;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid ;
+    background: none;
+    width:100%
+}
+
+button{
+    border: 1px solid;
+    cursor: pointer;
+    padding: 5px 10px;
+    width: 30%
+}
+
+.Signup_form , .ques , .fgt , .login_form{
+    display : none;
+}

@@ -14,6 +14,7 @@ import java.sql.*;
 import zutk.b5.orgdat.model.orgmanagement.Share;
 import com.google.gson.*;
 import zutk.b5.orgdat.model.databasemanagement.*;
+import zutk.b5.orgdat.controllers.orgmanagement.ManageMember;
 import zutk.b5.orgdat.controllers.filters.*;
 
 public class ManageUserTable extends HttpServlet {
@@ -30,8 +31,9 @@ public class ManageUserTable extends HttpServlet {
 			writer = response.getWriter();
 			if (request.getMethod().toLowerCase().endsWith("post")) {
 				doPost(request, response);
+			} else if ( request.getRequestURI().substring(1).equals("getTableSharedMembers") && request.getMethod().toLowerCase().equals("get")){
+			    doGet(request, response);
 			} else {
-
 				writer.write("{'status':405,'message':'this post only url'}");
 				return;
 			}
@@ -41,6 +43,63 @@ public class ManageUserTable extends HttpServlet {
 		}
 	}
 
+@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+		PrintWriter out = null;
+		try {
+		    out = response.getWriter();
+			dc = new DatabaseConnection("postgres", "postgres", "");
+			DashboardView dv = new DashboardView(request);
+			String path = request.getRequestURI().substring(1);
+			long user_id = dv.rc.getUserId(request.getCookies());
+			System.out.println("mo user _ get  id :" + user_id);
+			String org_name = request.getParameter("org_name");
+			String db_name = request.getParameter("db_name");
+			String table_name = request.getParameter("table_name");
+			ManageTable tableManage = new ManageTable(org_name,org_name+"_"+ db_name, "");
+			if (org_name.equals("postgres") || org_name.equals("orgdat")) {
+				out.write("{\"status\" : 406 ,\"message\" : \"Organization Name already Exist\"}");
+				if (dc != null) {
+					dc.close();
+				}
+				return;
+				// throw new Exception();
+			}
+			long org_id = dc.getOrgId(org_name);
+			long db_id = dc.getDBId(org_id,org_name+"_"+ db_name);
+			long table_id = dc.getTableId(org_id, db_id, table_name);
+			if (dv.getRole(org_name,db_name,table_name,user_id).contains("owner") == false) {
+				out.write("{\"status\" : 403,\"message\" : \"Permission denied \"}");
+				if (dc != null) {
+					dc.close();
+				}
+				return;
+				// throw new Exception();
+			}
+			System.out.println("out of the check ");
+// 			ArrayList<String> ClientResponse = orgManage.getSharedMembers(org_id);
+			out.write( tableManage.getSharedMembers(table_id) );
+		} catch (Exception e) {
+			System.out.println("Manage organi : " + e.getMessage());
+			out.write("{\"status\" : 406 ,\"message\" : \"Organization Name already Exist\"}");
+		}
+	}
+// 	 public boolean isVaildOrgForHim(long user_id,long db_id){
+// 	     try {
+// 			String sql = "select * from db_management where user_id=? and table_id=?";
+// 			dc.stmt = dc.conn.prepareStatement(sql);
+// 			dc.stmt.setLong(1, user_id);
+// 			dc.stmt.setLong(2, db_id);
+// // 			dc.stmt.setString(2, db_name);
+// 			ResultSet rs = dc.stmt.executeQuery();
+// 			while (rs.next()){
+// 			    return true;
+// 			}
+//             return false;
+//         } catch (Exception e) {
+//              return false;
+//         }
+//     }
 	/**
 	 * This Method used to split table manage work to other method.
 	 * 
@@ -115,6 +174,11 @@ public class ManageUserTable extends HttpServlet {
 				Share share = new Share();
 				String role = request.getParameter("role");
 				String query = request.getParameter("isRole");
+				String email = request.getParameter("email");
+				ManageMember mm = new ManageMember();
+				System.out.println("EMAIL   ID = "+email);
+				user_id = mm.getUser_id(email);
+				System.out.println("USER   ID = "+user_id);
 				if (share.shareTable(org_name, db_name, table_name, role,
 						user_id, query) == true) {
 					writer.write("{status:200,response:'share successfully'}");

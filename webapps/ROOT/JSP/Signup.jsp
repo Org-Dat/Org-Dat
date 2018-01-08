@@ -7,7 +7,7 @@
     </head>
     <body onload = "isSign()">
          <div class="whole">
-        <!--...............................sec question...................................-->
+             <!--...............................sec question...................................-->
                 <!--<div class="Sec">-->
                     
                     <div class="ques">
@@ -70,7 +70,12 @@
                     
                 </div>
         <script>
+           var a =  <%= (request.getCookies() !=null && request.getCookies().length  > 1)%>  
+              if (a == true){
+               location.href = "/v1"
+             }
              function isSign(){
+             
                  var path = location.pathname;
                  if(path == "/enroll"){
                      document.getElementsByClassName("Signup_form")[0].setAttribute("style","display:block");
@@ -207,7 +212,7 @@
             if(count == 2){
                 sendPostRequest("/setPassword",data, function(res){
                   if(res == "success"){
-                      location.href = "http://orgdat.zcodeusers.com/login";
+                      location.href = "/login";
                    } else{
                    alert(res);
                      //  document.getElementById("alert").innerText = res;
@@ -245,14 +250,10 @@
         
         
         function checkResponse(res){
-          alert(res);
           if(res == "success"){
-              alert(res);
-              document.getElementsByClassName("ques")[0].setAttribute("style","display:none");
-              document.getElementsByClassName("fgt")[0].setAttribute("style","display:block");
-              //location.href = "http://orgdat.zcodeusers.com/login"
+              location.href = "/v1"
           }else{
-              location.href = "http://orgdat.zcodeusers.com/enroll"
+              location.href = "/enroll"
           }
             
         }

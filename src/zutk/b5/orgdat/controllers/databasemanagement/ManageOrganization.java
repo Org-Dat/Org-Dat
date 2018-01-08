@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import zutk.b5.orgdat.model.databasemanagement.*;
 import java.sql.ResultSet;
+import org.json.simple.JSONArray;
+import java.util.ArrayList;
 import zutk.b5.orgdat.model.orgmanagement.*;
 import zutk.b5.orgdat.controllers.filters.*;
 import zutk.b5.orgdat.controllers.orgmanagement.ManageMember;
@@ -28,12 +30,14 @@ public class ManageOrganization extends HttpServlet {
 			out = response.getWriter();
 			if (request.getMethod().toLowerCase().equals("post")) {
 				doPost(request, response);
-			} else {
+			} else if ( request.getRequestURI().substring(1).equals("getOrgSharedMembers") && request.getMethod().toLowerCase().equals("get")){
+			    doGet(request, response);
+			}else {
 
-				out.write("{'status':405,'message':'This URL is post only url'}");
+				out.write("{\"status\":405,\"message\":\"This URL is post only url\"}");
 			}
 		} catch (Exception e) {
-			out.write("{'status':405,'message':'This URL is post only url'}");
+			out.write("{\"status\":405,\"message\":\"This URL is post only url\"}");
 		}
 	}
 
@@ -45,6 +49,43 @@ public class ManageOrganization extends HttpServlet {
 	 * @return : If user give correct data it return detail object else return
 	 *         error object
 	 */
+	  
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			dc = new DatabaseConnection("postgres", "postgres", "");
+			out = response.getWriter();
+			ManageOrg orgManage = new ManageOrg();
+			DashboardView dv = new DashboardView(request);
+			String path = request.getRequestURI().substring(1);
+			long user_id = dv.rc.getUserId(request.getCookies());
+			System.out.println("mo user _ get  id :" + user_id);
+			String org_name = request.getParameter("org_name");
+			if (org_name.equals("postgres") || org_name.equals("orgdat")) {
+				out.write("{\"status\" : 406 ,\"message\" : \"Organization Name already Exist\"}");
+				if (dc != null) {
+					dc.close();
+				}
+				return;
+				// throw new Exception();
+			}
+			long org_id = dc.getOrgId(org_name);
+			if (dv.getRole(org_name,user_id).contains("owner")  == false) {
+				out.write("{\"status\" : 403,\"message\" : \"Permission denied \"}");
+				if (dc != null) {
+					dc.close();
+				}
+				return;
+				// throw new Exception();
+			}
+			System.out.println("out of the check ");
+// 			ArrayList<String> ClientResponse = orgManage.getSharedMembers(org_id);
+			out.write( orgManage.getSharedMembers(org_id) );
+		} catch (Exception e) {
+			System.out.println("Manage organi : " + e.getMessage());
+			out.write("{\"status\" : 406 ,\"message\" : \"Organization Name already Exist\"}");
+		}
+	}
 	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) {
@@ -58,7 +99,7 @@ public class ManageOrganization extends HttpServlet {
 			if (path.startsWith("api/")) {
 				String authtoken = request.getHeader("Authorization");
 				if (authtoken == null) {
-					throw new Exception();
+					throw new Exception("atthu tiken does not given ");
 				}
 				user_id = rc.getUserId(authtoken);
 				path = path.substring(4);
@@ -68,11 +109,9 @@ public class ManageOrganization extends HttpServlet {
 
 			System.out.println("mo user _ id :" + user_id);
 			String org_name = request.getParameter("org_name");
-			if (path.equals("createOrg") || path.equals("deleteOrg")
-					|| path.equals("shareOrg")) {
+			if (path.endsWith("createOrg") || path.endsWith("deleteOrg") || path.endsWith("shareOrg")) {
 				if (org_name.equals("postgres") || org_name.equals("orgdat")) {
-					out.write("{'status' : 406 ,'message' : 'Organization Name already Exist'}");
-
+					out.write("{\"status\" : 406 ,\"message\" : \"Organization Name already Exist\"}");
 					if (dc != null) {
 						dc.close();
 					}
@@ -82,7 +121,7 @@ public class ManageOrganization extends HttpServlet {
 				String email = getMailId(user_id);
 				System.out.println("EMAIL ID  :"+email);
 				if (email.endsWith("@orgdat.com") == false) {
-					out.write("{'status' : 403,'message' : 'Please Create Owner Account'}");
+					out.write("{\"status\" : 403,\"message\" : \"Please Create Owner Account\"}");
 
 					if (dc != null) {
 						dc.close();
@@ -91,8 +130,7 @@ public class ManageOrganization extends HttpServlet {
 					// throw new Exception();
 				}
 				if (checkOrgCount(user_id) == false && path.equals("createOrg")) {
-					out.write("{'status' : 406 ,'message' : 'You have already reach 3 organization'}");
-
+					out.write("{\"status\" : 406 ,\"message\" : \"You have already reach 3 organization\"}");
 					if (dc != null) {
 						dc.close();
 					}
@@ -103,7 +141,7 @@ public class ManageOrganization extends HttpServlet {
 			System.out.println("out of the check ");
 			if (path.endsWith("shareOrg")) {
 				Share share = new Share();
-			System.out.println(" url done ");
+			        System.out.println(" url done ");
 				String role = request.getParameter("role");
 				String query = request.getParameter("isRole");
 				String email = request.getParameter("email");
@@ -113,12 +151,14 @@ public class ManageOrganization extends HttpServlet {
 					return;
 				}
 				ManageMember mm = new ManageMember();
+				System.out.println("EMAIL   ID = "+email);
 				user_id = mm.getUser_id(email);
+				System.out.println("USER   ID = "+user_id);
 				System.out.println(" before share org if");
 				if (share.shareOrg(org_name, role, user_id, query) == true) {
-					ClientResponse = "{ 'status' : 200 , 'message' : 'share successfully'}";
+					ClientResponse = "{ \"status\" : 200 , \"message\" : \"share successfully\"}";
 				} else {
-					ClientResponse = "{'status': 403 , 'message' : 'Ask To Your Organization Owner to get Permission'}";
+					ClientResponse = "{\"status\": 403 , \"message\" : \"Ask To Your Organization Owner to get Permission\"}";
 				}
 			} else {
 				ClientResponse = orgManage.ManageOrg(user_id, org_name, path);
@@ -126,7 +166,7 @@ public class ManageOrganization extends HttpServlet {
 			}
 		} catch (Exception e) {
 			System.out.println("Manage organi : " + e.getMessage());
-			out.write("{'status' : 406 ,'message' : 'Organization Name already Exist'}");
+			out.write("{\"status\" : 406 ,\"message\" : \"Organization Name already Exist\"}");
 		}
 	}
 
@@ -140,6 +180,22 @@ public class ManageOrganization extends HttpServlet {
 	 * @return : if user_id is member of my app it return his/her mail id.else
 	 *         reteurn null
 	 */
+// 	 public boolean isVaildOrgForHim(long user_id, long org_id){
+// 	     try {
+// 			String sql = "select * from org_management where user_id=? and org_id=?";
+// 			dc.stmt = dc.conn.prepareStatement(sql);
+// 			dc.stmt.setLong(1, user_id);
+// 			dc.stmt.setLong(2, org_id);
+// // 			dc.stmt.setString(2, org_name);
+// 			ResultSet rs = dc.stmt.executeQuery();
+// 			while (rs.next()){
+// 			    return true;
+// 			}
+//             return false;
+//         } catch (Exception e) {
+//              return false;
+//         }
+//     }
 	public String getMailId(long user_id) {
 		try {
 			String sql = "select user_email from signup_detail where user_id=?";

@@ -30,16 +30,17 @@ public class LogFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse res,
 			FilterChain chain) throws IOException, ServletException {
+			HttpServletResponse response = (HttpServletResponse) res;
 		try {
 			HttpServletRequest request = (HttpServletRequest) req;
-			HttpServletResponse response = (HttpServletResponse) res;
 			roleFinder = new RoleChecker(request);
-			out = response.getWriter();
+			
 			String org_name = request.getParameter("org_name");
 			if (request.getRequestURI().endsWith("/getOrgName")
-					|| request.getRequestURI().endsWith("/createOrg") ||request.getRequestURI().endsWith("/deleteOrg") ) {
+					|| request.getRequestURI().endsWith("/createOrg") ||request.getRequestURI().endsWith("/deleteOrg") ||request.getRequestURI().endsWith("/getDashBoardWithSize") ) {
 				chain.doFilter(req, res);
 			} else if (org_name == null) {
+				out = response.getWriter();
 				out.write("{\"status\":404,\"message\":\"org_name = "
 						+ org_name + " Not Founded\"}");
 				if (dc != null) {
@@ -55,6 +56,7 @@ public class LogFilter implements Filter {
 					user_id = roleFinder.getUserId(request.getCookies());
 				}
 				if (user_id <= 0) {
+					out = response.getWriter();
 					out.write("{\"status\" :401 ,\"message\" : \"Invalid user\"}");
 					if (dc != null) {
 						dc.close();
@@ -69,6 +71,7 @@ public class LogFilter implements Filter {
 				System.out.println("Id : " + user_id);
 				if (email.endsWith("@" + org_name + ".com") == false
 						&& email.endsWith("@orgdat.com") == false) {
+					out = response.getWriter();
 					out.write("{\"status\" :401 ,\"message\" : \"Invalid user\"}");
 					if (dc != null) {
 						dc.close();
@@ -77,6 +80,7 @@ public class LogFilter implements Filter {
 				}
 				ArrayList<String> orgs = sh.getOrganization(user_id);
 				if (orgs.contains(org_name) == false) {
+					out = response.getWriter();
 					out.write("{\"status\":400,\"message\":\" Your Organization Name (org_name = "
 							+ org_name + " ) is incorect.\"}");
 					if (dc != null) {
@@ -86,7 +90,7 @@ public class LogFilter implements Filter {
 				}
 				String date = new SimpleDateFormat("dd-MM-yyyy")
 						.format(new java.util.Date());
-				File logFile = new File("/home/workspace/OrgDat/webapps/Log/"
+				File logFile = new File("Log/"
 						+ org_name + "/log_" + date + ".log");
 				logFile.createNewFile();
 
@@ -112,11 +116,14 @@ public class LogFilter implements Filter {
 		} catch (Exception e) {
 		//	e.printStackTrace();
 			System.out.println(e);
+			
+			out = response.getWriter();
 			out.write("{\"status\":403,\"message\":\"forbetten\"}");
 			if (dc != null) {
 				dc.close();
 			}
 			return;
+			
 		}
 
 	}
@@ -144,7 +151,13 @@ public class LogFilter implements Filter {
 			return null;
 		}
 	}
+/*
+ insert into signup_detail (user_name,user_email,user_password,user_phone,role) values('narayana1','narayana1@google.com','narayana1',9104837784,'member');
+ insert into signup_detail (user_name,user_email,user_password,user_phone,role) values('narayana2','narayana2@google.com','narayana2',9204837784,'member');
+ insert into signup_detail (user_name,user_email,user_password,user_phone,role) values('narayana3','narayana3@google.com','narayana3',9304837784,'member');
+ insert into signup_detail (user_name,user_email,user_password,user_phone,role) values('narayana4','narayana4@google.com','narayana4',9404837784,'member');
 
+*/
 	@Override
 	public void destroy() {
 

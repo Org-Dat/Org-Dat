@@ -2,6 +2,8 @@ package zutk.b5.orgdat.model.databasemanagement;
 
 import java.util.ArrayList;
 import java.sql.*;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import java.io.File; 
 import zutk.b5.orgdat.controllers.filters.DatabaseConnection;
 
@@ -66,11 +68,11 @@ public class ManageOrg {
 	 * 
 	 * @return : it return org databases name arraylist.
 	 */
-
+    
 	public ArrayList<String> getDatabases(String org_name) {
-	    //dc = new DatabaseConnection("postgres","postgres","");
+	        dc = new DatabaseConnection("postgres","postgres","");
 		ArrayList<String> databaseNameList = new ArrayList<String>();
-		String sqlQuery = "select db_name from db_management where org_id in (select org_id from org_details where org_name = ?)";
+		String sqlQuery = "select db_name from db_details where org_id in (select org_id from org_details where org_name = ?)";
 		try {// db_management org_management
 			dc.stmt = dc.conn.prepareStatement(sqlQuery);
 			dc.stmt.setString(1, org_name);
@@ -100,7 +102,7 @@ public class ManageOrg {
 	private boolean createOrg(long user_id ,String name) throws ClassNotFoundException {
 
 		try {
-		    
+		    dc  = new DatabaseConnection("postgres","postgres","");
 		    String sqlQuery = "insert into org_details (owner_id,org_name) values(?,?)";
 		    dc.stmt = dc.conn.prepareStatement(sqlQuery);
 		    dc.stmt.setLong(1, user_id);
@@ -121,8 +123,8 @@ public class ManageOrg {
 			dc.stmt.setString(3, "owner");
 			dc.stmt.executeUpdate(); 
 			System.out.println("Creare Org Folder");
-			File f = new File("/home/workspace/OrgDat/webapps/Log/"+name);
-			if (f.mkdirs() == false || manageRole("create role " + name + " with login createdb") == false) {
+			File f = new File("Log/"+name);
+			if (f.mkdirs() == false || manageRole("create role " + name + " with login createdb PASSWORD 'zohouniversity' ") == false) {
 				return false;
 			}
 			return true;
@@ -157,7 +159,7 @@ public class ManageOrg {
 				stmt.execute("drop database " + database);
 			//	stmt = dc.conn.createStatement();
 			}
-			Runtime.getRuntime().exec("rm -rf /home/workspace/OrgDat/webapps/Log/"+org_name);
+			Runtime.getRuntime().exec("rm -rf Log/"+org_name);
 			boolean  bool = manageRole("drop role " + org_name) ;
 			System.out.println("some "+bool);
 			dc.close();
@@ -187,5 +189,32 @@ public class ManageOrg {
 		    System.out.println(e);
 			return false;
 		}
+	}
+	
+	public String getSharedMembers(long org_id) {
+	    try {
+	        JSONArray resp = new JSONArray();
+	        dc = new DatabaseConnection("postgres","postgres","");
+	       // long org_id = dc.getOrgId(org_name);
+	       JSONObject arg0 = new JSONObject();
+	        dc.stmt = dc.conn.prepareStatement(" select signup_detail.user_name,signup_detail.user_email,org_management.role from signup_detail inner join org_management on signup_detail.user_id = org_management.user_id and org_management.org_id=? and not signup_detail.user_email like '%@orgdat.com';");
+	        dc.stmt.setLong(1, org_id);
+	        ResultSet rs = dc.stmt.executeQuery();
+	        while (rs.next()){
+	            arg0.put("member",rs.getString(1));
+	            arg0.put("member_email",rs.getString(2));
+	            arg0.put("role",rs.getString(3));
+	            resp.add(arg0.clone());
+	            arg0.clear();
+	        }
+	        dc.close();
+	       // return members;
+	        return "{\"status\":200,\"data\":"+resp.toJSONString()+",\"message\":\"org\"}";
+	    } catch (Exception e){
+	        dc.close();
+	        e.printStackTrace();
+	       // return new ArrayList<String>();
+	       return "{\"status\":404,\"message\":\"not founded some error occured \"}";
+	    }
 	}
 }

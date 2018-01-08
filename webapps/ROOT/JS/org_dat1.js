@@ -431,8 +431,9 @@ $(".security_whole .slide_button div").click(function(){
     })
     
     $(document).on("click",".sidebar>ul>li:nth-child(4)",function(){
-        $(".cmn_tab>h2").text("Auth Tokens")
-        $(".cm_tb table th:first-child,.cm_tb table td:first-child").show();
+        $(".cmn_tab>h2").text("Auth Tokens");
+        $(".cmn_tab>h2").css("display","inline-block");
+        //$(".cm_tb table th:first-child,.cm_tb table td:first-child").show();
     })
     
 // ----------------------------------Database---------------------------------------------------

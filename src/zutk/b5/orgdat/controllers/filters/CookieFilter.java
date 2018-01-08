@@ -38,7 +38,7 @@ public class CookieFilter extends HttpServlet implements Filter {
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) res;
 		Cookie[] cookies = request.getCookies();
-		
+		System.out.println("come cookie filter");
 		String iambdt = "";
 		long user_id = 0;
 		try {
@@ -79,14 +79,14 @@ public class CookieFilter extends HttpServlet implements Filter {
 				    user_id = rs.getLong(1);
 				}
 			} 
-			
+			 
 	        dc.close();
 			System.out.println("cookie userid : " +user_id);
 			System.out.println("cookie iambdt : " + iambdt);
 // 			HttpSession session = request.getSession();
 		    req.setAttribute(iambdt, user_id);
 			chain.doFilter(req, res);
-			if (requri.startsWith("/api/") == false) {
+			if (requri.startsWith("/api/") == false && requri.startsWith("/download") == false) {
 			    CookieManage cm = new CookieManage();
     			Cookie cookie = new Cookie("iambdt",cm.changeCookie(iambdt));
     		//	cookie.setPath("/");
@@ -100,7 +100,7 @@ public class CookieFilter extends HttpServlet implements Filter {
 		        dc.close();
 		    }
 		    System.out.println("cookie Filter error : "+e.getMessage());
-		    response.sendRedirect("/JSP/landingPage.jsp");
+		    response.sendRedirect("/login");
 		}
 	}
 

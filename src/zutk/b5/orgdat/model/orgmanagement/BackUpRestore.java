@@ -4,6 +4,7 @@ package zutk.b5.orgdat.model.orgmanagement;
 
 import java.io.*;
 import java.sql.*;
+import zutk.b5.orgdat.controllers.filters.*;
 
 public class BackUpRestore {
 	public static void main(String[] args) {
@@ -47,9 +48,13 @@ public class BackUpRestore {
 		}
 		try {
 			System.out.println("start");
-			Connection database = dbConnection(datName, user);
-			System.out.println("database = " + database);
-			Statement statement = database.createStatement();
+			System.out.println(query);
+			System.out.println(" datName  = "+datName+" user  = "+user);
+			DatabaseConnection dc = new DatabaseConnection(datName,"postgres","");
+			//DatabaseConnection dc = new DatabaseConnection(datName,user,"");
+			//Connection database = dbConnection(datName, user);
+			System.out.println("database = " + dc.conn);
+			Statement statement = dc.conn.createStatement();
 			System.out.println("preStm = " + statement);
 			statement.execute(query);
 		} catch (Exception e) {
@@ -58,7 +63,8 @@ public class BackUpRestore {
 			return null;
 		}
 		System.out.println("finish");
-		return "/tmp/" + tabName + ".csv";
+		//return "/tmp/" + tabName + ".csv";
+		return path;
 
 	}
 
@@ -85,7 +91,7 @@ public class BackUpRestore {
 				}
 				proc.waitFor();
 				proc.destroy();
-				System.out.println("success backup");
+				System.out.println("success backup" + path);
 				return path;
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
